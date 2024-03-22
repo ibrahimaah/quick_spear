@@ -194,8 +194,8 @@ class ShipmentAll extends Component
     public function render()
     {
         return view('livewire.shipment-all', [
-            // 'status' => $this->shipment->get_status(),
-            'status' => $this->shipment->get_status_ar(),
+            'status' => $this->shipment->get_status(),
+            // 'status' => $this->shipment->get_status_ar(),
             'test'   => $this->test,
         ]);
     }

@@ -56,3 +56,40 @@ function sendmessage( $token, $title , $body)
     return $result;
 }
 
+
+/* 
+
+// Get status message
+$statusMessage = getStatusInfo($status_number);
+
+// Get status ID
+$statusId = getStatusInfo($status_number, 'id');
+
+*/
+
+function getStatusInfo($status_number, $info='msg')
+{
+    $statusConfig = config('constants.STATUS_NUMBER');
+
+    switch ($status_number) {
+        case $statusConfig['UNDER_REVIEW']:
+            return $info === 'msg' ? __('under_review') : 'under_review';
+        case $statusConfig['UNDER_DELIVERY']:
+            return $info === 'msg' ? __('under_delivery') : 'under_delivery';
+        case $statusConfig['DELIVERED']:
+            return $info === 'msg' ? __('delivered') : 'delivered';
+        case $statusConfig['REJECTED_WITHOUT_PAY']:
+            return $info === 'msg' ? __('rejected_without_pay') : 'rejected_without_pay';
+        case $statusConfig['REJECTED_WITH_PAY']:
+            return $info === 'msg' ? __('rejected_with_pay') : 'rejected_with_pay';
+        case $statusConfig['POSTPONED']:
+            return $info === 'msg' ? __('postponed') : 'postponed';
+        case $statusConfig['NO_RESPONSE']:
+            return $info === 'msg' ? __('no_response') : 'no_response';
+        case $statusConfig['RETURNED']:
+            return $info === 'msg' ? __('returned') : 'returned';
+        default:
+            return $info === 'msg' ? __('unknown_status') : 'unknown_status';
+    }
+}
+

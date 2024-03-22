@@ -804,5 +804,14 @@
     "Zambia": "زامبيا",
     "Zimbabwe": "زيمبابوي",
     "Zip / Postal Code": "الرمز البريدي",
-    "Åland Islands": "جزر آلاند"
+    "Åland Islands": "جزر آلاند",
+    "under_review": "قيد المراجعة",
+    "under_delivery": "قيد التوصيل",
+    "delivered": "تم التوصيل",
+    "rejected_without_pay": "رفض الاستلام بدون دفع اجور",
+    "rejected_with_pay": "رفض الاستلام مع دفع اجور",
+    "postponed": "مؤجل",
+    "no_response": "لا رد بعد وصول الزبون",
+    "returned": "مرتجع",
+    "unknown_status": "حالة غير معروفة"
 }

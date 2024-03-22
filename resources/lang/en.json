@@ -3,5 +3,14 @@
     "The :attribute must contain at least one number.": "The :attribute must contain at least one number.",
     "The :attribute must contain at least one symbol.": "The :attribute must contain at least one symbol.",
     "The :attribute must contain at least one uppercase and one lowercase letter.": "The :attribute must contain at least one uppercase and one lowercase letter.",
-    "The given :attribute has appeared in a data leak. Please choose a different :attribute.": "The given :attribute has appeared in a data leak. Please choose a different :attribute."
+    "The given :attribute has appeared in a data leak. Please choose a different :attribute.": "The given :attribute has appeared in a data leak. Please choose a different :attribute.",
+    "under_review": "Under Review",
+    "under_delivery": "Under Delivery",
+    "delivered": "Delivered",
+    "rejected_without_pay": "Rejected Without Payment",
+    "rejected_with_pay": "Rejected With Payment",
+    "postponed": "Postponed",
+    "no_response": "No Response After Delivery",
+    "returned": "Returned",
+    "unknown_status": "Unknown Status"
 }

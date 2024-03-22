@@ -19,81 +19,63 @@ class Shipment extends Model
         return $this->belongsTo(Address::class);
     }
 
+    // public function get_status()
+    // {
+    //     $status = $this->status;
+    //     switch ($status) {
+    //         case 0:
+    //             $statusMsg = 'New';
+    //             break;
+
+    //         case 1:
+    //             $statusMsg = 'Processing';
+    //             break;
+
+    //         case 2:
+    //             $statusMsg = 'Delivered';
+    //             break;
+
+    //         case 3:
+    //             $statusMsg = 'Returned';
+    //             break;
+
+    //         case 4:
+    //             $statusMsg = 'Pending Payments';
+    //             break;
+    //         case 5:
+    //             $statusMsg = 'Payment Successfully';
+    //             break;
+
+    //         default:
+    //             $statusMsg = 'Draft';
+    //             break;
+    //     }
+    //     return $statusMsg;
+    // }
+
     public function get_status()
     {
         $status = $this->status;
+        $status_numbers = config('constants.STATUS_NUMBER');
         switch ($status) {
-            case 0:
-                $statusMsg = 'New';
-                break;
-
-            case 1:
-                $statusMsg = 'Processing';
-                break;
-
-            case 2:
-                $statusMsg = 'Delivered';
-                break;
-
-            case 3:
-                $statusMsg = 'Returned';
-                break;
-
-            case 4:
-                $statusMsg = 'Pending Payments';
-                break;
-            case 5:
-                $statusMsg = 'Payment Successfully';
-                break;
-
+            case $status_numbers['UNDER_REVIEW']:
+                return __('under_review');
+            case $status_numbers['UNDER_DELIVERY']:
+                return __('under_delivery');
+            case $status_numbers['DELIVERED']:
+                return __('delivered');
+            case $status_numbers['REJECTED_WITHOUT_PAY']:
+                return __('rejected_without_pay');
+            case $status_numbers['REJECTED_WITH_PAY']:
+                return __('rejected_with_pay');
+            case $status_numbers['POSTPONED']:
+                return __('postponed');
+            case  $status_numbers['NO_RESPONSE']:
+                return __('no_response');
+            case $status_numbers['RETURNED']:
+                return __('returned');
             default:
-                $statusMsg = 'Draft';
-                break;
+                return __('unknown_status');
         }
-        return $statusMsg;
-    }
-
-    public function get_status_ar()
-    {
-        $status = $this->status;
-        switch ($status) {
-            
-            case 0:
-                $statusMsg = 'قيد المراجعة';
-                break;
-
-            case 1:
-                $statusMsg = 'قيد التوصيل';
-                break;
-
-            case 2:
-                $statusMsg = 'تم التوصيل';
-                break;
-
-            case 3:
-                $statusMsg = 'رفض الاستلام بدون دفع اجور';
-                break;
-
-            case 4:
-                $statusMsg = 'رفض الاستلام مع دفع اجور';
-                break;
-                
-            case 5:
-                $statusMsg = 'مؤجل';
-                break;
-                
-            case 6:
-                $statusMsg = 'لا رد بعد وصول الزبون';
-                break;
-
-            case 7:
-                $statusMsg = 'مرتجع';
-                break;
-            
-            default:
-                $statusMsg = 'قيد المراجعة';
-                break;
-        }
-        return $statusMsg;
     }
 }
