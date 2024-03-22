@@ -67,21 +67,23 @@ class ExpressController extends Controller
     {
         $dataTable = new ExpressDataTable($request);
         
-        $ships = Shipment::where('user_id', auth()->user()->id)->where(function ($q) use ($request) {
-            if ($request->from!=null) {
-                $q->whereBetween('created_at', [$request->from, $request->to]);
-            }
-            if ($request->status!=null) {
-                $q->where('status', 'LIKE', "%$request->status%");
-            }
-            if ($request->process!=null && $request->cod!=null) {
-                $q->where('cash_on_delivery_amount', $request->process, $request->cod);
-            }
-            if ($request->phone!=null) {
-                $q->where('consignee_phone', 'LIKE', "%$request->phone%");
-            }
-        });
+        // $ships = Shipment::where('user_id', auth()->user()->id)->where(function ($q) use ($request) {
 
+        //     if ($request->from!=null) {
+        //         $q->whereBetween('created_at', [$request->from, $request->to]);
+        //     }
+        //     if ($request->status!=null) {
+        //         $q->where('status', 'LIKE', "%$request->status%");
+        //     }
+        //     if ($request->process!=null && $request->cod!=null) {
+        //         $q->where('cash_on_delivery_amount', $request->process, $request->cod);
+        //     }
+        //     if ($request->phone!=null) {
+        //         $q->where('consignee_phone', 'LIKE', "%$request->phone%");
+        //     }
+        // });
+        
+        $ships = Shipment::where('user_id', auth()->user()->id);
         $ships = $ships->latest()->get();
         
         // return view('pages.user.express.shipping', compact('dataTable','ships'));

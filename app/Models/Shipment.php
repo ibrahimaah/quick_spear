@@ -57,12 +57,13 @@ class Shipment extends Model
     {
         $status = $this->status;
         switch ($status) {
+            
             case 0:
-                $statusMsg = 'جديد';
+                $statusMsg = 'قيد المراجعة';
                 break;
 
             case 1:
-                $statusMsg = 'قيد المراجعة';
+                $statusMsg = 'قيد التوصيل';
                 break;
 
             case 2:
@@ -70,18 +71,27 @@ class Shipment extends Model
                 break;
 
             case 3:
-                $statusMsg = 'مرتجع';
+                $statusMsg = 'رفض الاستلام بدون دفع اجور';
                 break;
 
             case 4:
-                $statusMsg = 'في انتظار الدفع';
+                $statusMsg = 'رفض الاستلام مع دفع اجور';
                 break;
+                
             case 5:
-                $statusMsg = 'تم الدفع بنجاح';
+                $statusMsg = 'مؤجل';
+                break;
+                
+            case 6:
+                $statusMsg = 'لا رد بعد وصول الزبون';
                 break;
 
+            case 7:
+                $statusMsg = 'مرتجع';
+                break;
+            
             default:
-                $statusMsg = 'مسودة';
+                $statusMsg = 'قيد المراجعة';
                 break;
         }
         return $statusMsg;

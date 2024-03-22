@@ -10,7 +10,7 @@
         <div class="text-center py-4 text-light my-3 bg-success">{{ session()->get('success') }}</div>
     @endif
     <a class="btn btn-primary mb-3" href="{{ route('front.express.create') }}">{{ __('Create') }}</a>
-    {{-- <a class="btn btn-success mb-3" href="{{ route('front.express.call_aramex') }}">{{ __('Call Aramex') }}</a> --}}
+    
 
     <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal"
         data-bs-target="#exampleModal">{{ __('Export') }}</button>
