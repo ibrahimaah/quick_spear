@@ -1,0 +1,12 @@
+spec:
+  name: laravel
+  services:
+  - environment_slug: php
+    git:
+      branch: master
+      repo_clone_url: https://github.com/shehabalqudiry/ship.git
+    envs:
+    - key: APP_KEY
+      value: "base64:VSaZMr2LQbGnAOKvGpq2tBLCXEiQCIr8hAetXaFD9Cc="
+    name: laravel
+    run_command: heroku-php-apache2 public/
