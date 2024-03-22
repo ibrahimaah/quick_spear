@@ -28,9 +28,14 @@ class ShipmentController extends Controller
     //     $shipments = Shipment::latest()->get();
     //     return view('admin.shipments.index', compact('shipments'));
     // }
+    public function get_shipments_by_status($status){
+        $dataTable = new ShipmentDataTable($status);
+        return $dataTable->render('admin.shipments.index');
+    }
 
     public function index(ShipmentDataTable $dataTable)
     {
+        $dataTable = new ShipmentDataTable('3');
         return $dataTable->render('admin.shipments.index');
     }
 

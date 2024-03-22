@@ -17,14 +17,21 @@ use Yajra\DataTables\Services\DataTable;
 class ShipmentDataTable extends DataTable
 {
     use DatatableTrait;
+    protected $status;
     /**
      * Build DataTable class.
      *
      * @param QueryBuilder $query Results from query() method.
      * @return \Yajra\DataTables\EloquentDataTable
      */
+    public function __construct($status=null)
+    {
+        $this->status = $status;
+    }
+
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
+        $query = $query->where('status',$this->status);
         return (new EloquentDataTable($query))
             ->addIndexColumn()
             ->editColumn('created_at', function ($query) {
@@ -33,8 +40,9 @@ class ShipmentDataTable extends DataTable
             // ->addColumn('Aramix', function ($query) {
             //     return 'Aramix';
             // })
-            ->addColumn('status', function ($query) {
-                return Livewire::mount('shipment-all', ['shipment' => $query])->html();
+            ->editColumn('status', function ($query) {
+                // return Livewire::mount('shipment-all', ['shipment' => $query])->html();
+                return getStatusInfo($query->status);
             })
             ->addColumn('actions', function ($query) {
                 return '<a class="" href="'. route('admin.shipments.edit', $query->id) .'"><i
@@ -96,12 +104,9 @@ class ShipmentDataTable extends DataTable
     {
         return [
             $this->IndexColumn(),
-            $this->column('created_at','التاريخ'),
-            // $this->column('shipmentID', 'AWB'),
-            $this->column('consignee_name', 'المرسل إليه'),
-            $this->column('consignee_phone', 'رقم الهاتف'),
-            // $this->column('cash_on_delivery_amount', 'الدفع عند الاستلام'),
-            // $this->column('Aramix', 'الناقل',false,false),
+            $this->column('created_at','التاريخ',false),
+            $this->column('consignee_name', 'المرسل إليه',false),
+            $this->column('consignee_phone', 'رقم الهاتف',false),
             $this->column('status', 'الحاله',false,false),
             $this->column('actions', 'العمليات',false,false,false,false)
         ]; 

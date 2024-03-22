@@ -61,55 +61,6 @@
                 <div class="card-body">
                     <div class="table-responsive">
                         {{ $dataTable->table() }}
-                        {{-- <table class="table display datatable" id="basic-2">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>التاريخ</th>
-                                    
-                                    <th>المرسل إليه</th>
-                                    <th>رقم الهاتف</th>
-                                    
-                                    
-                                    <th>الحاله</th>
-                                    <th>العمليات</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($shipments as $shipment)
-                                    <tr>
-                                        <th>{{ $loop->iteration }}</th>
-                                        <th>{{ $shipment->created_at->format('Y - m - d') }}</th>
-                                        
-                                        <td>{{ $shipment->consignee_name }}</td>
-                                        <td>{{ $shipment->consignee_phone }}</td>
-                                        
-                                        
-                                        <td>
-                                            <livewire:shipment-all :shipment="$shipment" :key="$shipment->id" />
-                                        </td>
-                                        <td>
-                                            {{-- 
-                                            <a class="" href="{{ route('admin.shipments.edit', $shipment->id) }}"><i
-                                                    class="fa fa-edit"></i> تعديل</a>
-                                            <a class="" href="{{ route('admin.shipments.show', $shipment->id) }}"><i
-                                                    class="fa fa-eye"></i> عرض</a> 
-                                            --}}
-                                            {{-- <a class="" href="{{ route('admin.shipments.edit', $shipment->id) }}"><i
-                                                    class="fa fa-trash"></i> حذف</a> -}
-                                                <a onclick="confirm('برجاء تأكيد الحذف') ? document.getElementById('des{{ $shipment->id }}').submit() : '';" style="color: #f73164; cursor: pointer"><i class="fa fa-trash"></i> حذف</a>
-                                                <form action="{{ route('admin.shipments.destroy', $shipment->id) }}" id="des{{ $shipment->id }}" method="post">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table> --}}
-                        {{-- <div class="pagination-wrapper">
-                            {{ $shipments->links() }}
-                        </div> --}}
                     </div>
                 </div>
             </div>

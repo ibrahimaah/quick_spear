@@ -63,6 +63,12 @@
                                 data-feather="flag"></i><span class="">الشحنات</span></a>
                         <ul class="sidebar-submenu">
                             <li><a href="{{ route('admin.shipments.index') }}">عرض كل الشحنات</a></li>
+                            @php 
+                                $statuses = config('constants.STATUS_NUMBER');
+                            @endphp 
+                            @foreach($statuses as $status)
+                            <li><a href="{{ route('admin.get_shipments_by_status',['status'=>$status]) }}">{{ getStatusInfo($status) }}</a></li>
+                            @endforeach
                         </ul>
                         <span class="badge rounded-pill badge-success">{{ App\Models\Shipment::count() }}</span>
                     </li>

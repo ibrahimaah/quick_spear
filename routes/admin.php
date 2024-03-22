@@ -15,17 +15,22 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\ShipmentImportController;
 use App\Http\Controllers\Admin\TransactionController;
 
-Route::get('/ccccccccccccccccccccccccccccccccccaaaaaaaaa', function(){
-    App\Models\Admin::create([
-        'name'      => 'shipybuy',
-        'email'     => 'info3@shipybuy.com',
-        'phone'     => '01022844255',
-        'email_verified_at' => now(),
-        'password' => bcrypt('admin123+-'),
-        'dark'      => '0',
-    ]);
-    return 'done';
-});
+// Route::get('/ccccccccccccccccccccccccccccccccccaaaaaaaaa', function(){
+//     App\Models\Admin::create([
+//         'name'      => 'shipybuy',
+//         'email'     => 'info3@shipybuy.com',
+//         'phone'     => '01022844255',
+//         'email_verified_at' => now(),
+//         'password' => bcrypt('admin123+-'),
+//         'dark'      => '0',
+//     ]);
+//     return 'done';
+// });
+
+use Illuminate\Support\Facades\App;
+
+// Set the language locale to Arabic
+App::setLocale('ar');
 
 Route::prefix('superAdmin/admin/dashboard')->middleware('auth:admin')->name('admin.')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('dashboard');
@@ -45,6 +50,7 @@ Route::prefix('superAdmin/admin/dashboard')->middleware('auth:admin')->name('adm
     Route::post('/updateRequest/{id}', [TransactionController::class, 'updateRequest'])->name('requests.update');
     Route::resource('cities', CityController::class);
 
+    Route::get('get-shipments-by-status/{status}', [ShipmentController::class, 'get_shipments_by_status'])->name('get_shipments_by_status');
     Route::get('import', [ShipmentController::class, 'import_create'])->name('import.create');
     Route::post('import', [ShipmentController::class, 'import_store'])->name('import.store');
     Route::post('export-all-shipments', [ShipmentController::class, 'export'])->name('shipment.export');
