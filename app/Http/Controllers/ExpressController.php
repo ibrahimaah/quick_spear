@@ -196,10 +196,12 @@ class ExpressController extends Controller
                     'consignee_city' => $shipment['consignee_city'],
                     'consignee_region' => $shipment['consignee_region'],
                     'consignee_zip_code' => '',
-                    'shipping_date_time'    => now()->addHours(2),
+                    // 'shipping_date_time'    => now()->addHours(2),
+                    'shipping_date_time'    => now(),
                     'due_date'  => now()->addHours(72),
                     'order_price' => $shipment['order_price'],
-                    'notes' => $shipment['notes'],
+                    'customer_notes' => $shipment['customer_notes'],
+                    'delegate_notes' => $shipment['delegate_notes'],
                 ];
                 // dd($data);
                 $shipment = Shipment::create($data);

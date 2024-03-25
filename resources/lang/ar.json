@@ -41,7 +41,6 @@
     "Order price includes delivery" : "سعر الطلب شامل التوصيل",
     "Add Another Shipment" : "إضافة شحنة أخرى",
     "Contents":"محتوى الشحنة / محتوى الطرد",
-    "Comments":"الملاحظات",
     "Withdraw":"سحب",
     "Documents":"الوثائق",
     "Reference":"المرجع",
@@ -813,5 +812,8 @@
     "postponed": "مؤجل",
     "no_response": "لا رد بعد وصول الزبون",
     "returned": "مرتجع",
-    "unknown_status": "حالة غير معروفة"
+    "unknown_status": "حالة غير معروفة",
+    "Value on delivery":"القيمة عند التسليم",
+    "Delegate notes":"ملاحظات المندوب",
+    "Customer notes":"ملاحظات العميل"
 }

@@ -128,6 +128,14 @@
                                 @enderror
                             </div>
 
+                            <div class="col-12 my-2 col-md-4">
+                                <label>{{ __('Value on delivery') }}</label><span class="text-danger">*</span>
+                                <input class="form-control mt-2 ml-2" type="number" name="value_on_delivery" required/>
+                                @error('value_on_delivery')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
                         {{-- 
                             <div class="col-12 my-2 col-md-4">
                                 <label>{{ __('Description') }}</label><span class="text-danger">*</span>
@@ -154,9 +162,17 @@
                             </div>
                         --}}
                             <div class="col-12 my-2 col-md-4">
-                                <label>{{ __('Comments') }}</label>
-                                <input class="form-control mt-2 ml-2" name="notes" id="" cols="30" rows="3"/>
-                                @error('notes')
+                                <label>{{ __('Customer notes') }}</label>
+                                <input class="form-control mt-2 ml-2" name="customer_notes" id="" cols="30" rows="3"/>
+                                @error('customer_notes')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-12 my-2 col-md-4">
+                                <label>{{ __('Delegate notes') }}</label>
+                                <input class="form-control mt-2 ml-2" name="delegate_notes" id="" cols="30" rows="3"/>
+                                @error('delegate_notes')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
