@@ -128,6 +128,7 @@
                                 @enderror
                             </div>
 
+                            {{--
                             <div class="col-12 my-2 col-md-4">
                                 <label>{{ __('Value on delivery') }}</label><span class="text-danger">*</span>
                                 <input class="form-control mt-2 ml-2" type="number" name="value_on_delivery" required/>
@@ -135,6 +136,8 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
+                            --}}
+
 
                         {{-- 
                             <div class="col-12 my-2 col-md-4">

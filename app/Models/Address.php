@@ -18,4 +18,9 @@ class Address extends Model
         return $this->belongsTo(City::class, 'city');
     }
 
+    public function shipments()
+    {
+        return $this->hasMany(Shipment::class);
+    }
+
 }

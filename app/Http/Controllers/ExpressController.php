@@ -65,6 +65,7 @@ class ExpressController extends Controller
 
     public function index(Request $request)
     {
+        // dd($request->all());
         $dataTable = new ExpressDataTable($request);
         
         // $ships = Shipment::where('user_id', auth()->user()->id)->where(function ($q) use ($request) {

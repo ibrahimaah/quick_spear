@@ -12,5 +12,9 @@
     "postponed": "Postponed",
     "no_response": "No Response After Delivery",
     "returned": "Returned",
-    "unknown_status": "Unknown Status"
+    "unknown_status": "Unknown Status",
+    "consignee_region":"Consignee Region",
+    "not_determined_yet":"not determined yet",
+    "delivery_fees":"Delivery Fees",
+    "accepted_by_admin_at":"Accepted by admin at"
 }

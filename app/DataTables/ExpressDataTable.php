@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Models\City;
 use App\Models\Shipment;
+use App\Models\ShipmentRate;
 use App\Traits\DatatableTrait;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
@@ -38,18 +39,65 @@ class ExpressDataTable extends DataTable
         return (new EloquentDataTable($query))
         ->addIndexColumn()
         ->editColumn('created_at', function ($query) {
-            return $query->created_at->format('Y-m-d');
+            return $query->created_at->format('Y-m-d h:i A');
         })
         ->editColumn('consignee_city', function ($query) {
             return City::findOrFail($query->consignee_city)->name;
+        })
+        ->editColumn('value_on_delivery', function($query) {
+            // return '<input type="checkbox" ' . $this->html->attributes($query->id) . '/>';
+            if(!$query->value_on_delivery)
+            {
+                return __('not_determined_yet');
+            }
+            else{
+                return $query->value_on_delivery;
+            }
+        })
+        ->editColumn('delegate_notes', function($query) {
+            // return '<input type="checkbox" ' . $this->html->attributes($query->id) . '/>';
+            if(!$query->delegate_notes)
+            {
+                return __('There is no notes');
+            }else{
+                return $query->delegate_notes;
+            }
+        })
+        ->editColumn('customer_notes', function($query) {
+            // return '<input type="checkbox" ' . $this->html->attributes($query->id) . '/>';
+            if(!$query->customer_notes)
+            {
+                return __('There is no notes');
+            }else{
+                return $query->customer_notes;
+            }
+        })
+        ->editColumn('delivery_fees', function($query) {
+            // return '<input type="checkbox" ' . $this->html->attributes($query->id) . '/>';
+            $city_from = $query->address->City->id; 
+            $city_to = $query->city_to->id; 
+            $delivery_fees = ShipmentRate::where('city_from',"$city_from")->where('city_to',"$city_to")->first()?->rate;
+
+            if(!$delivery_fees)
+            {
+                return __('not_determined_yet');
+            }else{
+                return $delivery_fees;
+            }
+        })
+        ->editColumn('accepted_by_admin_at', function ($query) {
+            if(!$query->accepted_by_admin_at){
+                return __('not_determined_yet');
+            }
+            return $query->created_at->format('Y-m-d h:i A');
         })
         ->addColumn('checkbox', function($query) {
             // return '<input type="checkbox" ' . $this->html->attributes($query->id) . '/>';
             return '<input type="checkbox" class="sub_chk" data-id="'. $query->id .'">';
         })
-        ->addColumn('Aramix', function ($query) {
-            return 'Aramix';
-        })
+        // ->addColumn('Aramix', function ($query) {
+        //     return 'Aramix';
+        // })
         ->addColumn('status', function ($query) {
             return Livewire::mount('shipment-all', ['shipment' => $query])->html();
         })
@@ -138,7 +186,7 @@ class ExpressDataTable extends DataTable
             if ($this->filterData->phone!=null) {
                 $q->where('consignee_phone', 'LIKE', "%".$this->filterData->phone."%");
             }
-        });
+        })->with('address');
 
         return $query;
     }
@@ -182,10 +230,17 @@ class ExpressDataTable extends DataTable
             // $this->column('checkbox',$this->form->checkbox('', '', false, ['id' => 'dataTablesCheckbox']),false,false,false,false,'checkbox'),
             $this->column('checkbox','<input type="checkbox" id="master">',false,false,false,false,'checkbox'),
             $this->column('created_at',__('Created.')),
-            $this->column('consignee_city',__('City')),
-            // $this->column('shipmentID', 'AWB'),
+            $this->column('consignee_region',__('consignee_region')),
+            $this->column('consignee_city',__('City')), 
             // $this->column('consignee_name',  __('Consignee')),
             $this->column('consignee_phone', __('Phone')),
+            // __('Order price includes delivery')
+            $this->column('order_price', __('Order price includes delivery')),
+            $this->column('value_on_delivery', __('Value on delivery')),
+            $this->column('delivery_fees',__('delivery_fees')),
+            $this->column('customer_notes',__('Customer notes')),
+            $this->column('delegate_notes',__('Delegate notes')),
+            $this->column('accepted_by_admin_at',__('accepted_by_admin_at')),
             // $this->column('cash_on_delivery_amount', __('Cash On Delivery')),
             // $this->column('Aramix',  __('Provider'),false,false),
             $this->column('status', __('Action Status'),false,false),

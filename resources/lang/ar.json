@@ -815,5 +815,10 @@
     "unknown_status": "حالة غير معروفة",
     "Value on delivery":"القيمة عند التسليم",
     "Delegate notes":"ملاحظات المندوب",
-    "Customer notes":"ملاحظات العميل"
+    "Customer notes":"ملاحظات العميل",
+    "consignee_region":"منطقة التوصيل",
+    "not_determined_yet":"لم يحدد بعد",
+    "delivery_fees":"أجور التوصيل",
+    "There is no notes":"لا يوجد ملاحظات",
+    "accepted_by_admin_at":"تاريخ الموافقة على الشحنة"
 }
