@@ -16,5 +16,6 @@
     "consignee_region":"Consignee Region",
     "not_determined_yet":"not determined yet",
     "delivery_fees":"Delivery Fees",
-    "accepted_by_admin_at":"Accepted by admin at"
+    "accepted_by_admin_at":"Accepted by admin at",
+    "order_number":"Order Number"
 }

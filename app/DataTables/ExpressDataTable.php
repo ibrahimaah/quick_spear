@@ -229,21 +229,25 @@ class ExpressDataTable extends DataTable
             // $this->IndexColumn(),
             // $this->column('checkbox',$this->form->checkbox('', '', false, ['id' => 'dataTablesCheckbox']),false,false,false,false,'checkbox'),
             $this->column('checkbox','<input type="checkbox" id="master">',false,false,false,false,'checkbox'),
-            $this->column('created_at',__('Created.')),
-            $this->column('consignee_region',__('consignee_region')),
             $this->column('consignee_city',__('City')), 
-            // $this->column('consignee_name',  __('Consignee')),
+            $this->column('consignee_region',__('consignee_region')),
             $this->column('consignee_phone', __('Phone')),
-            // __('Order price includes delivery')
             $this->column('order_price', __('Order price includes delivery')),
             $this->column('value_on_delivery', __('Value on delivery')),
             $this->column('delivery_fees',__('delivery_fees')),
+            $this->column('status', __('Action Status'),false,false),
+            $this->column('id',__('order_number')),
             $this->column('customer_notes',__('Customer notes')),
             $this->column('delegate_notes',__('Delegate notes')),
+            $this->column('created_at',__('Created.')),
             $this->column('accepted_by_admin_at',__('accepted_by_admin_at')),
+            // $this->column('consignee_name',  __('Consignee')),
+            
+            // __('Order price includes delivery')
+            
             // $this->column('cash_on_delivery_amount', __('Cash On Delivery')),
             // $this->column('Aramix',  __('Provider'),false,false),
-            $this->column('status', __('Action Status'),false,false),
+            
             $this->column('actions', __('Actions'),false,false,false,false)
         ];
     }

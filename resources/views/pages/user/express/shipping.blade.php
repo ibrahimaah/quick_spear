@@ -185,11 +185,15 @@
             @endforeach
         
         </ul>
-        
+        <style>
+            .datatable-container {
+    overflow-x: auto;
+    white-space: nowrap; /* Prevents text wrapping */
+}
+        </style>
         <div class="card-body tab-content" id="myTabContent">
-            <div class="tab-pane fade show rounded-3 active" id="all" role="tabpanel" aria-labelledby="all-tab">
+            <div class="tab-pane fade show rounded-3 active datatable-container" id="all" role="tabpanel" aria-labelledby="all-tab">
                 {{ $dataTable->table() }}
-               
             </div>
             @foreach($status_numbers as $status_number)
             <div class="tab-pane fade show rounded-3" id="{{ getStatusInfo($status_number,'id') }}">
