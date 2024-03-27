@@ -114,50 +114,49 @@ class ExpressDataTable extends DataTable
          }
         //  $html .= '<a class="btn btn-success" href="'. route('front.express.show', $query->id) .'"><i
         //  class="fa fa-eye"></i> '. __('Showing') .'</a>
-        // <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-        //     data-bs-target="#editOrder_'. $query->status . '_' . $query->id .'">'. __('Editing Orders') .'</button>';
+        $html .= '<a href="express/edit/'.$query->id.'" class="btn btn-warning"><i class="bi bi-pencil"></i></button>';
 
-        $html .= '<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-           data-bs-target="#editOrder_'. $query->status . '_' . $query->id .'">'. __('Editing Orders') .'</button>';
+        // $html .= '<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+        //    data-bs-target="#editOrder_'. $query->status . '_' . $query->id .'">'. __('Editing Orders') .'</button>';
 
-         $html .='<div class="modal fade" id="editOrder_'. $query->status . '_' . $query->id .'"
-         tabindex="-1"
-         aria-labelledby="editOrder_'. $query->status . '_' . $query->id .'Label"
-         aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title"
-                                id="editOrder_'. $query->status . '_' . $query->id .'Label">
-                                '. __('Editing Orders') .'</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <form method="POST"
-                            action="'. route('front.express.shipment_update') .'">
-                            '.csrf_field() .'
-                            <div class="modal-body">
-                                <div class="mb-3">
-                                    <input type="hidden" name="shipment_id"
-                                        value="'. $query->id .'" class="form-control"
-                                        id="recipient-name">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="message-text"
-                                        class="col-form-label">'. __('Description') .'</label>
-                                    <textarea class="form-control" name="desc" id="message-text"></textarea>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary"
-                                    data-bs-dismiss="modal">'. __('Close') .'</button>
-                                <button type="submit"
-                                    class="btn btn-primary">'. __('Apply') .'</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>';
+        //  $html .='<div class="modal fade" id="editOrder_'. $query->status . '_' . $query->id .'"
+        //  tabindex="-1"
+        //  aria-labelledby="editOrder_'. $query->status . '_' . $query->id .'Label"
+        //  aria-hidden="true">
+        //         <div class="modal-dialog">
+        //             <div class="modal-content">
+        //                 <div class="modal-header">
+        //                     <h5 class="modal-title"
+        //                         id="editOrder_'. $query->status . '_' . $query->id .'Label">
+        //                         '. __('Editing Orders') .'</h5>
+        //                     <button type="button" class="btn-close" data-bs-dismiss="modal"
+        //                         aria-label="Close"></button>
+        //                 </div>
+        //                 <form method="POST"
+        //                     action="'. route('front.express.shipment_update') .'">
+        //                     '.csrf_field() .'
+        //                     <div class="modal-body">
+        //                         <div class="mb-3">
+        //                             <input type="hidden" name="shipment_id"
+        //                                 value="'. $query->id .'" class="form-control"
+        //                                 id="recipient-name">
+        //                         </div>
+        //                         <div class="mb-3">
+        //                             <label for="message-text"
+        //                                 class="col-form-label">'. __('Description') .'</label>
+        //                             <textarea class="form-control" name="desc" id="message-text"></textarea>
+        //                         </div>
+        //                     </div>
+        //                     <div class="modal-footer">
+        //                         <button type="button" class="btn btn-secondary"
+        //                             data-bs-dismiss="modal">'. __('Close') .'</button>
+        //                         <button type="submit"
+        //                             class="btn btn-primary">'. __('Apply') .'</button>
+        //                     </div>
+        //                 </form>
+        //             </div>
+        //         </div>
+        //     </div>';
 
          return $html;
         })
@@ -241,12 +240,9 @@ class ExpressDataTable extends DataTable
             $this->column('delegate_notes',__('Delegate notes')),
             $this->column('created_at',__('Created.')),
             $this->column('accepted_by_admin_at',__('accepted_by_admin_at')),
-            // $this->column('consignee_name',  __('Consignee')),
+            // $this->column('consignee_name',  __('Consignee')), 
             
-            // __('Order price includes delivery')
-            
-            // $this->column('cash_on_delivery_amount', __('Cash On Delivery')),
-            // $this->column('Aramix',  __('Provider'),false,false),
+            // $this->column('cash_on_delivery_amount', __('Cash On Delivery')), 
             
             $this->column('actions', __('Actions'),false,false,false,false)
         ];
