@@ -112,6 +112,10 @@ class ExpressController extends Controller
         return view('pages.user.express.create');
     }
 
+    public function edit(Shipment $shipment)
+    {
+        return view('pages.user.express.edit',['shipment'=>$shipment]);
+    }
     public function show($id)
     {
         $generator = new BarcodeGeneratorPNG();
@@ -179,6 +183,23 @@ class ExpressController extends Controller
          }
     }
 
+
+    public function update(Request $request,Shipment $shipment)
+    {
+        $shipment->address_id = $request->shipper;
+        $shipment->consignee_name = $request->consignee_name;
+        $shipment->consignee_phone = $request->consignee_phone;
+        $shipment->consignee_phone_2 = $request->consignee_phone_2;
+        $shipment->consignee_city = $request->consignee_city;
+        $shipment->consignee_region = $request->consignee_region;
+        $shipment->order_price = $request->order_price;
+        $shipment->customer_notes = $request->customer_notes;
+        $shipment->delegate_notes = $request->delegate_notes;
+
+        if($shipment->save()){
+            return back()->with('success',__('Saved.'));
+        }
+    }
     public function store(Request $request)
     {
         //regex:/^[0-9]{10}$/

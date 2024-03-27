@@ -71,7 +71,8 @@ Route::group(
                 Route::get('/trackingPickup', 'trackingPickup')->name('trackingPickup');
                 Route::get('/create', 'create')->name('create');
                 Route::post('/store', 'store')->name('store');
-                Route::post('/edit/{shipment}', 'edit')->name('edit');
+                Route::get('/edit/{shipment}', 'edit')->name('edit');
+                Route::post('/update/{shipment}', 'update')->name('update');
                 Route::post('/shipment_update', 'shipment_update')->name('shipment_update');
                 Route::post('/call_aramex', 'orderAramex')->name('call_aramex');
                 Route::get('/show/{id}', 'show')->name('show');
