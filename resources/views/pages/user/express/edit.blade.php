@@ -111,13 +111,13 @@
                         @enderror
                     </div>
 
-                    <div class="col-12 my-2 col-md-4">
+                    {{-- <div class="col-12 my-2 col-md-4">
                         <label>{{ __('Delegate notes') }}</label>
                         <input class="form-control mt-2 ml-2" name="delegate_notes" value="{{ $shipment->delegate_notes }}" id="" cols="30" rows="3" />
                         @error('delegate_notes')
                         <div class="text-danger">{{ $message }}</div>
                         @enderror
-                    </div>
+                    </div> --}}
 
 
 

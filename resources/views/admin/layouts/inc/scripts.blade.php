@@ -86,13 +86,6 @@
     </script>
     @endif
 
-    <script>
-        $(()=>{
-                
-            $('input[type=text]:not(#consignee_phone)').on('keydown',(e)=>{
-                if((/\d/g).test(e.key)) e.preventDefault();
-            }) 
-        });
-    </script>
+    
     <!-- login js-->
     <!-- Plugin used-->

@@ -1,145 +1,170 @@
 @extends('admin.layouts.app')
-@section('title', 'تحميل اكسل شيت شحنات لمستخدم واحد')
+
 @section('content')
- 
-<div class="row">
-    <div class="col-sm-12">
-    <div class="card">
-        <div class="card-header">
-        <h5>تحميل اكسل شيت مدفوعات</h5>
-        </div>
-        <form class="form theme-form" method="POST" action="{{ route('admin.import.store') }}" enctype="multipart/form-data">
-        @csrf
-        <div class="card-body">
-            <div class="mb-3 row">
-            <label class="col-sm-3 col-form-label" for="exampleFormControlInput1">الملف</label>
-            <div class="col-sm-9">
-                <input class="form-control @error('importFile') is-invalid @enderror" name="importFile" type="file">
-                @error('importFile')
-                <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-            </div>
-{{-- 
-            <div class="mb-3 row">
-            <label class="col-sm-3 col-form-label" for="exampleFormControlInput1">المستخدم</label>
-            <div class="col-sm-9">
-                <select class="js-example-basic-single form-control @error('user_id') is-invalid @enderror" name="user_id">
-                <option value="" selected>اختار ...</option>
-                @forelse (App\Models\User::get() as $user)
-                    <option value="{{ $user->id }}">{{ $user->name }}</option>
-                @empty
-                    لا يوجد مستخدمين حاليا
-                @endforelse
-                </select>
-                @error('user_id')
-                <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-            </div> --}}
-        </div>
-        <div class="card-footer text-end">
-            <button class="btn btn-primary" type="submit">حفظ</button>
-        </div>
-        </form>
+<style>
+   #shipments_form > div > div:nth-child(1) > div > #rmv-btn {
+        visibility: hidden !important;
+    }
+</style>
+<h2 class="mb-4">{{ __('Create') }} {{ __('Local Shipping') }}</h2>
+
+<div class="card">
+    @if (session()->has('error'))
+        <div class="alert text-center py-4 text-light my-3 alert-danger">{{ session()->get('error') }}</div>
+    @endif
+    @if (session()->has('success'))
+        <div class="alert text-center py-4 text-light my-3 alert-success">{{ session()->get('success') }}</div>
+    @endif
+    <div class="card-header">
+        {{-- <h4>#1</h4> --}}
     </div>
-    </div>
-    <div class="col-sm-12">
-        <div class="card">
-            <div class="card-header">
-                <h5>عرض نتائج عملية رفع الملف</h5>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <h6>عرض COD التي يوجد بها اختلاف</h6>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>اسم العميل</th>
-                                    <th>رقم الشحنه</th>
-                                    <th>COD نظام</th>
-                                    <th>COD اكسل</th>
-                                   
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse (json_decode(Session::get('diff'),true) ?? [] as $diff)
-                                    <tr>
-                                        <td>{{ $diff['consignee_name'] }}</td>
-                                        <td>{{ $diff['awb'] }}</td>
-                                        <td>{{ $diff['codvalue'] }}</td>
-                                        <td>{{ $diff['codvalue_excel'] }}</td>
-                                    </tr>
+    <div class="card-body">
+        <div class="container">
+            <form method="post" action="{{ route('front.express.store') }}" id="shipments_form">
+                @csrf
+                <div data-x-wrapper="shipments">
+                    <div data-x-group>
+                        <div class="d-flex justify-content-between">
+                            <button type="button" class="btn btn-success mb-3" data-add-btn>
+                                <i class="bi bi-plus-lg"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger mb-3" id="rmv-btn" data-remove-btn>
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                        <div class="row">
+                            <div class="d-lg-flex flex-row col-sm-12 mb-3 justify-content-center">
+                                <div class="col-sm-12 col-lg-4 px-0 mb-2">
+                                    <label>{{ __('Store Name') }}</label><span class="text-danger">*</span>
+                                    <select class="form-control mt-2 ml-2 " name="shipper">
+                                        @foreach (auth()->user()->addresses->where('type', 0)->all() as $address)
+                                        <option value="{{ $address->id }}">
+                                            {{ $address->name }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <a href="{{ route('front.user.address') }}" 
+                                style="height: 37px;margin-top: 3.3% !important;" 
+                                class="btn btn-primary ml-xl-3 mr-xl-3 mx-3">
+                                {{ __('New Address') }}
+                                </a>
+   
+                            </div>
+                            <hr />
+                        </div>
+                        <div class="row">
+                            <div class="col-12 my-2 col-md-4">
+                                <label>{{ __('Consignee Name') }}</label>
+                                <input class="form-control mt-2 ml-2" type="text" name="consignee_name"/>
+                                @error('consignee_name')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
 
-                                @empty
-                                <tr>
-                                   <span class="text text-info"> لا توجد بيانات</span>
-                                </tr>
-                                @endforelse
-                                
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="col-sm-12">
-                        <h6>عرض COD الغير موجود في النظام</h6>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>رقم الشحنه</th>
-                                    <th>COD نظام</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse (json_decode(Session::get('notFound'),true) ?? [] as $notFound)
-                                    <tr>
-                                        <td>{{ $notFound['awb'] }}</td>
-                                        <td>{{ $notFound['codvalue'] }}</td>
-                                    </tr>
+                            <div class="col-12 my-2 col-md-4">
+                                <label>{{ __('Phone') }}</label><span class="text-danger">*</span>
+                                <input class="form-control mt-2 ml-2" 
+                                       type="text" 
+                                       id="phone_number"
+                                       pattern="[0-9]{10}" 
+                                       onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+                                       title="Please Enter Ten Digits"
+                                       name="consignee_phone" required/>
+                                @error('consignee_phone')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
 
-                                @empty
-                                <tr>
-                                   <span class="text text-info"> لا توجد بيانات</span>
-                                </tr>
-                                @endforelse
-                                
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="col-sm-12">
-                        <h6>عرض COD المتكرر </h6>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>اسم العميل</th>
-                                    <th>رقم الشحنه</th>
-                                    <th>COD نظام</th>
-                                    <th>COD اكسل</th>
-                                   
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse (json_decode(Session::get('repeat'),true) ?? [] as $repeat)
-                                    <tr>
-                                        <td>{{ $repeat['consignee_name'] }}</td>
-                                        <td>{{ $repeat['awb'] }}</td>
-                                        <td>{{ $repeat['codvalue'] }}</td>
-                                        <td>{{ $repeat['codvalue_excel'] }}</td>
-                                    </tr>
+                            <div class="col-12 my-2 col-md-4">
+                                <label>{{ __('Phone') }} 2</label>
+                                <input class="form-control mt-2 ml-2" type="number" name="consignee_phone_2" />
+                                @error('consignee_phone_2')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div> 
+                        
 
-                                @empty
-                                <tr>
-                                   <span class="text text-info"> لا توجد بيانات</span>
-                                </tr>
-                                @endforelse
-                                
-                            </tbody>
-                        </table>
+                            <div class="col-12 my-2 col-md-4">
+                                <label>{{ __('City') }}</label><span class="text-danger">*</span>
+                                <select class="form-control mt-2 ml-2" type="text" name="consignee_city" required>
+                                    @foreach (App\Models\City::get() as $city)
+                                        <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('consignee_city')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-12 my-2 col-md-4">
+                                <label>{{ __('Region') }}</label><span class="text-danger">*</span>
+                                <input class="form-control mt-2 ml-2" type="text" name="consignee_region" required/>
+                                @error('consignee_line2')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-12 my-2 col-md-4">
+                                <label>{{ __('Order price includes delivery') }}</label><span class="text-danger">*</span>
+                                <input class="form-control mt-2 ml-2" type="number" name="order_price" required/>
+                                @error('order_price')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                      
+                            <div class="col-12 my-2 col-md-4">
+                                <label>{{ __('Customer notes') }}</label>
+                                <input class="form-control mt-2 ml-2" name="customer_notes" id="" cols="30" rows="3"/>
+                                @error('customer_notes')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-12 my-2 col-md-4">
+                                <label>{{ __('Delegate notes') }}</label>
+                                <input class="form-control mt-2 ml-2" name="delegate_notes" id="" cols="30" rows="3"/>
+                                @error('delegate_notes')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                      
+                        
+                            
+
+                        </div>
+                        <hr>
                     </div>
                 </div>
-            </div>
+                <button class="btn btn-primary btn-lg my-3" type="submit">{{ __('Save') }}</button>
+            </form>
         </div>
     </div>
 </div>
 
+<script src="{{ asset('assets/vendor/jquery/jquery_v3.7.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/jquery.replicate/jquery.replicate.js') }}"></script>
+<script>
+    const selector ='[data-x-wrapper]';
+
+    let options = {
+        disableNaming:'[data-disable-naming]',
+        wrapper: selector,
+        group:'[data-x-group]',
+        addBtn:'[data-add-btn]',
+        removeBtn:'[data-remove-btn]'
+    };
+
+    $(selector).replicate(options);
+
+    $(()=>{
+        $('input[type=text]:not(#phone_number)').on('keydown',(e)=>{
+            if((/\d/g).test(e.key)) e.preventDefault();
+        })
+        // $('#phone_number').on('keydown',(e)=>{
+        //     if((/\d/g).test(e.key)) e.preventDefault();
+        // })
+    });
+</script>
 @endsection

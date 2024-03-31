@@ -51,20 +51,7 @@
                                 class="btn btn-primary ml-xl-3 mr-xl-3 mx-3">
                                 {{ __('New Address') }}
                                 </a>
-
-                            {{--
-                                <div class="col-xl-5 col-sm-12 col-lg-3
-                                    px-0 px-sm-0
-                                    mb-2
-                                    ml-xl-3
-                                    mt-2 mt-lg-0">
-                                    <label>{{ __('Provider') }}</label><span class="text-danger">*</span>
-                                    <select class="form-control mt-2" name="provider">
-                                        <option value="aramex" selected>Aramex</option>
-                                    </select>
-                                </div> 
-                            --}}
-                                
+   
                             </div>
                             <hr />
                         </div>
@@ -128,42 +115,7 @@
                                 @enderror
                             </div>
 
-                            {{--
-                            <div class="col-12 my-2 col-md-4">
-                                <label>{{ __('Value on delivery') }}</label><span class="text-danger">*</span>
-                                <input class="form-control mt-2 ml-2" type="number" name="value_on_delivery" required/>
-                                @error('value_on_delivery')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            --}}
-
-
-                        {{-- 
-                            <div class="col-12 my-2 col-md-4">
-                                <label>{{ __('Description') }}</label><span class="text-danger">*</span>
-                                <input class="form-control mt-2 ml-2" type="text" name="consignee_line1" />
-                                @error('consignee_line1')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div> 
-
-                            <div class="col-12 my-2 col-md-4">
-                                <label>{{ __('Weight') }}</label><span class="text-danger">*</span>
-                                <input class="form-control mt-2 ml-2" type="text" name="weight" />
-                                @error('weight')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="col-12 my-2 col-md-4">
-                                <label>{{ __('Contents') }}</label><span class="text-danger">*</span>
-                                <input class="form-control mt-2 ml-2" type="text" name="description" />
-                                @error('description')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        --}}
+                      
                             <div class="col-12 my-2 col-md-4">
                                 <label>{{ __('Customer notes') }}</label>
                                 <input class="form-control mt-2 ml-2" name="customer_notes" id="" cols="30" rows="3"/>
@@ -172,39 +124,16 @@
                                 @enderror
                             </div>
 
+                        {{-- 
                             <div class="col-12 my-2 col-md-4">
                                 <label>{{ __('Delegate notes') }}</label>
                                 <input class="form-control mt-2 ml-2" name="delegate_notes" id="" cols="30" rows="3"/>
                                 @error('delegate_notes')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
-                            </div>
-                        {{--$_SESSION
-                            <div class="col-12 my-2 col-md-4">
-                                <label>{{ __('Reference') }}</label>
-                                <input class="form-control mt-2 ml-2" type="text" value="{{ auth()->user()->ACCOUNT_NUMBER() }}" name="reference" />
-                                @error('reference')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="col-12 my-2 col-md-4">
-                                <label>{{ __('Number OF Pieces') }}</label><span class="text-danger">*</span>
-                                <input class="form-control mt-2 ml-2" type="text" name="number_of_pieces" />
-                                @error('number_of_pieces')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="col-12 my-2 col-md-4">
-                                <label>{{ __('Cash On Delivery') }} (JOD)</label>
-                                <input class="form-control mt-2 ml-2" type="text" name="cash_on_delivery_amount" />
-                                @error('cash_on_delivery_amount')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            
+                            </div> 
                         --}}
+                      
                         
                             
 

@@ -108,7 +108,7 @@
                         <label class="col-sm-3 col-form-label" for="exampleFormControlInput1">المدينة (إلى)</label>
                         <div class="col-sm-9">
                             <select class="form-control @error('city_to') is-invalid @enderror" name="to"
-                                id="exampleFormControlInput1">
+                                id="exampleFormControlInput1" required>
                                 <option value="" selected>اختار مدينة</option>
                                 @foreach (App\Models\City::where('status', 1)->get() as $s_city)
                                 <option value="{{ $s_city->id }}">{{ $s_city->name }}</option>
@@ -123,12 +123,12 @@
                         <label class="col-sm-3 col-form-label" for="exampleFormControlInput1">تكلفة الشحن</label>
                         <div class="col-sm-9">
                             <input class="form-control @error('rate') is-invalid @enderror" name="rate"
-                                id="exampleFormControlInput1" type="text">
+                                id="exampleFormControlInput1" type="text" required>
                             @error('rate')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <input type="text" name="rate"/>
+                        
                     </div>
                 </div>
                 <div class="modal-footer">
