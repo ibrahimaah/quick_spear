@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AddressController;
 use Illuminate\Support\Facades\Route;
 
 // Admin Controllers
@@ -67,6 +68,11 @@ Route::prefix('superAdmin/admin/dashboard')->middleware('auth:admin')->name('adm
     Route::post('/mode', [HomeController::class , 'mode'])->name('mode');
     Route::get('/setting', [SettingController::class ,'index'])->name('setting.index');
     Route::post('/setting/update', [SettingController::class , 'update'])->name('setting.update');
+
+    Route::get('/address', [AddressController::class,'index'])->name('address.index');
+    // Route::get('/address/create', [AddressController::class,'create'])->name('address.create');
+    Route::post('/address/store',[AddressController::class,'store'])->name('address.store');
+    Route::get('/address/delete/{id}', [AddressController::class,'delete'])->name('address.delete');
 });
 
 // Route::get('', [LoginController::class ,'getLogin']);

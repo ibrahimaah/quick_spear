@@ -5,6 +5,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="{{asset('assets/admin')}}/images/favicon.png" type="image/x-icon">
     <link rel="shortcut icon" href="{{asset('assets/admin')}}/images/favicon.png" type="image/x-icon">
+    <link href="{{ asset('assets') }}/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
     <title>لوحة التحكم | @yield('title', 'الرئيسية')</title>
     @include('admin.layouts.inc.styles')
     @livewireStyles

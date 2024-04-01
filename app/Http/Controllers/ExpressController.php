@@ -15,15 +15,17 @@ use App\Models\ShipmentRate;
 use Illuminate\Http\Request;
 use App\Exports\ShipmentsExport;
 use App\Jobs\ImportShipments;
+use App\Services\ShipmentService;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 use Picqer\Barcode\BarcodeGeneratorPNG;
 use Illuminate\Support\Facades\Validator;
 use PDFMerger;
+;
 
 class ExpressController extends Controller
 {
-    public function __construct()
+    public function __construct(private ShipmentService $shipmentService)
     {
         if (auth('team')->check()) {
             $this->middleware(['auth:team']);
@@ -202,35 +204,19 @@ class ExpressController extends Controller
     }
     public function store(Request $request)
     {
-        //regex:/^[0-9]{10}$/
-        // dd($request->all());
         try 
         {
-            foreach($request->shipments as $shipment):
-                
-                $data = [
-                    'user_id' => auth()->user()->id,
-                    'address_id' => Address::findOrFail($shipment['shipper'])->id,
-                    'consignee_name' => $shipment['consignee_name'],
-                    'consignee_phone' => $shipment['consignee_phone'],
-                    'consignee_phone_2' => $shipment['consignee_phone_2'],
-                    'consignee_country_code' => 'JO',
-                    'consignee_city' => $shipment['consignee_city'],
-                    'consignee_region' => $shipment['consignee_region'],
-                    'consignee_zip_code' => '',
-                    // 'shipping_date_time'    => now()->addHours(2),
-                    'shipping_date_time'    => now(),
-                    'due_date'  => now()->addHours(72),
-                    'order_price' => $shipment['order_price'],
-                    'customer_notes' => $shipment['customer_notes'],
-                    'delegate_notes' => $shipment['delegate_notes'],
-                ];
-                // dd($data);
-                $shipment = Shipment::create($data);
+            $shipment = $this->shipmentService->store($request);
 
-            endforeach;
-
-            return redirect()->route('front.express.index')->with('success', 'تم اضافة الشحنة بنجاح');
+            if($shipment)
+            {
+                return redirect()->route('front.express.index')->with('success', 'تم اضافة الشحنة بنجاح');
+            }
+            else 
+            {
+                return redirect()->route('front.express.index')->with('faild', 'حدث خطأ في إضافة الشحنة');
+            }
+            
         } 
         catch (\Exception $ex) 
         {

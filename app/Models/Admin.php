@@ -12,4 +12,9 @@ class Admin extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     public $guarded = [];
+
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
 }

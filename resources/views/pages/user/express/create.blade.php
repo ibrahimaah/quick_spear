@@ -1,6 +1,7 @@
 @extends('pages.user.express.index')
 
 @section('expressContent')
+
 <style>
    #shipments_form > div > div:nth-child(1) > div > #rmv-btn {
         visibility: hidden !important;
@@ -38,7 +39,7 @@
                             <div class="d-lg-flex flex-row col-sm-12 mb-3 justify-content-center">
                                 <div class="col-sm-12 col-lg-4 px-0 mb-2">
                                     <label>{{ __('Store Name') }}</label><span class="text-danger">*</span>
-                                    <select class="form-control mt-2 ml-2 " name="shipper">
+                                    <select class="form-control mt-2 ml-2 " name="shipper" required>
                                         @foreach (auth()->user()->addresses->where('type', 0)->all() as $address)
                                         <option value="{{ $address->id }}">
                                             {{ $address->name }}

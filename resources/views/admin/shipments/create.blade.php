@@ -1,6 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('content')
+
 <style>
    #shipments_form > div > div:nth-child(1) > div > #rmv-btn {
         visibility: hidden !important;
@@ -14,10 +15,7 @@
     @endif
     @if (session()->has('success'))
         <div class="alert text-center py-4 text-light my-3 alert-success">{{ session()->get('success') }}</div>
-    @endif
-    <div class="card-header">
-        {{-- <h4>#1</h4> --}}
-    </div>
+    @endif 
     <div class="card-body">
         <div class="container">
             <form method="post" action="{{ route('front.express.store') }}" id="shipments_form">
@@ -36,7 +34,7 @@
                             <div class="d-lg-flex flex-row col-sm-12 mb-3 justify-content-center">
                                 <div class="col-sm-12 col-lg-4 px-0 mb-2">
                                     <label>{{ __('Store Name') }}</label><span class="text-danger">*</span>
-                                    <select class="form-control mt-2 ml-2 " name="shipper">
+                                    <select class="form-control mt-2 ml-2 " name="shipper" required>
                                         @foreach (auth()->user()->addresses->where('type', 0)->all() as $address)
                                         <option value="{{ $address->id }}">
                                             {{ $address->name }}

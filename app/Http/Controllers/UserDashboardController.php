@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreAddressRequest;
 use Aramex;
 use Carbon\Carbon;
 use App\Models\City;
@@ -14,12 +15,14 @@ use App\Models\TeamMember;
 use App\Models\ShipmentRate;
 use Illuminate\Http\Request;
 use App\Models\PaymentMethod;
+use App\Services\AddressService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class UserDashboardController extends Controller
 {
-    public function __construct()
+    public function __construct(private AddressService $addressService)
     {
         $this->middleware(['auth']);
     }
@@ -74,37 +77,17 @@ class UserDashboardController extends Controller
 
     public function address()
     {
-        $user = auth()->user();
-        $addresses = Address::where('user_id', $user->id)->latest()->get();
-        // return $addresses;
-        return view('pages.user.account.address', compact('user', 'addresses'));
+        $addresses = $this->addressService->getUserAddresses();
+        return view('pages.user.account.address', compact('addresses'));
     }
 
 
-    public function address_store(Request $request)
+    public function address_store(StoreAddressRequest $request)
     {
-        $user = auth()->user();
-        $rules = [
-            'name' => 'required',
-            'phone' => 'required',
-            'city' => 'required',
-            'region' => 'required',
-            'desc' => 'required',
-        ];
-
-        $validator = Validator::make($request->all(), $rules);
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
-        try {
-            $address = Address::create([
-                'name' => $request->name,
-                'user_id'   => $user->id,
-                'phone' => $request->phone,
-                'city' => $request->city,
-                'region' => $request->region,
-                'desc' => $request->desc,
-            ]);
+        $validated = $request->validated();
+        try 
+        {
+            $address = $this->addressService->store($validated);
 
             return back()->with('success', 'تم اضافة العنوان بنجاح');
         } catch (\Exception $e) {
@@ -115,10 +98,9 @@ class UserDashboardController extends Controller
 
     public function address_delete($id)
     {
-        $user = auth()->user();
-        $address = Address::where(['id'=>$id,'user_id' => $user->id])->first();
-        if ($address) {
-            $address->delete();
+        $res = $this->addressService->remove($id);
+        if ($res) 
+        {
             return back()->with('success', 'تم حذف العنوان بنجاح');
         }
         return back()->with('error', 'لم يتم العثور علي العنوان المطلوب');

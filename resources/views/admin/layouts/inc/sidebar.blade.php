@@ -53,6 +53,13 @@
                         <span class="badge rounded-pill badge-success">{{ App\Models\City::count() }}</span>
                     </li>
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#"><i
+                                data-feather="flag"></i><span class="">العناوين</span></a>
+                        <ul class="sidebar-submenu">
+                            <li><a href="{{ route('admin.address.index') }}">عرض العناوين</a></li>
+                        </ul>
+                        <span class="badge rounded-pill badge-success">{{ App\Models\City::count() }}</span>
+                    </li>
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#"><i
                                 data-feather="flag"></i><span class="">طلبات التعديل</span></a>
                         <ul class="sidebar-submenu">
                             <li><a href="{{ route('admin.orders.index') }}">عرض كل الطلبات</a></li>
@@ -62,7 +69,7 @@
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#"><i
                                 data-feather="flag"></i><span class="">الشحنات</span></a>
                         <ul class="sidebar-submenu">
-                            {{-- <li><a href="{{ route('admin.shipments.create') }}">إضافة شحنة جديدة</a></li> --}}
+                            <li><a href="{{ route('admin.shipments.create') }}">إضافة شحنة جديدة</a></li>
                             <li><a href="{{ route('admin.shipments.index') }}">عرض كل الشحنات</a></li>
                             @php 
                                 $statuses = config('constants.STATUS_NUMBER');
