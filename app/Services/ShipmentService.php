@@ -24,7 +24,7 @@ class ShipmentService {
                 'due_date'  => now()->addHours(72),
                 'order_price' => $shipment['order_price'],
                 'customer_notes' => $shipment['customer_notes'],
-                // 'delegate_notes' => $shipment['delegate_notes'],
+                'delegate_notes' => $shipment['delegate_notes'] ?? null,
             ];
             
             $shipment = Shipment::create($data);

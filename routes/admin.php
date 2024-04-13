@@ -54,6 +54,8 @@ Route::prefix('superAdmin/admin/dashboard')->middleware('auth:admin')->name('adm
     Route::get('get-shipments-by-status/{status}', [ShipmentController::class, 'get_shipments_by_status'])->name('get_shipments_by_status');
     Route::get('import', [ShipmentController::class, 'import_create'])->name('import.create');
     Route::post('import', [ShipmentController::class, 'import_store'])->name('import.store');
+    // Route::get('create', [ShipmentController::class, 'create'])->name('shipment.create');
+    // Route::post('store', [ShipmentController::class, 'store'])->name('shipment.store');
     Route::post('export-all-shipments', [ShipmentController::class, 'export'])->name('shipment.export');
 
     Route::get('import_shipments', [ShipmentImportController::class, 'create'])->name('import_shipments.create');

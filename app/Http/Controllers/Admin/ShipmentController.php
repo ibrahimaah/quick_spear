@@ -10,6 +10,7 @@ use App\Models\Address;
 use App\Models\City;
 use App\Models\EditOrder;
 use App\Models\Shipment;
+use App\Services\ShipmentService;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Octw\Aramex\Aramex;
@@ -17,6 +18,12 @@ use Picqer\Barcode\BarcodeGeneratorPNG;
 
 class ShipmentController extends Controller
 {
+
+    public function __construct(private ShipmentService $shipmentService)
+    {
+       
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -51,11 +58,29 @@ class ShipmentController extends Controller
     public function create()
     {
         return view('admin.shipments.create');
+        // return view('admin.shipments.index');
     }
 
     public function store(Request $request)
     {
-        //
+        try 
+        {
+            $shipment = $this->shipmentService->store($request);
+
+            if($shipment)
+            {
+                return redirect()->route('admin.shipments.create')->with('success', 'تم اضافة الشحنة بنجاح');
+            }
+            else 
+            {
+                return redirect()->route('admin.shipments.create')->with('faild', 'حدث خطأ في إضافة الشحنة');
+            }
+            
+        } 
+        catch (\Exception $ex) 
+        {
+            return $ex->getMessage();
+        }
     }
 
     public function show(Shipment $shipment)

@@ -16,7 +16,8 @@ class AddressController extends Controller
 
     public function index()
     {
-        $addresses = $this->addressService->getUserAddresses();
+        $addresses = $this->addressService->getAdminAddresses();
+        
         return view('admin.addresses.index', compact('addresses'));
     }
 
@@ -31,7 +32,7 @@ class AddressController extends Controller
         $validated = $request->validated();
         try 
         {
-            $address = $this->addressService->store($validated);
+            $address = $this->addressService->store($validated,true);
 
             return back()->with('success', 'تم اضافة العنوان بنجاح');
         } catch (\Exception $e) 

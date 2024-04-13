@@ -10,15 +10,10 @@
 <h2 class="mb-4">{{ __('Create') }} {{ __('Local Shipping') }}</h2>
 
 <div class="card">
-    @if (session()->has('error'))
-        <div class="alert text-center py-4 text-light my-3 alert-danger">{{ session()->get('error') }}</div>
-    @endif
-    @if (session()->has('success'))
-        <div class="alert text-center py-4 text-light my-3 alert-success">{{ session()->get('success') }}</div>
-    @endif 
+   
     <div class="card-body">
         <div class="container">
-            <form method="post" action="{{ route('front.express.store') }}" id="shipments_form">
+            <form method="post" action="{{ route('admin.shipments.store') }}" id="shipments_form">
                 @csrf
                 <div data-x-wrapper="shipments">
                     <div data-x-group>
