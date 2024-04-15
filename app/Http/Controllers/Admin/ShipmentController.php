@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\ExpressDataTable;
 use App\DataTables\ShipmentDataTable;
 use App\Exports\AdminShipmentsExport;
 use App\Http\Controllers\Controller;
@@ -55,10 +56,12 @@ class ShipmentController extends Controller
         return Excel::download(new AdminShipmentsExport($request), $fileName);
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        return view('admin.shipments.create');
-        // return view('admin.shipments.index');
+        
+        $dataTable = new ExpressDataTable($request,true);
+        $ships = Shipment::latest()->get();
+        return $dataTable->render('admin.shipments.create',['ships'=>$ships]); 
     }
 
     public function store(Request $request)

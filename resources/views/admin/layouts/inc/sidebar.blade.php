@@ -69,7 +69,8 @@
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#"><i
                                 data-feather="flag"></i><span class="">الشحنات</span></a>
                         <ul class="sidebar-submenu">
-                            <li><a href="{{ route('admin.shipments.create') }}">إضافة شحنة جديدة</a></li>
+                            <li><a href="{{ route('admin.shipments.create') }}">إدارة الشحنات</a></li>
+                            {{--
                             <li><a href="{{ route('admin.shipments.index') }}">عرض كل الشحنات</a></li>
                             @php 
                                 $statuses = config('constants.STATUS_NUMBER');
@@ -77,6 +78,7 @@
                             @foreach($statuses as $status)
                             <li><a href="{{ route('admin.get_shipments_by_status',['status'=>$status]) }}">{{ getStatusInfo($status) }}</a></li>
                             @endforeach
+                            --}}
                         </ul>
                         <span class="badge rounded-pill badge-success">{{ App\Models\Shipment::count() }}</span>
                     </li>

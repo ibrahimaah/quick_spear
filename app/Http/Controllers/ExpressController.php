@@ -134,56 +134,56 @@ class ExpressController extends Controller
         return abort(404);
     }
 
-    public function AramixCreateShipment($shipmentDetails,$shipper,$ship)
-    {
-         // dd($shipmentDetails);
-         $callResponse = Aramex::createShipment($shipmentDetails);
-         // if (false) {
-         if (!empty($callResponse->error)) {
-             foreach ($callResponse->errors as $errorObject) {
-                 return $errorObject->Code . ' => ' . $errorObject->Message;
-             }
-         } else {
-             $file =  file_get_contents($callResponse->Shipments->ProcessedShipment->ShipmentLabel->LabelURL);
-             $putFile = file_put_contents($callResponse->Shipments->ProcessedShipment->ID . '.pdf', $file);
-             // $putFile = Storage::put($callResponse->Shipments->ProcessedShipment->ID . '.pdf', $file);
-             $data = [
-                 'user_id' => auth()->user()->id,
-                 'address_id' => $shipper->id,
-                 'consignee_name' => $shipmentDetails['consignee']['name'],
-                 'consignee_email' => $shipmentDetails['consignee']['email'],
-                 'consignee_phone' => $shipmentDetails['consignee']['phone'],
-                 'consignee_cell_phone' => $shipmentDetails['consignee']['cell_phone'],
-                 'consignee_zip_code' => $shipmentDetails['consignee']['zip_code'],
-                 'consignee_country_code' => $shipmentDetails['consignee']['country_code'],
-                 'consignee_line1' => $shipmentDetails['consignee']['line1'],
-                 'consignee_line2' => $shipmentDetails['consignee']['line2'],
-                 'consignee_line3' => $shipmentDetails['consignee']['line2'],
-                 'consignee_city' => $ship['consignee_city'],
+    // public function AramixCreateShipment($shipmentDetails,$shipper,$ship)
+    // {
+    //      // dd($shipmentDetails);
+    //      $callResponse = Aramex::createShipment($shipmentDetails);
+    //      // if (false) {
+    //      if (!empty($callResponse->error)) {
+    //          foreach ($callResponse->errors as $errorObject) {
+    //              return $errorObject->Code . ' => ' . $errorObject->Message;
+    //          }
+    //      } else {
+    //          $file =  file_get_contents($callResponse->Shipments->ProcessedShipment->ShipmentLabel->LabelURL);
+    //          $putFile = file_put_contents($callResponse->Shipments->ProcessedShipment->ID . '.pdf', $file);
+    //          // $putFile = Storage::put($callResponse->Shipments->ProcessedShipment->ID . '.pdf', $file);
+    //          $data = [
+    //              'user_id' => auth()->user()->id,
+    //              'address_id' => $shipper->id,
+    //              'consignee_name' => $shipmentDetails['consignee']['name'],
+    //              'consignee_email' => $shipmentDetails['consignee']['email'],
+    //              'consignee_phone' => $shipmentDetails['consignee']['phone'],
+    //              'consignee_cell_phone' => $shipmentDetails['consignee']['cell_phone'],
+    //              'consignee_zip_code' => $shipmentDetails['consignee']['zip_code'],
+    //              'consignee_country_code' => $shipmentDetails['consignee']['country_code'],
+    //              'consignee_line1' => $shipmentDetails['consignee']['line1'],
+    //              'consignee_line2' => $shipmentDetails['consignee']['line2'],
+    //              'consignee_line3' => $shipmentDetails['consignee']['line2'],
+    //              'consignee_city' => $ship['consignee_city'],
 
-                 // Shipment Data
-                 'reference' => $ship['reference'],
-                 'shipping_date_time'    => now()->addHours(2),
-                 'due_date'  => now()->addHours(72),
-                 'comments'  => $shipmentDetails['comments'],
-                 'pickup_location'   => $shipmentDetails['pickup_location'],
-                 'pickup_guid'   => $shipmentDetails['pickup_guid'],
-                 'cash_on_delivery_amount'   => $shipmentDetails['cash_on_delivery_amount'],
-                 'product_group' => $shipmentDetails['product_group'],
-                 'product_type'  => $shipmentDetails['product_type'],
-                 'payment_type'  => $shipmentDetails['payment_type'],
-                 'customs_value_amount'  => 0,
-                 'collect_amount' => $this->sumExpress($shipper->city, $shipper->city, $ship['weight']),
-                 'weight'    => $shipmentDetails['weight'],
-                 'number_of_pieces'  => $shipmentDetails['number_of_pieces'],
-                 'description'   => $shipmentDetails['description'],
-                 'shipmentID' => $callResponse->Shipments->ProcessedShipment->ID,
-                 'shipmentLabelURL' => $callResponse->Shipments->ProcessedShipment->ID . '.pdf',
-                 'shipmentAttachments' => $callResponse->Shipments->ProcessedShipment->ShipmentAttachments->ProcessedShipmentAttachment->Url ?? 'N/A',
-             ];
-             return $data;
-         }
-    }
+    //              // Shipment Data
+    //              'reference' => $ship['reference'],
+    //              'shipping_date_time'    => now()->addHours(2),
+    //              'due_date'  => now()->addHours(72),
+    //              'comments'  => $shipmentDetails['comments'],
+    //              'pickup_location'   => $shipmentDetails['pickup_location'],
+    //              'pickup_guid'   => $shipmentDetails['pickup_guid'],
+    //              'cash_on_delivery_amount'   => $shipmentDetails['cash_on_delivery_amount'],
+    //              'product_group' => $shipmentDetails['product_group'],
+    //              'product_type'  => $shipmentDetails['product_type'],
+    //              'payment_type'  => $shipmentDetails['payment_type'],
+    //              'customs_value_amount'  => 0,
+    //              'collect_amount' => $this->sumExpress($shipper->city, $shipper->city, $ship['weight']),
+    //              'weight'    => $shipmentDetails['weight'],
+    //              'number_of_pieces'  => $shipmentDetails['number_of_pieces'],
+    //              'description'   => $shipmentDetails['description'],
+    //              'shipmentID' => $callResponse->Shipments->ProcessedShipment->ID,
+    //              'shipmentLabelURL' => $callResponse->Shipments->ProcessedShipment->ID . '.pdf',
+    //              'shipmentAttachments' => $callResponse->Shipments->ProcessedShipment->ShipmentAttachments->ProcessedShipmentAttachment->Url ?? 'N/A',
+    //          ];
+    //          return $data;
+    //      }
+    // }
 
 
     public function update(Request $request,Shipment $shipment)

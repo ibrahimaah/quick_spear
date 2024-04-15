@@ -21,10 +21,11 @@ class ExpressDataTable extends DataTable
     use DatatableTrait;
 
     public $filterData;
-
-    public function __construct($filterData)
+    private $is_from_admin;
+    public function __construct($filterData,$is_from_admin=false)
     {
         $this->filterData = $filterData;
+        $this->is_from_admin = $is_from_admin;
     }
 
 
@@ -72,8 +73,7 @@ class ExpressDataTable extends DataTable
                 return $query->customer_notes;
             }
         })
-        ->editColumn('delivery_fees', function($query) {
-            // return '<input type="checkbox" ' . $this->html->attributes($query->id) . '/>';
+        ->editColumn('delivery_fees', function($query) { 
             $city_from = $query->address->City->id; 
             $city_to = $query->city_to->id; 
             $delivery_fees = ShipmentRate::where('city_from',"$city_from")->where('city_to',"$city_to")->first()?->rate;
@@ -91,74 +91,14 @@ class ExpressDataTable extends DataTable
             }
             return $query->created_at->format('Y-m-d h:i A');
         })
-        ->addColumn('checkbox', function($query) {
-            // return '<input type="checkbox" ' . $this->html->attributes($query->id) . '/>';
+        ->addColumn('checkbox', function($query) { 
             return '<input type="checkbox" class="sub_chk" data-id="'. $query->id .'">';
-        })
-        // ->addColumn('Aramix', function ($query) {
-        //     return 'Aramix';
-        // })
+        }) 
         ->addColumn('status', function ($query) {
-            return Livewire::mount('shipment-all', ['shipment' => $query])->html();
+            return $query->get_status();
         })
         ->addColumn('actions', function ($query) {
-         $html = '';
-         $shipmentImp = \App\Models\ShipmentImport::where('awb', $query->shipmentID)->first();
-         if ($shipmentImp) {
-             $transaction = \App\Models\Transaction::find($shipmentImp->transaction_id);
-             if ($transaction) {
-                if ($transaction->image != 'N/A') {
-                    $html .= ' <a href="'. url($transaction->image) .'" style="background-color: yellow; border-color: yellow;" target="_blanck" class="btn btn-info"><span class="text text-warning">$</span></a>';
-                 }
-             }
-         }
-        //  $html .= '<a class="btn btn-success" href="'. route('front.express.show', $query->id) .'"><i
-        //  class="fa fa-eye"></i> '. __('Showing') .'</a>
-        $html .= '<a href="express/edit/'.$query->id.'" class="btn btn-warning"><i class="bi bi-pencil"></i></button>';
-
-        // $html .= '<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-        //    data-bs-target="#editOrder_'. $query->status . '_' . $query->id .'">'. __('Editing Orders') .'</button>';
-
-        //  $html .='<div class="modal fade" id="editOrder_'. $query->status . '_' . $query->id .'"
-        //  tabindex="-1"
-        //  aria-labelledby="editOrder_'. $query->status . '_' . $query->id .'Label"
-        //  aria-hidden="true">
-        //         <div class="modal-dialog">
-        //             <div class="modal-content">
-        //                 <div class="modal-header">
-        //                     <h5 class="modal-title"
-        //                         id="editOrder_'. $query->status . '_' . $query->id .'Label">
-        //                         '. __('Editing Orders') .'</h5>
-        //                     <button type="button" class="btn-close" data-bs-dismiss="modal"
-        //                         aria-label="Close"></button>
-        //                 </div>
-        //                 <form method="POST"
-        //                     action="'. route('front.express.shipment_update') .'">
-        //                     '.csrf_field() .'
-        //                     <div class="modal-body">
-        //                         <div class="mb-3">
-        //                             <input type="hidden" name="shipment_id"
-        //                                 value="'. $query->id .'" class="form-control"
-        //                                 id="recipient-name">
-        //                         </div>
-        //                         <div class="mb-3">
-        //                             <label for="message-text"
-        //                                 class="col-form-label">'. __('Description') .'</label>
-        //                             <textarea class="form-control" name="desc" id="message-text"></textarea>
-        //                         </div>
-        //                     </div>
-        //                     <div class="modal-footer">
-        //                         <button type="button" class="btn btn-secondary"
-        //                             data-bs-dismiss="modal">'. __('Close') .'</button>
-        //                         <button type="submit"
-        //                             class="btn btn-primary">'. __('Apply') .'</button>
-        //                     </div>
-        //                 </form>
-        //             </div>
-        //         </div>
-        //     </div>';
-
-         return $html;
+            return '<a href="express/edit/'.$query->id.'" class="btn btn-warning"><i class="bi bi-pencil"></i></button>';
         })
         ->rawColumns(['actions','status','checkbox'])
             ->setRowId('id');
@@ -224,9 +164,7 @@ class ExpressDataTable extends DataTable
      */
     public function getColumns(): array
     {
-        return [
-            // $this->IndexColumn(),
-            // $this->column('checkbox',$this->form->checkbox('', '', false, ['id' => 'dataTablesCheckbox']),false,false,false,false,'checkbox'),
+        $columns = [
             $this->column('checkbox','<input type="checkbox" id="master">',false,false,false,false,'checkbox'),
             $this->column('consignee_city',__('City')), 
             $this->column('consignee_region',__('consignee_region')),
@@ -237,15 +175,26 @@ class ExpressDataTable extends DataTable
             $this->column('status', __('Action Status'),false,false),
             $this->column('id',__('order_number')),
             $this->column('customer_notes',__('Customer notes')),
-            $this->column('delegate_notes',__('Delegate notes')),
             $this->column('created_at',__('Created.')),
-            $this->column('accepted_by_admin_at',__('accepted_by_admin_at')),
-            // $this->column('consignee_name',  __('Consignee')), 
+            $this->column('accepted_by_admin_at',__('accepted_by_admin_at')), 
             
-            // $this->column('cash_on_delivery_amount', __('Cash On Delivery')), 
-            
-            $this->column('actions', __('Actions'),false,false,false,false)
         ];
+
+        
+        if($this->is_from_admin)
+        {
+            // Find the index of 'customer_notes'
+            $index = array_search('customer_notes', array_column($columns, 'name'));
+            if ($index !== false) {
+                // Insert 'delegate_notes' after 'customer_notes'
+                array_splice($columns, $index + 1, 0, [$this->column('delegate_notes', __('Delegate notes'))]);
+            }
+        }
+        if (!$this->is_from_admin) {
+            $columns[]=$this->column('actions', __('Actions'),false,false,false,false);
+        }
+        return $columns;
+      
     }
 
     /**

@@ -6,7 +6,11 @@
    #shipments_form > div > div:nth-child(1) > div > #rmv-btn {
         visibility: hidden !important;
     }
-</style>
+    .datatable-container {
+    overflow-x: auto;
+    white-space: nowrap; /* Prevents text wrapping */
+    }
+</style> 
 <h2 class="mb-4">{{ __('Create') }} {{ __('Local Shipping') }}</h2>
 
 <div class="card">
@@ -135,6 +139,52 @@
         </div>
     </div>
 </div>
+
+
+    
+
+    @php 
+        $status_numbers = config('constants.STATUS_NUMBER');
+    @endphp 
+ 
+    <div class="card p-3">
+        <select class="form-select w-25 m-1" id="shipment_status_select">
+            <option value="">اختر حالةالشحنة</option>
+            @foreach($status_numbers as $status_number)
+            <option value="{{ $status_number }}">{{ getStatusInfo($status_number) }}</option>
+            @endforeach
+        </select>
+       
+      
+        <div class="card-body datatable-container" id="myTabContent">
+            {{ $dataTable->table() }}
+        </div>
+    </div>
+
+    @push('scripts')
+    {{ $dataTable->scripts() }}      
+    @endpush
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <script src="{{ asset('assets/vendor/jquery/jquery_v3.7.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/jquery.replicate/jquery.replicate.js') }}"></script>
