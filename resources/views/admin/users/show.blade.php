@@ -1,6 +1,13 @@
 @extends('admin.layouts.app')
 @section('title', 'المستخدمين')
 @section('content')
+<style>
+    .datatable-container {
+        overflow-x: auto;
+        white-space: nowrap; /* Prevents text wrapping */
+    }
+</style>
+
     <ul class="nav nav-pills mb-3 p-4" id="pills-tab" role="tablist">
         <li class="nav-item mx-3" role="presentation">
             <a href="#" class="nav-link active" id="pills-account-info-tab" data-bs-toggle="pill"
@@ -111,46 +118,8 @@
                         <div class="card-header">
                             <h5>الشحنات</h5>
                         </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table border table-sm scroll-horizontal basic-1">
-                                    <thead>
-                                        <tr>
-                                            <th>التاريخ</th>
-                                            <th>AWB</th>
-                                            <th>المرسل إليه</th>
-                                            <th>رقم الهاتف</th>
-                                            <th>الدفع عند الاستلام</th>
-                                            <th>الناقل</th>
-                                            <th>الحالة</th>
-                                            <th>إجراءات</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($user->shipments as $ship)
-                                            <tr>
-                                                <th>{{ $ship->created_at->format('Y - m - d') }}</th>
-                                                <td>{{ $ship->shipmentID }}</td>
-                                                <td>{{ $ship->consignee_name }}</td>
-                                                <td>{{ $ship->consignee_phone }}</td>
-                                                <td>{{ $ship->cash_on_delivery_amount ?? '0' }}</td>
-                                                <td>Aramex</td>
-                                                <td>
-                                                    <livewire:shipment-all :shipment="$ship" :key="$ship->id" />
-                                                </td>
-                                                <td>
-                                                    <a class=""
-                                                        href="{{ route('admin.shipments.show', $ship->id) }}"><i
-                                                            class="fa fa-eye"></i> عرض</a>
-                                                    <a class=""
-                                                        href="{{ route('admin.shipments.edit', $ship->id) }}"><i
-                                                            class="fa fa-edit"></i> تعديل</a>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div class="card-body datatable-container" id="myTabContent">
+                                {{ $dataTable->table() }}
                         </div>
                     </div>
                 </div>
@@ -562,4 +531,7 @@
             </div>
         </div>
     </div>
+    @push('scripts')
+    {{ $dataTable->scripts() }}
+    @endpush
 @endsection

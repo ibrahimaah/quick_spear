@@ -34,14 +34,14 @@
                                 <div class="col-sm-12 col-lg-4 px-0 mb-2">
                                     <label>{{ __('Store Name') }}</label><span class="text-danger">*</span>
                                     <select class="form-control mt-2 ml-2 " name="shipper" required>
-                                        @foreach (auth()->user()->addresses->where('type', 0)->all() as $address)
+                                        @foreach ($addresses as $address)
                                         <option value="{{ $address->id }}">
                                             {{ $address->name }}
                                         </option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <a href="{{ route('front.user.address') }}" 
+                                <a href="{{ route('admin.address.index') }}" 
                                 style="height: 37px;margin-top: 3.3% !important;" 
                                 class="btn btn-primary ml-xl-3 mr-xl-3 mx-3">
                                 {{ __('New Address') }}

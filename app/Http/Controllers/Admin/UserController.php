@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\ExpressDataTable;
 use App\Http\Controllers\Controller;
 
 use App\Models\Category;
@@ -59,10 +60,12 @@ class UserController extends Controller
 
     public function show(user $user)
     {
+        $dataTable = new ExpressDataTable([],true,$user->id);
         $payments = PaymentMethod::where('user_id', $user->id)->latest()->get();
         $documents = Document::where('user_id', $user->id)->latest()->get();
         $rates = ShipmentRate::latest()->get();
-        return view('admin.users.show', compact('user', 'rates', 'documents', 'payments'));
+        return $dataTable->render('admin.users.show',['user'=>$user,'rates'=>$rates,'documents'=>$documents,'payments'=>$payments]);
+        // return $dataTable->render('admin.users.show');
     }
 
     public function edit(user $user)

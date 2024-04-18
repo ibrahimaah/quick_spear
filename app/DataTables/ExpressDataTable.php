@@ -22,10 +22,13 @@ class ExpressDataTable extends DataTable
 
     public $filterData;
     private $is_from_admin;
-    public function __construct($filterData,$is_from_admin=false)
+    private $user_id;
+    //$user_id , to show shipments for each user in dashboard
+    public function __construct($filterData,$is_from_admin=false,$user_id=null)
     {
         $this->filterData = $filterData;
         $this->is_from_admin = $is_from_admin;
+        $this->user_id = $user_id;
     }
 
 
@@ -112,22 +115,25 @@ class ExpressDataTable extends DataTable
      */
     public function query(Shipment $model): QueryBuilder
     {
-        $query = $model::where('user_id', auth()->user()->id)->where(function ($q) {
-            if ($this->filterData->from!=null) {
-                $q->whereBetween('created_at', [$this->filterData->from, $this->filterData->to]);
-            }
-            if ($this->filterData->status!=null) {
-                $q->where('status', 'LIKE', "%".$this->filterData->status."%");
-            }
-            // if ($this->filterData->process!=null && $this->filterData->cod!=null) {
-            //     $q->where('cash_on_delivery_amount', $this->filterData->process, $this->filterData->cod);
-            // }
-            if ($this->filterData->phone!=null) {
-                $q->where('consignee_phone', 'LIKE', "%".$this->filterData->phone."%");
-            }
-        })->with('address');
+        $user_id =  $this->user_id ?? auth()->user()->id;
+        return $model->newQuery()->where('user_id',$user_id);
 
-        return $query;
+        // $query = $model::where('user_id', $user_id)->where(function ($q) {
+        //     if ($this->filterData->from!=null) {
+        //         $q->whereBetween('created_at', [$this->filterData->from, $this->filterData->to]);
+        //     }
+        //     if ($this->filterData->status!=null) {
+        //         $q->where('status', 'LIKE', "%".$this->filterData->status."%");
+        //     }
+        //     // if ($this->filterData->process!=null && $this->filterData->cod!=null) {
+        //     //     $q->where('cash_on_delivery_amount', $this->filterData->process, $this->filterData->cod);
+        //     // }
+        //     if ($this->filterData->phone!=null) {
+        //         $q->where('consignee_phone', 'LIKE', "%".$this->filterData->phone."%");
+        //     }
+        // })->with('address');
+
+        // return $query;
     }
 
     /**

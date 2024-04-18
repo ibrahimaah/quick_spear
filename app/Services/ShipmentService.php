@@ -9,10 +9,11 @@ class ShipmentService {
     public function store(Request $request):Shipment
     {
         foreach($request->shipments as $shipment):
-                
+            $user_id = Address::findOrFail($shipment['shipper'])->user_id;
             $data = [
-                'user_id' => auth()->user()->id,
-                'address_id' => Address::findOrFail($shipment['shipper'])->id,
+                'user_id' => $user_id,
+                // 'address_id' => Address::findOrFail($shipment['shipper'])->id,
+                'address_id' => $shipment['shipper'],
                 'consignee_name' => $shipment['consignee_name'],
                 'consignee_phone' => $shipment['consignee_phone'],
                 'consignee_phone_2' => $shipment['consignee_phone_2'],

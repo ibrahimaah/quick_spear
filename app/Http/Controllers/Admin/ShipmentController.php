@@ -61,11 +61,13 @@ class ShipmentController extends Controller
         
         $dataTable = new ExpressDataTable($request,true);
         $ships = Shipment::latest()->get();
-        return $dataTable->render('admin.shipments.create',['ships'=>$ships]); 
+        $addresses = Address::all();
+        return $dataTable->render('admin.shipments.create',['ships'=>$ships,'addresses'=>$addresses]); 
     }
 
     public function store(Request $request)
     {
+        
         try 
         {
             $shipment = $this->shipmentService->store($request);

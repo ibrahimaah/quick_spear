@@ -65,9 +65,7 @@
                 </div>
             </div>
         </div>
-        {{-- <div class="pagination col-12 p-3">
-            {{ $shipments->appends(request()->query())->render() }}
-        </div> --}}
+        
     </div>
     @push('scripts')
     {{ $dataTable->scripts() }}
