@@ -1,7 +1,12 @@
 @extends('admin.layouts.app')
 @section('title', 'المستخدمين')
 @section('content')
-
+<style>
+    .datatable-container {
+        overflow-x: auto;
+        white-space: nowrap; /* Prevents text wrapping */
+    }
+</style>
 
     <ul class="nav nav-pills mb-3 p-4" id="pills-tab" role="tablist">
         <li class="nav-item mx-3" role="presentation">
@@ -14,7 +19,17 @@
                 data-bs-target="#pills-shipping" role="tab" aria-controls="pills-shipping" aria-selected="false">الشحن
                 ({{ $user->shipments->count() }})</a>
         </li>
-      
+        <li class="nav-item mx-3" role="presentation">
+            <a href="#" class="nav-link" id="pills-documents-tab" data-bs-toggle="pill"
+                data-bs-target="#pills-documents" role="tab" aria-controls="pills-documents"
+                aria-selected="false">الوثائق ({{ $documents->count() }})</a>
+        </li>
+
+        <li class="nav-item mx-3" role="presentation">
+            <a href="#" class="nav-link" id="pills-payments-tab" data-bs-toggle="pill"
+                data-bs-target="#pills-payments" role="tab" aria-controls="pills-payments" aria-selected="false">وسائل
+                الدفع ({{ $payments->count() }})</a>
+        </li>
     </ul>
     <div class="tab-content" id="pills-tabContent">
         <div class="tab-pane fade show active" id="pills-account-info" role="tabpanel"
@@ -312,8 +327,208 @@
                 </div>
             </div>
         </div>
-       
-   
+        <div class="tab-pane fade" id="pills-documents" role="tabpanel" aria-labelledby="pills-documents-tab">
+            <div id="documents" class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>الوثائق</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>تم التقديم</th>
+                                            <th>النوع</th>
+                                            <th>الحالة</th>
+                                            <th>الاجراءات</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{--  @dd($addresses)  --}}
+                                        @foreach ($documents as $document)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $document->created_at }}</td>
+                                                <td>{{ $document->type }}</td>
+                                                <td>
+                                                    @if ($document->statusVerify == 1)
+                                                        <span class="badge bg-success">تم التحقق</span>
+                                                    @elseif($document->statusVerify == 2)
+                                                        <span class="badge bg-success">تم الرفض</span>
+                                                    @else
+                                                        <span class="badge bg-success">قيد المراجعه</span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                        data-bs-target="#delete-{{ $document->id }}">حذف</button>
+                                                    <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                                        data-bs-target="#update-{{ $document->id }}">تحديث الحالة</button>
+
+                                                    <div class="modal fade" id="delete-{{ $document->id }}"
+                                                        tabindex="-1" aria-labelledby="exampleModalLabel"
+                                                        aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="close"
+                                                                        data-bs-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <form
+                                                                    action="{{ route('admin.users.documents_delete', $document->id) }}"
+                                                                    method="POST">
+                                                                    <div class="modal-body">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        هل انت متأكد من المتابعه ؟
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary"
+                                                                            data-bs-dismiss="modal">اغلاق</button>
+                                                                        <button type="submit"
+                                                                            class="btn btn-primary">متابعة</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="modal fade" id="update-{{ $document->id }}"
+                                                        tabindex="-1" aria-labelledby="exampleModalLabel"
+                                                        aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="close"
+                                                                        data-bs-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <form
+                                                                    action="{{ route('admin.users.documents_update', $document->id) }}"
+                                                                    method="POST">
+                                                                    <div class="modal-body">
+                                                                        @csrf
+                                                                        <img src="{{ asset($document->document) }}"
+                                                                            width="100%" alt="">
+                                                                        <div class="form-group">
+                                                                            <label for="status"
+                                                                                class="col-form-label">الحالة</label>
+                                                                            <select name="status" class="form-control"
+                                                                                id="status">
+                                                                                <option value="0"
+                                                                                    {{ $document->statusVerify == 0 ? 'selected' : '' }}>
+                                                                                    قيد المراجعة</option>
+                                                                                <option value="1"
+                                                                                    {{ $document->statusVerify == 1 ? 'selected' : '' }}>
+                                                                                    تم التحقق</option>
+                                                                                <option value="2"
+                                                                                    {{ $document->statusVerify == 2 ? 'selected' : '' }}>
+                                                                                    رفض</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary"
+                                                                            data-bs-dismiss="modal">اغلاق</button>
+                                                                        <button type="submit"
+                                                                            class="btn btn-primary">متابعة</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{--
+            <div class="tab-pane fade" id="pills-payments" role="tabpanel" aria-labelledby="pills-payments-tab">
+                <div id="documents" class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>وسائل الدفع</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>اسم الحساب</th>
+                                                <th>المزود</th>
+                                                <th>IBAN/المحفظة</th>
+                                                <th>الاجراءات</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                       
+                                            @foreach ($payments as $payment)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $payment->name }}</td>
+                                                    <td>{{ $payment->provider }}</td>
+                                                    <td>{{ $payment->iban_or_number }}</td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                            data-bs-target="#delete-{{ $payment->id }}">حذف</button>
+
+                                                        <div class="modal fade" id="delete-{{ $payment->id }}"
+                                                            tabindex="-1" aria-labelledby="exampleModalLabel"
+                                                            aria-hidden="true">
+                                                            <div class="modal-dialog">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <button type="button" class="close"
+                                                                            data-bs-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <form
+                                                                        action="{{ route('admin.users.payments_delete', $payment->id) }}"
+                                                                        method="POST">
+                                                                        <div class="modal-body">
+                                                                            @csrf
+                                                                            {{-- @method('DELETE') --}}
+                                                                            هل انت متأكد من المتابعه ؟
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary"
+                                                                                data-bs-dismiss="modal">اغلاق</button>
+                                                                            <button type="submit"
+                                                                                class="btn btn-primary">متابعة</button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        --}}
     </div>
     @push('scripts')
     {{ $dataTable->scripts() }}

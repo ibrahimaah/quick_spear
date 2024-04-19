@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\ShipmentController;
 use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\Admin\DelegateController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\SettingController;
@@ -36,6 +37,8 @@ App::setLocale('ar');
 Route::prefix('superAdmin/admin/dashboard')->middleware('auth:admin')->name('admin.')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('dashboard');
     Route::resource('users', UserController::class);
+    Route::resource('delegates', DelegateController::class);
+    Route::get('get-shipments/{delegate}', [DelegateController::class,'get_shipments'])->name('delegates.get_shipments');
     Route::post('users/documents/delete/{id}', [UserController::class, 'documents_delete'])->name('users.documents_delete');
     Route::post('users/documents/update/{id}', [UserController::class, 'documents_update'])->name('users.documents_update');
     Route::post('users/payment_methods/delete/{id}', [UserController::class, 'payments_delete'])->name('users.payments_delete');
@@ -52,6 +55,7 @@ Route::prefix('superAdmin/admin/dashboard')->middleware('auth:admin')->name('adm
     Route::resource('cities', CityController::class);
 
     Route::get('get-shipments-by-status/{status}', [ShipmentController::class, 'get_shipments_by_status'])->name('get_shipments_by_status');
+    Route::post('assign-delegate', [ShipmentController::class, 'assign_delegate'])->name('assign_delegate');
     Route::get('import', [ShipmentController::class, 'import_create'])->name('import.create');
     Route::post('import', [ShipmentController::class, 'import_store'])->name('import.store');
     // Route::get('create', [ShipmentController::class, 'create'])->name('shipment.create');

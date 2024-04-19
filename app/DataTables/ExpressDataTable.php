@@ -23,12 +23,15 @@ class ExpressDataTable extends DataTable
     public $filterData;
     private $is_from_admin;
     private $user_id;
+    private $delegate_id;
     //$user_id , to show shipments for each user in dashboard
-    public function __construct($filterData,$is_from_admin=false,$user_id=null)
+    //$delegate_id to show delegate shipments
+    public function __construct($filterData,$is_from_admin=false,$user_id=null,$delegate_id=null)
     {
         $this->filterData = $filterData;
         $this->is_from_admin = $is_from_admin;
         $this->user_id = $user_id;
+        $this->delegate_id = $delegate_id;
     }
 
 
@@ -41,7 +44,10 @@ class ExpressDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-        ->addIndexColumn()
+        // ->addIndexColumn()
+        ->editColumn('checkbox', function ($query) {
+            return '<input type="checkbox" class="chk_shipment" value="'.$query->id.'">';
+        })
         ->editColumn('created_at', function ($query) {
             return $query->created_at->format('Y-m-d h:i A');
         })
@@ -115,6 +121,9 @@ class ExpressDataTable extends DataTable
      */
     public function query(Shipment $model): QueryBuilder
     {
+        if ($this->delegate_id) {
+            return $model->newQuery()->where('delegate_id',$this->delegate_id);
+        }
         $user_id =  $this->user_id ?? auth()->user()->id;
         return $model->newQuery()->where('user_id',$user_id);
 
@@ -171,24 +180,27 @@ class ExpressDataTable extends DataTable
     public function getColumns(): array
     {
         $columns = [
-            $this->column('checkbox','<input type="checkbox" id="master">',false,false,false,false,'checkbox'),
-            $this->column('consignee_city',__('City')), 
-            $this->column('consignee_region',__('consignee_region')),
-            $this->column('consignee_phone', __('Phone')),
-            $this->column('order_price', __('Order price includes delivery')),
-            $this->column('value_on_delivery', __('Value on delivery')),
-            $this->column('delivery_fees',__('delivery_fees')),
-            $this->column('status', __('Action Status'),false,false),
-            $this->column('id',__('order_number')),
-            $this->column('customer_notes',__('Customer notes')),
-            $this->column('created_at',__('Created.')),
-            $this->column('accepted_by_admin_at',__('accepted_by_admin_at')), 
+            
+            // $this->column('checkbox','<input type="checkbox" id="master">',false,false,false,false,'checkbox'),
+            $this->column('id','#',false,true,false,false), 
+            $this->column('consignee_city',__('City'),false,true,false,false), 
+            $this->column('consignee_region',__('consignee_region'),false,true,false,false),
+            $this->column('consignee_phone', __('Phone'),false,true,false,false),
+            $this->column('order_price', __('Order price includes delivery'),false,true,false,false),
+            $this->column('value_on_delivery', __('Value on delivery'),false,true,false,false),
+            $this->column('delivery_fees',__('delivery_fees'),false,true,false,false),
+            $this->column('status', __('Action Status'),false,true,false,false),
+            $this->column('id',__('order_number'),false,true,false,false),
+            $this->column('customer_notes',__('Customer notes'),false,true,false,false),
+            $this->column('created_at',__('Created.'),false,true,false,false),
+            $this->column('accepted_by_admin_at',__('accepted_by_admin_at'),false,true,false,false), 
             
         ];
 
         
         if($this->is_from_admin)
         {
+            array_unshift($columns, $this->column('checkbox', false, false, false, false));
             // Find the index of 'customer_notes'
             $index = array_search('customer_notes', array_column($columns, 'name'));
             if ($index !== false) {
@@ -196,7 +208,7 @@ class ExpressDataTable extends DataTable
                 array_splice($columns, $index + 1, 0, [$this->column('delegate_notes', __('Delegate notes'))]);
             }
         }
-        if (!$this->is_from_admin) {
+        if (!$this->is_from_admin && !$this->delegate_id) {
             $columns[]=$this->column('actions', __('Actions'),false,false,false,false);
         }
         return $columns;

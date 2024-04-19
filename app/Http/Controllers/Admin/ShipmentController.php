@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Imports\TransactionsImport;
 use App\Models\Address;
 use App\Models\City;
+use App\Models\Delegate;
 use App\Models\EditOrder;
 use App\Models\Shipment;
 use App\Services\ShipmentService;
@@ -62,7 +63,8 @@ class ShipmentController extends Controller
         $dataTable = new ExpressDataTable($request,true);
         $ships = Shipment::latest()->get();
         $addresses = Address::all();
-        return $dataTable->render('admin.shipments.create',['ships'=>$ships,'addresses'=>$addresses]); 
+        $delegates = Delegate::all();
+        return $dataTable->render('admin.shipments.create',['ships'=>$ships,'addresses'=>$addresses,'delegates'=>$delegates]); 
     }
 
     public function store(Request $request)
@@ -182,6 +184,22 @@ class ShipmentController extends Controller
             return back()->with('success', 'تم تحميل البيانات');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function assign_delegate(Request $request)
+    {
+        $selectedShipments = $request->input('selected_shipments');
+        $selectedShipmentsArray = explode(',', $selectedShipments);
+
+        $res_assign_delegate = $this->shipmentService->assign_delegate($request->delegate,$selectedShipmentsArray);
+        if ($res_assign_delegate['code']==1) 
+        {
+            return back()->with('success', 'تمت العملية بنجاح');
+        }
+        else
+        {
+            return back()->with('error', $res_assign_delegate['msg']);
         }
     }
 }

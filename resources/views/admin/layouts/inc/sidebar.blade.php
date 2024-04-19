@@ -44,6 +44,14 @@
                         </ul>
                         <span class="badge rounded-pill badge-success">{{ App\Models\User::count() }}</span>
                     </li>
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#">
+                        <i data-feather="users"></i><span class="">المندوبين</span></a>
+                        <ul class="sidebar-submenu">
+                            <li><a href="{{ route('admin.delegates.index') }}">عرض المندوبين</a></li>
+                            <li><a href="{{ route('admin.delegates.create') }}">اضافة مندوب</a></li>
+                        </ul>
+                        <span class="badge rounded-pill badge-success">{{ App\Models\Admin::count() }}</span>
+                    </li>
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#"><i
                                 data-feather="flag"></i><span class="">المدن</span></a>
                         <ul class="sidebar-submenu">

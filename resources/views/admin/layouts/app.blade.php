@@ -9,6 +9,13 @@
     <title>لوحة التحكم | @yield('title', 'الرئيسية')</title>
     @include('admin.layouts.inc.styles')
     @livewireStyles
+
+    <style>
+      .datatable-container {
+          overflow-x: auto;
+          white-space: nowrap; /* Prevents text wrapping */
+      }
+    </style>
   </head>
   <body class="rtl {{ auth('admin')->user()->dark == 1 ? 'dark-only' : '' }}">
     <div class="loader-wrapper">

@@ -11,6 +11,10 @@
     white-space: nowrap; /* Prevents text wrapping */
     }
 </style> 
+
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 <h2 class="mb-4">{{ __('Create') }} {{ __('Local Shipping') }}</h2>
 
 <div class="card">
@@ -148,6 +152,7 @@
     @endphp 
  
     <div class="card p-3">
+
         <select class="form-select w-25 m-1" id="shipment_status_select">
             <option value="">اختر حالةالشحنة</option>
             @foreach($status_numbers as $status_number)
@@ -155,15 +160,116 @@
             @endforeach
         </select>
        
-      
-        <div class="card-body datatable-container" id="myTabContent">
-            {{ $dataTable->table() }}
+        <button id="assign-shipment-btn" class="btn btn-primary w-25 m-1">إسناد لمندوب</button>
+        <div class="admin-shipments">
+            <div class="card-body datatable-container" id="myTabContent">
+                {{ $dataTable->table() }}
+            </div>
         </div>
     </div>
+
+
+    <div class="modal fade" id="assign-delegate-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">إسناد شحنة/شحنات لمندوب</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <div class="modal-body">
+                <p id="selected-ids"></p>
+                <form action="{{ route('admin.assign_delegate') }}" method="post">
+                    @csrf 
+                    <input type="hidden" id="selected-shipments-ids-input" name="selected_shipments" value="">
+
+                    <select id="delegates-select2" name="delegate" required>
+                    <option value="">اختر مندوب</option> 
+                    @if($delegates->isNotEmpty())
+                        @foreach($delegates as $delegate)
+                        <option value="{{ $delegate->id }}">{{ $delegate->name }}</option> 
+                        @endforeach
+                    @endif
+                </select>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">حفظ</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">خروج</button>
+            </div>
+            </form>
+            </div>
+        </div>
+    </div>
+
 
     @push('scripts')
     {{ $dataTable->scripts() }}      
     @endpush
+
+    @push('scripts')
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+        $(document).ready(function() 
+        {
+            $('#delegates-select2').select2();
+
+            $('#delegates-select2').select2({
+                dropdownParent: $('#assign-delegate-modal')
+            });
+
+            
+
+
+            var dataTable = $('#express-table').DataTable();
+            var selectedIds = [];
+            var assignButton = $('#assign-shipment-btn');
+
+            // Function to enable/disable the button based on the selectedIds array
+            function toggleButtonState() {
+                if (selectedIds.length > 0) {
+                    assignButton.prop('disabled', false); // Enable the button
+                } else {
+                    assignButton.prop('disabled', true); // Disable the button
+                }
+            }
+
+            // Event listener for checkbox changes
+            $('#express-table').on('change', 'input[type="checkbox"]', function() {
+                if (this.checked) {
+                    var id = $(this).val();
+                    if (selectedIds.indexOf(id) === -1) {
+                        selectedIds.push(id);
+                    }
+                } else {
+                    var id = $(this).val();
+                    var index = selectedIds.indexOf(id);
+                    if (index !== -1) {
+                        selectedIds.splice(index, 1);
+                    }
+                }
+                toggleButtonState(); // Update button state
+                console.log(selectedIds);
+            });
+
+            // Event listener for assign button click
+            assignButton.on('click', function() {
+                // Show Bootstrap modal and display selected ids inside it
+                if (selectedIds.length > 0) {
+                    $('#assign-delegate-modal').modal('show');
+                    $('#selected-shipments-ids-input').val(selectedIds); 
+                    // $('#selected-ids').text(' الشحنات التي ستم إسنادها'+selectedIds.join('#, ')); // Display selected ids inside the modal
+                }
+            });
+
+            // Initialize button state
+            toggleButtonState();
+        });
+
+    </script>
+    @endpush 
    
 
 
