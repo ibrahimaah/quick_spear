@@ -4,12 +4,19 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\ExpressDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\City;
 use App\Models\Delegate;
+use App\Services\DelegateService;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class DelegateController extends Controller
 {
+
+    public function __construct(private DelegateService $delegateService)
+    {
+        
+    }
     /**
      * Display a listing of the resource.
      *
@@ -27,7 +34,8 @@ class DelegateController extends Controller
      */
     public function create()
     {
-        return view('admin.delegates.create');
+        
+        return view('admin.delegates.create',['cities'=>City::all()]);
     }
 
     /**
@@ -38,11 +46,13 @@ class DelegateController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         try {
 
             $rules = [
                 'name'      => 'required',
-                'phone'     => 'required',
+                'phone'     => 'required|unique:delegates',
+                'cities' => 'required'
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -52,11 +62,23 @@ class DelegateController extends Controller
                     ->withInput($request->all());
             }
 
-            Delegate::create([
+            $delegate_data = [
                 'name'       => $request->name,
-                'phone'      => $request->phone,
-            ]);
-            return redirect()->route('admin.delegates.index')->with("success", "تم اضافة البيانات بنجاح");
+                'phone'      => $request->phone
+            ];
+
+            $cities = $request->cities;
+            
+            $res_store = $this->delegateService->store($delegate_data,$cities);
+
+            if ($res_store['code'] == 1) {
+                return redirect()->route('admin.delegates.index')->with("success", "تم اضافة البيانات بنجاح");
+            }else{
+                return redirect()->route('admin.delegates.index')->with("error",$res_store['msg']);
+            }
+
+
+            
         } catch (\Exception $e) {
             return $e->getMessage();
         }
@@ -96,7 +118,8 @@ class DelegateController extends Controller
      
         $rules = [
             'name'      => 'required',
-            'phone'     => 'required',
+            'phone'     => 'required|unique:delegates,phone,'.$delegate->id,
+            'cities'     => 'required',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -106,11 +129,22 @@ class DelegateController extends Controller
                         ->withInput($request->all());
         }
 
-        $delegate->update([
+        $new_data = [
             'name'       => $request->name,
             'phone'      => $request->phone
-        ]);
-        return redirect()->route('admin.delegates.index')->with("success","تم تعديل البيانات بنجاح");
+        ];
+
+        $res_update = $this->delegateService->update($delegate->id,$new_data);
+
+        if ($res_update['code'] == 1) 
+        {
+            return redirect()->route('admin.delegates.index')->with("success","تم تعديل البيانات بنجاح");
+        }else{
+            return redirect()->route('admin.delegates.index')->with("error",$res_update['msg']);
+        }
+
+
+        
     }
 
     /**

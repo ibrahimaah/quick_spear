@@ -2,6 +2,8 @@
 @section('title', 'المندوبين')
 @section('content')
 
+
+
 <div class="row">
 	<div class="col-sm-12">
 	    <div class="card">
@@ -16,6 +18,7 @@
 	                <th>#</th>
 	                <th>الاسم</th>
 	                <th>رقم الهاتف</th>
+	                <th>المدينة</th>
 	                <th>العمليات</th>
 	              </tr>
 	            </thead>

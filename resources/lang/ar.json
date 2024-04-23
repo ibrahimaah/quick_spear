@@ -821,5 +821,6 @@
     "delivery_fees":"أجور التوصيل",
     "There is no notes":"لا يوجد ملاحظات",
     "accepted_by_admin_at":"تاريخ الموافقة على الشحنة",
-    "order_number":"رقم الطلب"
+    "order_number":"رقم الطلب",
+    "Deleted Successfully":"تم الحذف بنجاح"
 }

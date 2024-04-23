@@ -165,8 +165,16 @@ class ShipmentController extends Controller
 
     public function destroy(Shipment $shipment)
     {
-        $shipment->delete();
-        return back()->with('success', 'تم حذف البيانات بنجاح');
+        $res_remove = $this->shipmentService->remove($shipment->id);
+
+        if ($res_remove['code'] == 1) 
+        {
+            return back()->with('success', 'تم حذف البيانات بنجاح');
+        }
+        else
+        {
+            return back()->with('error', $res_remove['msg']);
+        }
     }
 
 
@@ -200,6 +208,20 @@ class ShipmentController extends Controller
         else
         {
             return back()->with('error', $res_assign_delegate['msg']);
+        }
+    }
+
+    public function cancel_assign_delegate($shipment_id)
+    {
+        $res_cancel = $this->shipmentService->cancel_assign_delegate($shipment_id);
+
+        if($res_cancel['code']==1)
+        {
+            return back()->with('success', 'تمت العملية بنجاح');
+        }
+        else
+        {
+            return back()->with('error', $res_cancel['msg']);
         }
     }
 }

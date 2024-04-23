@@ -58,4 +58,47 @@ class ShipmentService
             return ['code' => 0, 'msg' => $ex->getMessage()];
         }
     }
+
+    public function remove($id)
+    {
+        try 
+        {
+            $shipment = Shipment::findOrFail($id);
+            
+            if ($shipment->delete()) 
+            {
+                return ['code' => 1, 'data' => true];
+            } 
+            else 
+            {
+                throw new Exception('Error in deleting shipment');
+            }
+        } 
+        catch (Exception $ex) 
+        {
+            return ['code' => 0, 'msg' => $ex->getMessage()];
+        }
+    }
+
+    public function cancel_assign_delegate($id)
+    {
+        try 
+        {
+            $shipment = Shipment::findOrFail($id);
+            $shipment->delegate_id = null;
+            if ($shipment->save()) 
+            {
+                return ['code' => 1, 'data' => true];
+            }
+            else 
+            {
+                throw new Exception('Error in cancel assign');   
+            }
+        }
+        catch(Exception $ex)
+        {
+            return ['code' => 0, 'msg' => $ex->getMessage()];
+        }
+    }
+
 }

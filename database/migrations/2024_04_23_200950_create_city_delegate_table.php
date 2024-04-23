@@ -13,10 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('delegates', function (Blueprint $table) {
+        Schema::create('city_delegate', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('phone')->unique();
+            $table->unsignedBigInteger('city_id');
+            $table->unsignedBigInteger('delegate_id');
+
+            $table->foreign('delegate_id')->references('id')->on('delegates');
+            $table->foreign('city_id')->references('id')->on('cities');
             $table->timestamps();
         });
     }
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('delegates');
+        Schema::dropIfExists('city_delegate');
     }
 };

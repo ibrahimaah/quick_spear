@@ -76,6 +76,7 @@ Route::group(
                 Route::post('/shipment_update', 'shipment_update')->name('shipment_update');
                 Route::post('/call_aramex', 'orderAramex')->name('call_aramex');
                 Route::get('/show/{id}', 'show')->name('show');
+                Route::post('/delete/{shipment}', 'destroy')->name('destroy');
                 Route::post('/export', 'export')->name('export');
                 Route::post('/printSelectedBulk', 'printSelectedBulk')->name('printSelectedBulk');
                 // Route::get('/printSelectedBulk', 'printSelectedBulkGet')->name('printSelectedBulk.get');

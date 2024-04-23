@@ -7,13 +7,21 @@
         visibility: hidden !important;
     }
     .datatable-container {
-    overflow-x: auto;
-    white-space: nowrap; /* Prevents text wrapping */
+        overflow-x: auto;
+        white-space: nowrap; /* Prevents text wrapping */
     }
 </style> 
 
 
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+
+@if (session()->has('error'))
+	<div class="alert text-center py-4 my-3 alert-danger">{{ session()->get('error') }}</div>
+@endif
+@if (session()->has('success'))
+	<div class="alert text-center py-4 my-3 alert-success">{{ session()->get('success') }}</div>
+@endif
 
 <h2 class="mb-4">{{ __('Create') }} {{ __('Local Shipping') }}</h2>
 
@@ -190,7 +198,7 @@
                         <option value="{{ $delegate->id }}">{{ $delegate->name }}</option> 
                         @endforeach
                     @endif
-                </select>
+                    </select>
                 
             </div>
             <div class="modal-footer">

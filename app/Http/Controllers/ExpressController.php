@@ -587,4 +587,20 @@ class ExpressController extends Controller
         // $putFile = Storage::put($callResponse->Shipments->ProcessedShipment->ID . '.pdf', $file);
         // $bulk = $request->bulk;
     }
+
+
+    public function destroy(Shipment $shipment)
+    {
+        $res_rmv = $this->shipmentService->remove($shipment->id);
+        if ($res_rmv['code'] == 1) 
+        {
+            return back()->with('success',__('Deleted Successfully'));
+        }
+        else 
+        {
+            return back()->with('error',$res_rmv['msg']);
+        }
+    }
+
+
 }

@@ -47,7 +47,7 @@ class ShipmentDataTable extends DataTable
             ->addColumn('actions', function ($query) {
                 return '<a class="" href="'. route('admin.shipments.edit', $query->id) .'"><i
                 class="fa fa-edit"></i> تعديل</a>
-        <a class="" href="'. route('admin.shipments.show', $query->id) .'"><i
+                <a class="" href="'. route('admin.shipments.show', $query->id) .'"><i
                 class="fa fa-eye"></i> عرض</a>
                 <a onclick="confirm(\'برجاء تأكيد الحذف\') ? document.getElementById(\'des'. $query->id .'\').submit() : \'\';" style="color: #f73164; cursor: pointer"><i class="fa fa-trash"></i> حذف</a>
                 <form action="'. route('admin.shipments.destroy', $query->id) .'" id="des'. $query->id .'" method="post">
