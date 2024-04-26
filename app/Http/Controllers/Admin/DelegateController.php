@@ -71,9 +71,12 @@ class DelegateController extends Controller
             
             $res_store = $this->delegateService->store($delegate_data,$cities);
 
-            if ($res_store['code'] == 1) {
+            if ($res_store['code'] == 1) 
+            {
                 return redirect()->route('admin.delegates.index')->with("success", "تم اضافة البيانات بنجاح");
-            }else{
+            }
+            else
+            {
                 return redirect()->route('admin.delegates.index')->with("error",$res_store['msg']);
             }
 
@@ -103,7 +106,7 @@ class DelegateController extends Controller
      */
     public function edit(Delegate $delegate)
     {
-        return view('admin.delegates.edit', ['delegate' => $delegate]);
+        return view('admin.delegates.edit', ['delegate' => $delegate ,'cities'=>City::all()]);
     }
 
     /**
@@ -133,8 +136,8 @@ class DelegateController extends Controller
             'name'       => $request->name,
             'phone'      => $request->phone
         ];
-
-        $res_update = $this->delegateService->update($delegate->id,$new_data);
+        
+        $res_update = $this->delegateService->update($delegate->id,$new_data,$request->cities);
 
         if ($res_update['code'] == 1) 
         {

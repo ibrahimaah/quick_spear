@@ -1,7 +1,14 @@
 @extends('admin.layouts.app')
-@section('title', 'اضافة مندوب')
+@section('title', 'تعديل مندوب')
 @section('content')
-
+  
+@php
+  $delegate_cities_ids =[];
+  foreach ($delegate->cities as $city) 
+  { 
+    $delegate_cities_ids[] = $city->id;
+  }
+@endphp
  <div class="row">
               <div class="col-sm-12">
                 <div class="card">
@@ -32,6 +39,22 @@
                         </div>
                       </div>
 
+
+                      <div class="mb-3 row">
+                        <label class="col-sm-3 col-form-label">اختر مدينة</label>
+                        <div class="col-sm-9">
+                        <select id="delegate-cities-select2" class="form-control" name="cities[]" multiple="multiple" required>
+                          
+                          @if($cities->isNotEmpty())
+                              @foreach($cities as $city)
+                              <option value="{{ $city->id }}" <?= in_array($city->id,$delegate_cities_ids) ? 'selected' : '' ?>>{{ $city->name }}</option> 
+                              @endforeach
+                          @endif
+                        </select>
+                        </div>
+                      </div>
+
+
                     </div>
                     <div class="card-footer text-end">
                       <button class="btn btn-primary" type="submit">حفظ</button>
@@ -42,3 +65,18 @@
             </div>
 
 @endsection
+
+@push('scripts')
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script>
+    $(document).ready(function() 
+    {
+        $('#delegate-cities-select2').select2(); 
+
+        
+    });
+
+</script>
+@endpush 

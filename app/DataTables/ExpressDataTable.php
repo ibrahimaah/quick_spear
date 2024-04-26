@@ -103,7 +103,7 @@ class ExpressDataTable extends DataTable
         ->addColumn('checkbox', function($query) { 
             return '<input type="checkbox" class="sub_chk" data-id="'. $query->id .'">';
         }) 
-        ->addColumn('status', function ($query) {
+        ->editColumn('status', function ($query) {
             return $query->get_status();
         })
         ->addColumn('user_actions', function ($query) {
@@ -118,7 +118,12 @@ class ExpressDataTable extends DataTable
             '. method_field("POST") .'
             </form>';
         })
-        ->rawColumns(['actions','status','checkbox','delegate_actions'])
+
+        ->addColumn('admin_actions', function ($query) 
+        {
+            return view('components.shipments-admin-actions',['query'=>$query]);;
+        })
+        ->rawColumns(['actions','admin_actions','status','checkbox','delegate_actions'])
             ->setRowId('id');
     }
 
@@ -130,10 +135,18 @@ class ExpressDataTable extends DataTable
      */
     public function query(Shipment $model): QueryBuilder
     {
-        if ($this->delegate_id) {
+        if($this->is_from_admin)
+        {
+            return $model->newQuery();
+        }
+
+        if ($this->delegate_id) 
+        {
             return $model->newQuery()->where('delegate_id',$this->delegate_id);
         }
+
         $user_id =  $this->user_id ?? auth()->user()->id;
+        
         return $model->newQuery()->where('user_id',$user_id);
 
         // $query = $model::where('user_id', $user_id)->where(function ($q) {
@@ -206,6 +219,7 @@ class ExpressDataTable extends DataTable
                 $this->column('delegate_notes', __('Delegate notes')),
                 $this->column('created_at',__('Created.'),false,true,false,false),
                 $this->column('accepted_by_admin_at',__('accepted_by_admin_at'),false,true,false,false), 
+                $this->column('admin_actions',__('Actions'),false,true,false,false), 
             ];
         }
         elseif($this->delegate_id)

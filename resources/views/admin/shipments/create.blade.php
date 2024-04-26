@@ -10,23 +10,39 @@
         overflow-x: auto;
         white-space: nowrap; /* Prevents text wrapping */
     }
+    #shipments_form > div > div > div:nth-child(3) > div:nth-child(8) > span > span.selection > span,
+    #shipments_form > div > div > div:nth-child(3) > div:nth-child(4) > span.select2.select2-container.select2-container--default > span.selection > span
+    {
+        margin-top : 0.5rem !important;
+    }
 </style> 
 
 
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
+ 
 
-@if (session()->has('error'))
-	<div class="alert text-center py-4 my-3 alert-danger">{{ session()->get('error') }}</div>
+@if(session()->has('error_delete'))
+    <div class="alert text-center py-4 my-3 alert-danger">{{ session()->get('error_delete') }}</div>
 @endif
-@if (session()->has('success'))
-	<div class="alert text-center py-4 my-3 alert-success">{{ session()->get('success') }}</div>
+@if(session()->has('success_delete'))
+    <div class="alert text-center py-4 my-3 alert-success">{{ session()->get('success_delete') }}</div>
 @endif
+
 
 <h2 class="mb-4">{{ __('Create') }} {{ __('Local Shipping') }}</h2>
 
 <div class="card">
    
+    @if(session()->has('error'))
+        <div class="alert text-center py-4 my-3 alert-danger">{{ session()->get('error') }}</div>
+    @endif
+    @if(session()->has('success'))
+        <div class="alert text-center py-4 my-3 alert-success">{{ session()->get('success') }}</div>
+    @endif
+
+   
+
     <div class="card-body">
         <div class="container">
             <form method="post" action="{{ route('admin.shipments.store') }}" id="shipments_form">
@@ -45,7 +61,7 @@
                             <div class="d-lg-flex flex-row col-sm-12 mb-3 justify-content-center">
                                 <div class="col-sm-12 col-lg-4 px-0 mb-2">
                                     <label>{{ __('Store Name') }}</label><span class="text-danger">*</span>
-                                    <select class="form-control mt-2 ml-2 " name="shipper" required>
+                                    <select class="form-control mt-2 ml-2" id="addresses-select2" name="shipper" required>
                                         @foreach ($addresses as $address)
                                         <option value="{{ $address->id }}">
                                             {{ $address->name }}
@@ -96,7 +112,7 @@
 
                             <div class="col-12 my-2 col-md-4">
                                 <label>{{ __('City') }}</label><span class="text-danger">*</span>
-                                <select class="form-control mt-2 ml-2" type="text" name="consignee_city" required>
+                                <select class="form-control mt-2 ml-2" id="cities-select2" type="text" name="consignee_city" required>
                                     @foreach (App\Models\City::get() as $city)
                                         <option value="{{ $city->id }}">{{ $city->name }}</option>
                                     @endforeach
@@ -125,15 +141,26 @@
                       
                             <div class="col-12 my-2 col-md-4">
                                 <label>{{ __('Customer notes') }}</label>
-                                <input class="form-control mt-2 ml-2" name="customer_notes" id="" cols="30" rows="3"/>
+                                <input class="form-control mt-2 ml-2" name="customer_notes" />
                                 @error('customer_notes')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
 
                             <div class="col-12 my-2 col-md-4">
+                                <label class="mb-2 d-block">{{ __('Delegate Name') }}</label>
+                                <select id="choose-delegate-select2" name="delegate" required>
+                                    @if($delegates->isNotEmpty())
+                                        @foreach($delegates as $delegate)
+                                        <option value="{{ $delegate->id }}">{{ $delegate->name }}</option> 
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+
+                            <div class="col-12 my-2 col-md-4">
                                 <label>{{ __('Delegate notes') }}</label>
-                                <input class="form-control mt-2 ml-2" name="delegate_notes" id="" cols="30" rows="3"/>
+                                <input class="form-control mt-2 ml-2" name="delegate_notes" />
                                 @error('delegate_notes')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -161,12 +188,14 @@
  
     <div class="card p-3">
 
+       <div class="w-25">
         <select class="form-select w-25 m-1" id="shipment_status_select">
             <option value="">اختر حالةالشحنة</option>
             @foreach($status_numbers as $status_number)
             <option value="{{ $status_number }}">{{ getStatusInfo($status_number) }}</option>
             @endforeach
         </select>
+       </div>
        
         <button id="assign-shipment-btn" class="btn btn-primary w-25 m-1">إسناد لمندوب</button>
         <div class="admin-shipments">
@@ -228,9 +257,11 @@
                 dropdownParent: $('#assign-delegate-modal')
             });
 
-            
+            $('#choose-delegate-select2').select2();
+            $('#addresses-select2').select2();
+            $('#cities-select2').select2();
 
-
+            $('#shipment_status_select').select2();
             var dataTable = $('#express-table').DataTable();
             var selectedIds = [];
             var assignButton = $('#assign-shipment-btn');
@@ -274,6 +305,15 @@
 
             // Initialize button state
             toggleButtonState();
+
+
+
+            $('#shipment_status_select').on('change',function(){
+                var columnName = 'status'; // Replace 'columnName' with the actual name of your column
+                var columnIndex = dataTable.column(columnName + ':name').index();
+                dataTable.column(columnIndex).search($(this).val()).draw()
+            })
+            
         });
 
     </script>

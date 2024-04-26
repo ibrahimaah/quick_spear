@@ -31,15 +31,17 @@ class DelegateService
             return ['code' => 0, 'msg' => $ex->getMessage()];
         }
     }
-    public function update($delegate_id,$data)
+    public function update($delegate_id,$data,$cities)
     {
         try 
         {
             $delegate = Delegate::findOrFail($delegate_id);
 
             $affectedRows =  $delegate->update($data);
+
             if ($affectedRows > 0) 
             {
+                $delegate->cities()->sync($cities);
                 return ['code' => 1, 'data' => true];
             } 
             else 

@@ -44,8 +44,9 @@ class ShipmentController extends Controller
 
     public function index(ShipmentDataTable $dataTable)
     {
-        $dataTable = new ShipmentDataTable('3');
-        return $dataTable->render('admin.shipments.index');
+        // $dataTable = new ShipmentDataTable('3');
+        // return $dataTable->render('admin.shipments.index');
+        return redirect()->route('admin.shipments.create');
     }
 
     public function export(Request $request)
@@ -70,9 +71,10 @@ class ShipmentController extends Controller
     public function store(Request $request)
     {
         
+        
         try 
         {
-            $shipment = $this->shipmentService->store($request);
+            $shipment = $this->shipmentService->store($request,true);
 
             if($shipment)
             {
@@ -139,41 +141,36 @@ class ShipmentController extends Controller
     */
     public function edit(Shipment $shipment)
     {
-        return view('admin.shipments.edit', compact('shipment'));
+        $delegates = Delegate::all();
+        return view('admin.shipments.edit', compact('shipment','delegates'));
     }
 
     public function update(Request $request, Shipment $shipment)
     {
-        $shipper = Address::findOrFail($request->shipper);
-        $data = [
-            'address_id' => $shipper->id,
-            'consignee_name' => $request->consignee_name,
-            'consignee_phone' => $request->consignee_phone,
-            'consignee_phone_2' => $request->consignee_phone_2,  
-            'consignee_city' => $request->consignee_city,
-            'consignee_region' => $request->consignee_region,
-            'status' => $request->status ?? 0,
+       
 
-            // Shipment Data
-            'notes' => $request->notes ?? 'No Note',  
-            'order_price' => $request->order_price,
-        ];
-        $shipment->update($data);
+        $res_update_shipment = $this->shipmentService->update($request,$shipment,true);
 
-        return back()->with("success", "تم تعديل البيانات بنجاح");
+        if ($res_update_shipment['code'] == 1) {
+            return redirect()->back()->with("success_update", "تم تعديل البيانات بنجاح");
+        }
+        else {
+            return redirect()->back()->with("success_update",$res_update_shipment['msg'] );
+        }
+        
     }
 
     public function destroy(Shipment $shipment)
     {
         $res_remove = $this->shipmentService->remove($shipment->id);
-
+        
         if ($res_remove['code'] == 1) 
         {
-            return back()->with('success', 'تم حذف البيانات بنجاح');
+            return redirect()->back()->with('success_delete', 'تم حذف البيانات بنجاح');
         }
         else
         {
-            return back()->with('error', $res_remove['msg']);
+            return redirect()->back()->with('error_delete', $res_remove['msg']);
         }
     }
 
@@ -203,11 +200,11 @@ class ShipmentController extends Controller
         $res_assign_delegate = $this->shipmentService->assign_delegate($request->delegate,$selectedShipmentsArray);
         if ($res_assign_delegate['code']==1) 
         {
-            return back()->with('success', 'تمت العملية بنجاح');
+            return redirect()->back()->with('success', 'تمت العملية بنجاح');
         }
         else
         {
-            return back()->with('error', $res_assign_delegate['msg']);
+            return redirect()->back()->with('error', $res_assign_delegate['msg']);
         }
     }
 
@@ -217,11 +214,11 @@ class ShipmentController extends Controller
 
         if($res_cancel['code']==1)
         {
-            return back()->with('success', 'تمت العملية بنجاح');
+            return redirect()->back()->with('success', 'تمت العملية بنجاح');
         }
         else
         {
-            return back()->with('error', $res_cancel['msg']);
+            return redirect()->back()->with('error', $res_cancel['msg']);
         }
     }
 }
