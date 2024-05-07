@@ -8,8 +8,8 @@
     }
 </style>
 <h2 class="mb-4">{{ __('Create') }} {{ __('Local Shipping') }}</h2>
-<a class="btn btn-primary mb-3" href="{{ route('front.get_shipments_import') }}">{{ __('Excel Import') }}</a>
-<a class="btn btn-success mb-3" href="{{ asset('assets/file.xlsx') }}">{{ __('Excel Import Format') }}</a>
+{{--<a class="btn btn-primary mb-3" href="{{ route('front.get_shipments_import') }}">{{ __('Excel Import') }}</a>
+<a class="btn btn-success mb-3" href="{{ asset('assets/file.xlsx') }}">{{ __('Excel Import Format') }}</a> --}}
 
 <div class="card">
     @if (session()->has('error'))

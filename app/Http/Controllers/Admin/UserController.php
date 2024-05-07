@@ -10,7 +10,8 @@ use App\Models\Document;
 use App\Models\PaymentMethod;
 use App\Models\ShipmentRate;
 use App\Models\User as user;
-
+use App\Services\UserService;
+use App\Traits\GeneralTrait;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
@@ -18,7 +19,8 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function __construct()
+    use GeneralTrait;
+    public function __construct(private UserService $userService)
     {
         // $this->middleware(['super_admin']);
     }
@@ -36,10 +38,10 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name'      => 'required',
-            'password'  => 'required',
-            'phone'     => 'required',
-            'email'     => 'required|email|string',
+            'name'      => 'required|string|min:8|max:30|unique:users,name',
+            'email'     => 'required|string|email|max:255|unique:users,email',
+            'phone'     => 'required|numeric|unique:users,phone',
+            'password'  => 'required|string|confirmed',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -49,13 +51,21 @@ class UserController extends Controller
                         ->withInput($request->all());
         }
 
-        user::create([
-            'name'       => $request->name,
-            'phone'      => $request->phone,
-            'password'   => Hash::make($request->password),
-            'email'     => $request->email,
-        ]);
-        return redirect()->route('admin.users.index')->with("success", "تم اضافة البيانات بنجاح");
+        $user_date = [
+            'name'          => $request->name,
+            'email'         => $request->email,
+            'phone'         => $request->phone,
+            'account_number'=> $this->generateAccountNumber(),
+            'password'      => Hash::make($request->password),
+        ];
+
+        $res_store_user = $this->userService->store($user_date);
+        if ($res_store_user['code'] == 1) {
+            return redirect()->route('admin.users.index')->with("success", "تم اضافة البيانات بنجاح");
+        }else{
+            return redirect()->route('admin.users.index')->with("error", $res_store_user['msg']);
+        }
+        
     }
 
     public function show(user $user)

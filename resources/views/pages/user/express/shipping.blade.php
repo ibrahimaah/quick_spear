@@ -44,4 +44,26 @@
     {{ $dataTable->scripts() }}      
    @endpush
    
+
 @endsection
+
+@push('scripts')
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script>
+    $(document).ready(function() 
+    {
+
+        var dataTable = $('#express-table').DataTable();
+        
+        $('#shipment_status_select').on('change',function(){
+            var columnName = 'status'; // Replace 'columnName' with the actual name of your column
+            var columnIndex = dataTable.column(columnName + ':name').index();
+            dataTable.column(columnIndex).search($(this).val()).draw()
+        })
+        
+    });
+
+</script>
+@endpush 

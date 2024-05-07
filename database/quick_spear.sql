@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 20, 2024 at 07:25 PM
+-- Generation Time: Apr 29, 2024 at 03:09 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.2
 
@@ -50,7 +50,7 @@ INSERT INTO `addresses` (`id`, `name`, `phone`, `city`, `region`, `desc`, `user_
 (2, 'Rooney Parrish', '+1 (388) 703-9615', '1', 'Do tempore molestia', 'Incidunt numquam am', 3, NULL, '2024-02-10 16:44:45', '2024-02-10 16:44:45', 0),
 (3, 'Igor Sweet', '+1 (347) 286-2466', '1', 'Ut officia illum no', 'Cillum sunt est irur', 4, NULL, '2024-02-10 12:11:42', '2024-02-10 12:11:42', 0),
 (5, 'Willa Brennan', '+1 (941) 246-9933', '2', 'Ex nesciunt obcaeca', 'Id porro sint porro', 4, NULL, '2024-02-10 16:15:39', '2024-02-10 16:15:39', 0),
-(6, 'تمام حمود', '0935456789', '2', 'باء', 'وصف', 4, NULL, '2024-02-10 16:16:05', '2024-02-10 16:16:05', 0),
+(6, 'تمام حمود', '0935456789', '2', 'باء', 'وصف', 2, NULL, '2024-02-10 16:16:05', '2024-02-10 16:16:05', 0),
 (7, 'William Haynes', '1324567893', '3', 'Molestias sit quia', 'Tempore id explicab', 4, NULL, '2024-02-14 17:30:21', '2024-02-14 17:30:21', 0),
 (8, 'الهيثم للتجارة', '0912345678', '3', 'الوادي', 'بالقرب من العبارة', 4, NULL, '2024-03-26 18:01:34', '2024-03-26 18:01:34', 0),
 (9, 'إياد', '9654123654', '1', 'المنطقة الصناعية', 'قرب المحولة', 4, NULL, '2024-03-26 19:34:39', '2024-03-26 19:34:39', 0),
@@ -62,7 +62,9 @@ INSERT INTO `addresses` (`id`, `name`, `phone`, `city`, `region`, `desc`, `user_
 (17, 'Gwendolyn Morse', '1234567893', '1', 'Quia sunt sed animi', 'Ut veniam deserunt', 1, NULL, '2024-04-01 05:32:59', '2024-04-01 05:32:59', 0),
 (18, 'Madeline Mcintosh', '3216549876', '2', 'Enim eius quidem sun', 'Aliquid nulla est e', 1, NULL, '2024-04-01 05:33:23', '2024-04-01 05:33:23', 0),
 (19, 'Dillard', '1365478963', '1', 'منطقة', 'وصف', 1, NULL, '2024-04-13 16:20:52', '2024-04-13 16:20:52', 0),
-(20, 'Yeo Combs', '1234567893', '1', 'Et aut obcaecati ame', 'Exercitation fugiat', NULL, 1, '2024-04-13 16:42:54', '2024-04-13 16:42:54', 0);
+(20, 'Yeo Combs', '1234567893', '1', 'Et aut obcaecati ame', 'Exercitation fugiat', NULL, 1, '2024-04-13 16:42:54', '2024-04-13 16:42:54', 0),
+(21, 'Francis Tanner', '3216549873', '2', 'Laboris et in nulla', 'Eos ut consequuntur', NULL, 1, '2024-04-26 12:44:52', '2024-04-26 12:44:52', 0),
+(22, 'متجر الدلفين', '2316549875', '2', 'المنطقة ش', 'وصف المنطقة', 4, NULL, '2024-04-26 13:07:42', '2024-04-26 13:07:42', 0);
 
 -- --------------------------------------------------------
 
@@ -112,6 +114,29 @@ INSERT INTO `cities` (`id`, `name`, `status`, `created_at`, `updated_at`) VALUES
 (1, 'عمان', 1, '2024-02-02 00:04:59', '2024-02-02 00:04:59'),
 (2, 'الزرقاء', 1, '2024-02-02 00:05:12', '2024-02-02 00:05:12'),
 (3, 'الكرك', 1, '2024-02-02 21:57:32', '2024-02-02 21:57:32');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `city_delegate`
+--
+
+CREATE TABLE `city_delegate` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `city_id` bigint(20) UNSIGNED NOT NULL,
+  `delegate_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `city_delegate`
+--
+
+INSERT INTO `city_delegate` (`id`, `city_id`, `delegate_id`, `created_at`, `updated_at`) VALUES
+(3, 2, 3, NULL, NULL),
+(4, 1, 2, NULL, NULL),
+(6, 3, 2, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -179,8 +204,9 @@ CREATE TABLE `delegates` (
 --
 
 INSERT INTO `delegates` (`id`, `name`, `phone`, `created_at`, `updated_at`) VALUES
-(2, 'Clark Jacobs', '+1 (692) 403-4261', '2024-04-19 09:20:18', '2024-04-19 09:20:18'),
-(3, 'Mikayla Fleming', '+1 (851) 427-9322', '2024-04-19 10:50:49', '2024-04-19 10:50:49');
+(1, 'ابراهيم', '06599599', '2024-04-23 18:13:45', '2024-04-23 18:13:45'),
+(2, 'احمد', '6565656', '2024-04-23 18:32:16', '2024-04-23 18:32:16'),
+(3, 'Donovan', '2313213213', '2024-04-26 09:24:11', '2024-04-26 09:24:11');
 
 -- --------------------------------------------------------
 
@@ -297,7 +323,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (24, '2022_09_01_142658_create_notifications_table', 1),
 (25, '2022_10_13_180805_add_type_to_addresses', 1),
 (26, '2022_12_02_033735_create_jobs_table', 1),
-(27, '2024_04_19_115306_create_delegates_table', 2);
+(27, '2024_04_19_115306_create_delegates_table', 2),
+(28, '2024_04_19_115307_create_delegates_table', 3),
+(29, '2024_04_19_115309_create_delegates_table', 4),
+(30, '2024_04_23_200950_create_city_delegate_table', 4);
 
 -- --------------------------------------------------------
 
@@ -431,7 +460,7 @@ INSERT INTO `settings` (`id`, `website_name`, `website_logo`, `website_email`, `
 
 CREATE TABLE `shipments` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
   `address_id` bigint(20) UNSIGNED NOT NULL,
   `delegate_id` bigint(20) UNSIGNED DEFAULT NULL,
   `consignee_name` varchar(255) DEFAULT NULL,
@@ -458,19 +487,14 @@ CREATE TABLE `shipments` (
 --
 
 INSERT INTO `shipments` (`id`, `user_id`, `address_id`, `delegate_id`, `consignee_name`, `consignee_phone`, `consignee_phone_2`, `consignee_country_code`, `consignee_city`, `consignee_region`, `consignee_zip_code`, `shipping_date_time`, `accepted_by_admin_at`, `due_date`, `order_price`, `value_on_delivery`, `customer_notes`, `delegate_notes`, `created_at`, `updated_at`, `status`) VALUES
-(20, 1, 20, 2, 'Vasquez', '9876543210', '91', 'JO', 3, 'Molestiae ipsa plac', '', '2024-04-19 11:31:36', NULL, '2024-04-16 20:18:23', '286', NULL, 'Non quis excepturi r', 'Velit veritatis ips', '2024-04-13 17:18:24', '2024-04-19 11:31:36', 0),
-(21, 1, 20, 2, 'Vasquez', '9876543210', '91', 'JO', 3, 'Molestiae ipsa plac', '', '2024-04-19 11:31:36', NULL, '2024-04-16 20:20:45', '286', NULL, 'Non quis excepturi r', 'Velit veritatis ips', '2024-04-13 17:20:45', '2024-04-19 11:31:36', 0),
-(22, 1, 20, NULL, 'Winter Whitley', '1234679865', '42', 'JO', 2, 'Ipsa sed dolor ex e', '', '2024-04-19 11:28:57', NULL, '2024-04-16 20:28:11', '113', NULL, 'Duis aut sed officia', 'Magna distinctio Cu', '2024-04-13 17:28:11', '2024-04-13 17:28:11', 0),
-(23, 1, 20, NULL, 'Leila Higgins', '1324659876', '65', 'JO', 1, 'Aliqua Neque provid', '', '2024-04-19 11:28:57', NULL, '2024-04-16 20:28:44', '286', NULL, 'Deserunt ut voluptat', 'Et velit porro excep', '2024-04-13 17:28:44', '2024-04-13 17:28:44', 0),
-(24, 4, 12, NULL, 'Germane Spears', '1236549874', '36', 'JO', 1, 'In deleniti quod non', '', '2024-04-19 11:28:57', NULL, '2024-04-17 19:08:29', '856', NULL, 'Sint nisi non minim', NULL, '2024-04-14 16:08:29', '2024-04-14 16:08:29', 0),
-(25, 1, 20, NULL, 'Charde Hicks', '1236549875', '25', 'JO', 1, 'Corporis culpa rerum', '', '2024-04-19 11:28:57', NULL, '2024-04-18 20:28:35', '578', NULL, 'Autem maiores quam e', 'Voluptate hic et rat', '2024-04-15 17:28:35', '2024-04-15 17:28:35', 0),
-(26, 1, 20, NULL, 'Hedwig Cervantes', '1234567896', '58', 'JO', 2, 'Iusto sequi quasi id', '', '2024-04-19 11:28:57', NULL, '2024-04-18 20:28:35', '839', NULL, 'Minus omnis deserunt', 'Qui consequuntur cum', '2024-04-15 17:28:35', '2024-04-15 17:28:35', 0),
-(27, 4, 10, NULL, 'Angela Arnold', '1236549875', '75', 'JO', 2, 'Tempora ut iure aut', '', '2024-04-19 11:28:57', NULL, '2024-04-18 20:45:39', '772', NULL, 'Omnis sint porro ame', NULL, '2024-04-15 17:45:39', '2024-04-15 17:45:39', 0),
-(28, 1, 20, NULL, 'شش', '3216549875', '13', 'JO', 2, 'Similique qui exerci', '', '2024-04-19 11:28:57', NULL, '2024-04-18 20:46:21', '818', NULL, 'Esse fugit in et ex', 'Sit ea facilis labo', '2024-04-15 17:46:21', '2024-04-15 17:46:21', 0),
-(29, 1, 20, NULL, 'Phyllis Shields', '3216549874', '66', 'JO', 1, 'Facere aspernatur no', '', '2024-04-19 11:28:57', NULL, '2024-04-18 20:47:14', '265', NULL, 'Inventore numquam de', 'ملاحظة  1', '2024-04-15 17:47:14', '2024-04-15 17:47:14', 0),
-(30, 1, 20, NULL, 'Katell Slater', '3216549875', '99', 'JO', 2, 'Dolores eius velit i', '', '2024-04-19 11:28:57', NULL, '2024-04-18 20:47:14', '214', NULL, 'Eiusmod quia et volu', 'ملاحظة 2', '2024-04-15 17:47:14', '2024-04-15 17:47:14', 0),
-(31, 2, 1, NULL, 'Jena Powell', '3216549875', '38', 'JO', 2, 'Vero excepteur cillu', '', '2024-04-19 11:28:57', NULL, '2024-04-21 22:05:49', '737', NULL, 'Dolor et sit quia li', 'Ut cupidatat facere', '2024-04-18 19:05:49', '2024-04-18 19:05:49', 0),
-(32, 2, 1, NULL, 'Xander Mccormick', '1236549876', '63', 'JO', 3, 'Consequatur Quisqua', '', '2024-04-19 11:28:57', NULL, '2024-04-21 22:20:17', '243', NULL, 'Sit eveniet sit du', 'Aut voluptatem poss', '2024-04-18 19:20:17', '2024-04-18 19:20:17', 0);
+(26, 1, 18, 2, 'أحمد العجي', '0936456369', '357459', 'JO', 3, 'منطقة الكرك', '', '2024-04-26 14:02:29', NULL, '2024-04-29 17:02:29', '1000', NULL, 'ملاحظات العميل', 'ملاحظات المندوب أحمد', '2024-04-15 17:28:35', '2024-04-26 14:02:29', 4),
+(28, 1, 20, NULL, 'شش', '3216549875', '13', 'JO', 2, 'Similique qui exerci', '', '2024-04-26 12:00:29', NULL, '2024-04-18 20:46:21', '818', NULL, 'Esse fugit in et ex', 'Sit ea facilis labo', '2024-04-15 17:46:21', '2024-04-15 17:46:21', 4),
+(34, NULL, 22, NULL, 'Lucas', '3216549875', '9', 'JO', 3, 'Vitae amet ea quod', '', '2024-04-26 13:09:07', NULL, '2024-04-29 16:09:07', '699', NULL, 'Aut quia hic id ulla', NULL, '2024-04-26 13:09:07', '2024-04-26 13:09:07', 0),
+(35, NULL, 9, NULL, 'Jane Wright', '1234567891', '14', 'JO', 2, 'Est est nulla quisqu', '', '2024-04-26 13:11:39', NULL, '2024-04-29 16:11:39', '241', NULL, 'Et consectetur est', NULL, '2024-04-26 13:11:39', '2024-04-26 13:11:39', 0),
+(36, 4, 3, 1, 'Bo Bell', '2316549875', '8', 'JO', 3, 'Odio omnis ipsum la', '', '2024-04-26 14:23:27', NULL, '2024-04-29 17:23:27', '190', NULL, 'Maiores in dicta aut', NULL, '2024-04-26 13:26:32', '2024-04-26 14:23:27', 2),
+(37, NULL, 20, 2, 'Hashim Hammond', '3215649873', '22', 'JO', 2, 'Est qui id quos vol', '', '2024-04-26 13:26:42', NULL, '2024-04-29 16:26:42', '428', NULL, 'Eiusmod et ullam eos', 'Ex non consectetur', '2024-04-26 13:26:42', '2024-04-26 13:26:42', 0),
+(38, 4, 10, NULL, 'اسماعيل', '3216549875', '14', 'JO', 1, 'Eum veniam reprehen', '', '2024-04-26 14:21:02', NULL, '2024-04-29 17:21:02', '356', NULL, 'Recusandae Consequa', NULL, '2024-04-26 14:21:02', '2024-04-26 14:21:02', 0),
+(39, 4, 5, NULL, 'Madeline Pierce', '1234567895', '25', 'JO', 3, 'Architecto non dolor', '', '2024-04-26 14:22:31', NULL, '2024-04-29 17:22:31', '789', NULL, 'Dolorem ullam ut sol', NULL, '2024-04-26 14:22:31', '2024-04-26 14:22:31', 0);
 
 -- --------------------------------------------------------
 
@@ -618,6 +642,14 @@ ALTER TABLE `cities`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `city_delegate`
+--
+ALTER TABLE `city_delegate`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `city_delegate_delegate_id_foreign` (`delegate_id`),
+  ADD KEY `city_delegate_city_id_foreign` (`city_id`);
+
+--
 -- Indexes for table `companies`
 --
 ALTER TABLE `companies`
@@ -763,7 +795,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `addresses`
 --
 ALTER TABLE `addresses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `admins`
@@ -776,6 +808,12 @@ ALTER TABLE `admins`
 --
 ALTER TABLE `cities`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `city_delegate`
+--
+ALTER TABLE `city_delegate`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `companies`
@@ -823,7 +861,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `notifications`
@@ -865,7 +903,7 @@ ALTER TABLE `settings`
 -- AUTO_INCREMENT for table `shipments`
 --
 ALTER TABLE `shipments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `shipment_imports`
@@ -906,6 +944,13 @@ ALTER TABLE `users`
 --
 ALTER TABLE `addresses`
   ADD CONSTRAINT `addresses_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `city_delegate`
+--
+ALTER TABLE `city_delegate`
+  ADD CONSTRAINT `city_delegate_city_id_foreign` FOREIGN KEY (`city_id`) REFERENCES `cities` (`id`),
+  ADD CONSTRAINT `city_delegate_delegate_id_foreign` FOREIGN KEY (`delegate_id`) REFERENCES `delegates` (`id`);
 
 --
 -- Constraints for table `contact_expresses`
