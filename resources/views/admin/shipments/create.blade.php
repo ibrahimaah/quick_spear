@@ -198,6 +198,16 @@
        </div>
        
         <button id="assign-shipment-btn" class="btn btn-primary w-25 m-1">إسناد لمندوب</button>
+
+
+        <form action="{{ route('admin.invoice') }}" method="get">
+            @csrf 
+            <input type="hidden" id="selected-shipments-ids-input-invoice" name="selected_shipments" value="">
+            <button type="submit" id="invoice-btn" class="btn btn-primary w-25 m-1">فاتورة</button>
+        </form>
+
+
+
         <div class="admin-shipments">
             <div class="card-body datatable-container" id="myTabContent">
                 {{ $dataTable->table() }}
@@ -265,13 +275,16 @@
             var dataTable = $('#express-table').DataTable();
             var selectedIds = [];
             var assignButton = $('#assign-shipment-btn');
+            var invoiceButton = $('#invoice-btn');
 
             // Function to enable/disable the button based on the selectedIds array
             function toggleButtonState() {
                 if (selectedIds.length > 0) {
                     assignButton.prop('disabled', false); // Enable the button
+                    invoiceButton.prop('disabled', false); // Enable the button
                 } else {
                     assignButton.prop('disabled', true); // Disable the button
+                    invoiceButton.prop('disabled', true);
                 }
             }
 
@@ -302,6 +315,18 @@
                     // $('#selected-ids').text(' الشحنات التي ستم إسنادها'+selectedIds.join('#, ')); // Display selected ids inside the modal
                 }
             });
+
+
+             // Event listener for invoice button click
+             invoiceButton.on('click', function() 
+             {
+                // Show Bootstrap modal and display selected ids inside it
+                if (selectedIds.length > 0) 
+                {
+                    $('#selected-shipments-ids-input-invoice').val(selectedIds); 
+                }
+            });
+
 
             // Initialize button state
             toggleButtonState();

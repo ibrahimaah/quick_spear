@@ -147,6 +147,27 @@ class ShipmentService
     }
 
 
+    public function get_selected_shipments($ids)
+    {
+        try 
+        {
+            $shipments = Shipment::whereIn('id', $ids)->get();
+            
+            if ($shipments->isNotEmpty()) 
+            {
+                return ['code' => 1, 'data' => $shipments];
+            }
+            else 
+            {
+                throw new Exception('Error in getting selected shipments');   
+            }
+        }
+        catch(Exception $ex)
+        {
+            return ['code' => 0, 'msg' => $ex->getMessage()];
+        }
+    }
+
 
   
 }

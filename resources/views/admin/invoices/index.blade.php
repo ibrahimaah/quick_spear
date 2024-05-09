@@ -44,12 +44,12 @@
 		
 		<div class="invoice-box">
 			<table id="invoice-table">
-                <tr>
-                  <th colspan="3">اسم الصفحة/المتجر :</th>
+                <tr> 
+                  <th colspan="4"><span>اسم الصفحة/المتجر : </span><span id="shop_name"></span></th>
                   <th colspan="3">اليوم :</th>
                 </tr>
                 <tr>
-                    <th colspan="3">اسم العميل :</th>
+                    <th colspan="4">اسم العميل :</th>
                     <th colspan="3">التاريخ :</th>
                 </tr>
                 <tr>
@@ -58,57 +58,29 @@
                     <th>رقم الزبون</th>
                     <th>السعر</th>
                     <th>خصم التوصيل</th>
+                    <th>حالة الشحنة</th>
                     <th>الملاحظات</th>
                 </tr>
+                @foreach ($selected_shipments as $selected_shipment)
+                    <tr>
+                        <td>{{ ++$loop->index }}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                @endforeach
                 <tr>
-                    <td>1</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th colspan="3">المدفوع:</th>
+                    <th colspan="4">المدفوع:</th>
                     <th colspan="3" rowspan="2">اسم المندوب وتوقيعه :</th>
                 </tr>
                 <tr>
-                    <th>له :</th>
+                    <th colspan="4">له :</th>
                 </tr>
                 <tr>
-                    <th colspan="3">عليه :</th>
+                    <th colspan="4">عليه :</th>
                     <th colspan="3">اسم المستلم وتوقيعه :</th>
                 </tr>
               </table>
