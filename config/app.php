@@ -163,6 +163,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Mccarlosen\LaravelMpdf\LaravelMpdfServiceProvider::class,
         
 
         /*
@@ -200,6 +201,7 @@ return [
         'PDFMerger' => Webklex\PDFMerger\Facades\PDFMergerFacade::class,
         // 'Datatables' => yajra\Datatables\Datatables::class
         'Datatables' => Yajra\Datatables\Facades\Datatables::class,
+        'PDF' => Mccarlosen\LaravelMpdf\Facades\LaravelMpdf::class
     ])->toArray(),
 
 ];

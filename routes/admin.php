@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\ShipmentController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\DelegateController;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\InvoiceController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\ShipmentImportController;
@@ -36,6 +37,7 @@ App::setLocale('ar');
 
 Route::prefix('superAdmin/admin/dashboard')->middleware('auth:admin')->name('admin.')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('dashboard');
+    Route::get('/invoice', [InvoiceController::class, 'invoice'])->name('invoice');
     Route::resource('users', UserController::class);
     Route::resource('delegates', DelegateController::class);
     Route::get('get-shipments/{delegate}', [DelegateController::class,'get_shipments'])->name('delegates.get_shipments');
