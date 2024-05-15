@@ -2,19 +2,17 @@
 
 namespace App\Services;
 
-use App\Models\Address;
-use App\Models\User;
-use App\Models\Shipment;
+use App\Models\Shop;
 use Exception;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class UserService
+class ShopService
 {
     public function store($data)
     {
         try 
         {
-            $user = User::Create($data);
+            $user = Shop::Create($data);
 
             if ($user) 
             { 
@@ -30,9 +28,4 @@ class UserService
             return ['code' => 0, 'msg' => $ex->getMessage()];
         }
     }
-
-    
-    
-  
-
 }

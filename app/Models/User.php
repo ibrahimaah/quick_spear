@@ -30,6 +30,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function shop()
+    {
+        return $this->hasOne(Shop::class);
+    }
+
+    
     public function addresses()
     {
         return $this->hasMany(Address::class);

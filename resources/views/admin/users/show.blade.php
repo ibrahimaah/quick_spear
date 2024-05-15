@@ -33,42 +33,72 @@
                                     <div class="row">
                                         <div class="col-12 my-2 col-md-4">
                                             <label>رقم الحساب</label>
-                                            <p class="card-text">
+                                            <p class="card-text text-secondary">
                                                 {{ $user->ACCOUNT_NUMBER() }}
                                             </p>
                                         </div>
                                         <div class="col-12 my-2 col-md-4">
                                             <label>الدولة</label>
-                                            <p class="card-text">
+                                            <p class="card-text text-secondary">
                                                 الاردن
                                             </p>
                                         </div>
                                         <div class="col-12 my-2 col-md-4">
                                             <label>العملة</label>
-                                            <p class="card-text">
+                                            <p class="card-text text-secondary">
                                                 JOD
                                             </p>
                                         </div>
                                         <div class="col-12 my-2 col-md-4">
                                             <label>نوع الحساب</label>
-                                            <p class="card-text">
+                                            <p class="card-text text-secondary">
                                                 {{ $user->type ?? 'شخصي' }}
                                             </p>
                                         </div>
                                         <div class="col-12 my-2 col-md-4">
                                             <label>رقم الهاتف</label>
-                                            <p class="card-text">
+                                            <p class="card-text text-secondary">
                                                 {{ $user->phone }}
                                             </p>
                                         </div>
                                         <div class="col-12 my-2 col-md-4">
                                             <label>البريد الإلكتروني</label>
-                                            <p class="card-text">
+                                            <p class="card-text text-secondary">
                                                 {{ $user->email }}
                                             </p>
                                         </div>
                                     </div>
                                     <hr />
+
+                                    <div class="row">
+                                        <div class="col-12 my-2 col-md-4">
+                                            <label>اسم المتجر</label>
+                                            <p class="card-text text-secondary">
+                                                {{ $user->shop->name }}
+                                            </p>
+                                        </div>
+                                        <div class="col-12 my-2 col-md-4">
+                                            <label>المدينة</label>
+                                            <p class="card-text text-secondary">
+                                                {{ $user->shop->city->name }}
+                                            </p>
+                                        </div>
+                                        <div class="col-12 my-2 col-md-4">
+                                            <label>المنطقة</label>
+                                            <p class="card-text text-secondary">
+                                                {{ $user->shop->region }}
+                                            </p>
+                                        </div>
+                                        <div class="col-12 my-2 col-md-4">
+                                            <label>الوصف</label>
+                                            <p class="card-text text-secondary">
+                                                {{ $user->shop->description }}
+                                            </p>
+                                        </div>
+                                       
+                                    </div>
+                                    <hr />
+                                {{--
                                     <div class="row">
                                         <div class="col-12 my-2 col-md-4">
                                             <label>الاسم</label><span class="text-danger">*</span>
@@ -85,11 +115,13 @@
                                             <input class="form-control mt-2 ml-2" type="text"
                                                 value="{{ $user->email }}" name="email" />
                                         </div>
-                                    </div>
+                                    </div> 
+                                --}}
                                 </div>
                             </div>
                             <div class="card-header">
-                                <button class="btn btn-primary" type="submit">تحديث</button>
+                                {{-- <button class="btn btn-primary" type="submit">تحديث</button> --}}
+                                <a class="btn btn-secondary" href="{{ route('admin.users.index') }}">رجوع</a>
                             </div>
                         </form>
                     </div>

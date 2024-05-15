@@ -10,6 +10,7 @@ use App\Models\Document;
 use App\Models\PaymentMethod;
 use App\Models\ShipmentRate;
 use App\Models\User as user;
+use App\Services\ShopService;
 use App\Services\UserService;
 use App\Traits\GeneralTrait;
 use Illuminate\Support\Facades\Validator;
@@ -20,7 +21,8 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     use GeneralTrait;
-    public function __construct(private UserService $userService)
+    public function __construct(private UserService $userService,
+                                private ShopService $shopService)
     {
         // $this->middleware(['super_admin']);
     }
@@ -42,11 +44,16 @@ class UserController extends Controller
             'email'     => 'required|string|email|max:255|unique:users,email',
             'phone'     => 'required|numeric|unique:users,phone',
             'password'  => 'required|string|confirmed',
+            'shop_name' => 'required',
+            'city'      => 'required',
+            'region'    => 'required',
+            'description'  => 'required',
         ];
 
         $validator = Validator::make($request->all(), $rules);
 
-        if ($validator->fails()) {
+        if ($validator->fails()) 
+        {
             return back()->withErrors($validator)
                         ->withInput($request->all());
         }
@@ -60,10 +67,37 @@ class UserController extends Controller
         ];
 
         $res_store_user = $this->userService->store($user_date);
-        if ($res_store_user['code'] == 1) {
-            return redirect()->route('admin.users.index')->with("success", "تم اضافة البيانات بنجاح");
-        }else{
-            return redirect()->route('admin.users.index')->with("error", $res_store_user['msg']);
+        
+        if ($res_store_user['code'] == 1) 
+        {
+            $user = $res_store_user['data'];
+            $shop_date = [
+                'user_id'     => $user->id,
+                'name'   => $request->shop_name,
+                'city_id'        => $request->city,
+                'region'      => $request->region,
+                'description' => $request->description,
+                'region'      => $request->region
+            ];
+            $res_store_shop = $this->shopService->store($shop_date);
+
+            if ($res_store_shop['code'] == 1) 
+            {
+                // return redirect()->route('admin.users.index')->with("success_store", "تم اضافة البيانات بنجاح");
+                return back()->with("success_store", "تم اضافة البيانات بنجاح");
+            }
+            else 
+            {
+                $user->delete();
+                // return redirect()->route('admin.users.index')->with("error", $res_store_shop['msg']);   
+                return back()->with("error", $res_store_shop['msg']);   
+            }
+            
+        }
+        else
+        {
+            // return redirect()->route('admin.users.index')->with("error", $res_store_user['msg']);
+            return back()->with("error", $res_store_user['msg']);
         }
         
     }
@@ -84,11 +118,15 @@ class UserController extends Controller
     }
     public function update(Request $request, user $user)
     {
+        // dd($request->all());
         $rules = [
-            'name'      => 'required',
-            // 'password'  => 'required',
-            'phone'     => 'required',
-            'email'    => 'required',
+            'name'        => 'required|string|min:8|max:30|unique:users,name,' . $user->id,
+            'email'       => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'phone'       => 'required|numeric|unique:users,phone,' . $user->id,
+            'shop_name'   => 'required',
+            'city'        => 'required',
+            'region'      => 'required',
+            'description' => 'required',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -98,12 +136,24 @@ class UserController extends Controller
                         ->withInput($request->all());
         }
 
-        $user->update([
+        $user_data = [
             'name'       => $request->name,
             'phone'      => $request->phone,
-            // 'password'   => $request->password ? Hash::make($request->password) : $user->password,
-            'email'     => $request->email,
-        ]);
+            'email'     => $request->email
+        ];
+        $user->update($user_data);
+
+        $shop = $user->shop;
+
+        $shop_data = [
+            'name' => $request->shop_name,
+            'city_id' => $request->city,
+            'region' => $request->region,
+            'description' => $request->description,
+        ];
+
+        $shop->update($shop_data);
+
         return redirect()->route('admin.users.index')->with("success", "تم تعديل البيانات بنجاح");
     }
 

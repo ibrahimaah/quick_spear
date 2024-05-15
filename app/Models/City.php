@@ -14,4 +14,9 @@ class City extends Model
     {
         return $this->belongsToMany(Delegate::class);
     }
+
+    public function shop()
+    {
+        return $this->hasOne(Shop::class);
+    }
 }
