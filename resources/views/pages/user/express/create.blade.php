@@ -7,7 +7,8 @@
         visibility: hidden !important;
     }
 </style>
-<h2 class="mb-4">{{ __('Create') }} {{ __('Local Shipping') }}</h2>
+{{-- <h2 class="mb-4">{{ __('Create') }} {{ __('Shipping.') }} </h2> --}}
+<h2 class="mb-4">إنشاء شحنة للمتجر <span class="fw-bold text-success">{{ $shop?->name }}</span></h2>
 {{--<a class="btn btn-primary mb-3" href="{{ route('front.get_shipments_import') }}">{{ __('Excel Import') }}</a>
 <a class="btn btn-success mb-3" href="{{ asset('assets/file.xlsx') }}">{{ __('Excel Import Format') }}</a> --}}
 
@@ -18,13 +19,16 @@
     @if (session()->has('success'))
         <div class="alert text-center py-4 text-light my-3 alert-success">{{ session()->get('success') }}</div>
     @endif
-    <div class="card-header">
+    {{-- <div class="card-header"> --}}
         {{-- <h4>#1</h4> --}}
-    </div>
+    {{-- </div> --}}
     <div class="card-body">
         <div class="container">
             <form method="post" action="{{ route('front.express.store') }}" id="shipments_form">
                 @csrf
+                
+                <input type="hidden" name="shop" value="{{ $shop->id }}" required />
+
                 <div data-x-wrapper="shipments">
                     <div data-x-group>
                         <div class="d-flex justify-content-between">
@@ -35,6 +39,7 @@
                                 <i class="bi bi-trash"></i>
                             </button>
                         </div>
+                        {{--
                         <div class="row">
                             <div class="d-lg-flex flex-row col-sm-12 mb-3 justify-content-center">
                                 <div class="col-sm-12 col-lg-4 px-0 mb-2">
@@ -55,7 +60,7 @@
    
                             </div>
                             <hr />
-                        </div>
+                        </div> --}}
                         <div class="row">
                             <div class="col-12 my-2 col-md-4">
                                 <label>{{ __('Consignee Name') }}</label>

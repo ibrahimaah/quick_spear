@@ -20,17 +20,20 @@ class ExpressDataTable extends DataTable
 {
     use DatatableTrait; 
 
-    public $filterData;
+    
+    // public $filterData;
     private $is_from_admin;
-    private $user_id;
+    // private $user_id;
+    private $shop_id;
     private $delegate_id;
     //$user_id , to show shipments for each user in dashboard
     //$delegate_id to show delegate shipments
-    public function __construct($filterData,$is_from_admin=false,$user_id=null,$delegate_id=null)
+    // public function __construct($filterData,$is_from_admin=false,$user_id=null,$delegate_id=null)
+    public function __construct($is_from_admin=false,$shop_id=null,$delegate_id=null)
     {
-        $this->filterData = $filterData;
+        // $this->filterData = $filterData;
         $this->is_from_admin = $is_from_admin;
-        $this->user_id = $user_id;
+        $this->shop_id = $shop_id;
         $this->delegate_id = $delegate_id;
     }
 
@@ -83,7 +86,8 @@ class ExpressDataTable extends DataTable
             }
         })
         ->editColumn('delivery_fees', function($query) { 
-            $city_from = $query->address->City->id; 
+            // $city_from = $query->address->City->id; 
+            $city_from = $query->shop?->city_id;
             $city_to = $query->city_to->id; 
             $delivery_fees = ShipmentRate::where('city_from',"$city_from")->where('city_to',"$city_to")->first()?->rate;
 
@@ -145,9 +149,10 @@ class ExpressDataTable extends DataTable
             return $model->newQuery()->where('delegate_id',$this->delegate_id);
         }
 
-        $user_id =  $this->user_id ?? auth()->user()->id;
+        // $user_id =  $this->user_id ?? auth()->user()->id;
         
-        return $model->newQuery()->where('user_id',$user_id);
+        // return $model->newQuery()->where('user_id',$user_id);
+        return $model->newQuery()->where('shop_id',$this->shop_id);
 
         // $query = $model::where('user_id', $user_id)->where(function ($q) {
         //     if ($this->filterData->from!=null) {
@@ -206,20 +211,22 @@ class ExpressDataTable extends DataTable
             $columns = [
                 // $this->column('checkbox','<input type="checkbox" id="master">',false,false,false,false,'checkbox'),
                 $this->column('checkbox', false, false, false, false),
-                $this->column('id','#',false,true,false,false), 
-                $this->column('consignee_city',__('City'),false,true,false,false), 
-                $this->column('consignee_region',__('consignee_region'),false,true,false,false),
-                $this->column('consignee_phone', __('Phone'),false,true,false,false),
-                $this->column('order_price', __('Order price includes delivery'),false,true,false,false),
-                $this->column('value_on_delivery', __('Value on delivery'),false,true,false,false),
-                $this->column('delivery_fees',__('delivery_fees'),false,true,false,false),
-                $this->column('status', __('Action Status'),false,true,false,false),
+                // $this->column('id','#',false,false,false,false), 
+                $this->column('DT_RowIndex','#',false,false,false,false), 
+                $this->column('consignee_city',__('City'),false,false,false,false), 
+                $this->column('consignee_region',__('consignee_region'),false,false,false,false),
+                $this->column('consignee_phone', __('Phone'),false,false,false,false),
+                // $this->column('order_price', __('Order price includes delivery'),false,false,false,false),
+                $this->column('order_price', __('Order price'),false,false,false,false),
+                $this->column('value_on_delivery', __('Value on delivery'),false,false,false,false),
+                $this->column('delivery_fees',__('delivery_fees'),false,false,false,false),
+                $this->column('status', __('Action Status'),false,false,false,false),
                 $this->column('id',__('order_number'),false,true,false,false),
-                $this->column('customer_notes',__('Customer notes'),false,true,false,false),
+                $this->column('customer_notes',__('Customer notes'),false,false,false,false),
                 $this->column('delegate_notes', __('Delegate notes')),
-                $this->column('created_at',__('Created.'),false,true,false,false),
-                $this->column('accepted_by_admin_at',__('accepted_by_admin_at'),false,true,false,false), 
-                $this->column('admin_actions',__('Actions'),false,true,false,false), 
+                $this->column('created_at',__('Created.'),false,false,false,false),
+                $this->column('accepted_by_admin_at',__('accepted_by_admin_at'),false,false,false,false), 
+                $this->column('admin_actions',__('Actions'),false,false,false,false), 
             ];
         }
         elseif($this->delegate_id)
@@ -227,20 +234,21 @@ class ExpressDataTable extends DataTable
             $columns = [
                 // $this->column('checkbox','<input type="checkbox" id="master">',false,false,false,false,'checkbox'),
                 // $this->column('checkbox', false, false, false, false),
-                $this->column('DT_RowIndex','#',false,true,false,false), 
-                // $this->column('consignee_city',__('City'),false,true,false,false), 
-                $this->column('consignee_region',__('consignee_region'),false,true,false,false),
-                $this->column('consignee_phone', __('Phone'),false,true,false,false),
-                $this->column('order_price', __('Order price includes delivery'),false,true,false,false),
-                // $this->column('value_on_delivery', __('Value on delivery'),false,true,false,false),
-                // $this->column('delivery_fees',__('delivery_fees'),false,true,false,false),
-                $this->column('status', __('Action Status'),false,true,false,false),
+                $this->column('DT_RowIndex','#',false,false,false,false), 
+                // $this->column('consignee_city',__('City'),false,false,false,false), 
+                $this->column('consignee_region',__('consignee_region'),false,false,false,false),
+                $this->column('consignee_phone', __('Phone'),false,false,false,false),
+                // $this->column('order_price', __('Order price includes delivery'),false,false,false,false),
+                $this->column('order_price', __('Order price'),false,false,false,false),
+                // $this->column('value_on_delivery', __('Value on delivery'),false,false,false,false),
+                // $this->column('delivery_fees',__('delivery_fees'),false,false,false,false),
+                $this->column('status', __('Action Status'),false,false,false,false),
                 $this->column('id',__('order_number'),false,true,false,false),
-                // $this->column('customer_notes',__('Customer notes'),false,true,false,false),
+                // $this->column('customer_notes',__('Customer notes'),false,false,false,false),
                 $this->column('delegate_notes', __('Delegate notes')),
                 $this->column('delegate_actions', __('Actions')),
-                // $this->column('created_at',__('Created.'),false,true,false,false),
-                // $this->column('accepted_by_admin_at',__('accepted_by_admin_at'),false,true,false,false), 
+                // $this->column('created_at',__('Created.'),false,false,false,false),
+                // $this->column('accepted_by_admin_at',__('accepted_by_admin_at'),false,false,false,false), 
             ];
         }
         elseif (!$this->is_from_admin && !$this->delegate_id)  //user datatable
@@ -248,19 +256,20 @@ class ExpressDataTable extends DataTable
             $columns = [
                 // $this->column('checkbox','<input type="checkbox" id="master">',false,false,false,false,'checkbox'),
                 $this->column('checkbox', false, false, false, false),
-                $this->column('id','#',false,true,false,false), 
-                $this->column('consignee_city',__('City'),false,true,false,false), 
-                $this->column('consignee_region',__('consignee_region'),false,true,false,false),
-                $this->column('consignee_phone', __('Phone'),false,true,false,false),
-                $this->column('order_price', __('Order price includes delivery'),false,true,false,false),
-                $this->column('value_on_delivery', __('Value on delivery'),false,true,false,false),
-                $this->column('delivery_fees',__('delivery_fees'),false,true,false,false),
-                $this->column('status', __('Action Status'),false,true,false,false),
+                $this->column('DT_RowIndex','#',false,false,false,false), 
+                $this->column('consignee_city',__('City'),false,false,false,false), 
+                $this->column('consignee_region',__('consignee_region'),false,false,false,false),
+                $this->column('consignee_phone', __('Phone'),false,false,false,false),
+                // $this->column('order_price', __('Order price includes delivery'),false,false,false,false),
+                $this->column('order_price', __('Order price'),false,false,false,false),
+                $this->column('value_on_delivery', __('Value on delivery'),false,false,false,false),
+                $this->column('delivery_fees',__('delivery_fees'),false,false,false,false),
+                $this->column('status', __('Action Status'),false,false,false,false),
                 $this->column('id',__('order_number'),false,true,false,false),
-                $this->column('customer_notes',__('Customer notes'),false,true,false,false),
+                $this->column('customer_notes',__('Customer notes'),false,false,false,false),
                 $this->column('delegate_notes', __('Delegate notes')),
-                $this->column('created_at',__('Created.'),false,true,false,false),
-                $this->column('accepted_by_admin_at',__('accepted_by_admin_at'),false,true,false,false), 
+                $this->column('created_at',__('Created.'),false,false,false,false),
+                $this->column('accepted_by_admin_at',__('accepted_by_admin_at'),false,false,false,false), 
                 $this->column('user_actions', __('Actions'),false,false,false,false)
             ];
         }

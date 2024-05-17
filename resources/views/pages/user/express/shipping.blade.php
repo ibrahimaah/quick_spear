@@ -9,7 +9,8 @@
     }
 </style>
 
-    <h2 class="mb-4">{{ __('Local Shipping') }}</h2>
+    {{-- <h2 class="mb-4">{{ __('Local Shipping') }}</h2> --}}
+    <h2 class="mb-4"> الشحنات </h2>
     @if (session()->has('error'))
         <div class="text-center py-4 text-light my-3 bg-danger">{{ session()->get('error') }}</div>
     @endif

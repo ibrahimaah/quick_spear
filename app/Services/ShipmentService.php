@@ -12,17 +12,11 @@ use Maatwebsite\Excel\Facades\Excel;
 class ShipmentService
 {
     public function store(Request $request,$by_admin=false): Shipment
-    {
-       $user_id = null;
-        if (!$by_admin) {
-            $user_id = auth()->user()->id;
-        }
-
-        foreach ($request->shipments as $shipment) :
-            // $user_id = Address::findOrFail($shipment['shipper'])->user_id;
-            $data = [
-                'user_id' => $user_id,
-                'address_id' => $shipment['shipper'],
+    { 
+        foreach ($request->shipments as $shipment) : 
+            $shop_id = $by_admin ? $shipment['shop'] : $request->shop;
+            $data = [ 
+                'shop_id' => $shop_id,
                 'consignee_name' => $shipment['consignee_name'],
                 'consignee_phone' => $shipment['consignee_phone'],
                 'consignee_phone_2' => $shipment['consignee_phone_2'],
@@ -38,6 +32,7 @@ class ShipmentService
                 'delegate_notes' => $shipment['delegate_notes'] ?? null,
             ];
 
+            
             $shipment = Shipment::create($data);
 
         endforeach;
@@ -51,7 +46,8 @@ class ShipmentService
         { 
 
             $data = [ 
-                'address_id' => $request->address,
+                // 'address_id' => $request->address,
+                'shop_id' => $request->shop,
                 'consignee_name' => $request->consignee_name,
                 'consignee_phone' => $request->consignee_phone,
                 'consignee_phone_2' => $request->consignee_phone_2,
@@ -67,6 +63,11 @@ class ShipmentService
                 'shipping_date_time'    => now(),
                 'due_date'  => now()->addHours(72),
             ];
+
+            if ($by_admin) 
+            {
+                $data['value_on_delivery'] = $request->value_on_delivery;
+            }
 
             if ($shipment->update($data)) 
             {

@@ -30,7 +30,8 @@
 @endif
 
 
-<h2 class="mb-4">{{ __('Create') }} {{ __('Local Shipping') }}</h2>
+{{-- <h2 class="mb-4">{{ __('Create') }} {{ __('Local Shipping') }}</h2> --}}
+<h2 class="mb-4">إنشاء شحنة</h2>
 
 <div class="card">
    
@@ -61,22 +62,33 @@
                             <div class="d-lg-flex flex-row col-sm-12 mb-3 justify-content-center">
                                 <div class="col-sm-12 col-lg-4 px-0 mb-2">
                                     <label>{{ __('Store Name') }}</label><span class="text-danger">*</span>
-                                    <select class="form-control mt-2 ml-2" id="addresses-select2" name="shipper" required>
+
+                                    {{-- <select class="form-control mt-2 ml-2" id="addresses-select2" name="shipper" required>
                                         @foreach ($addresses as $address)
                                         <option value="{{ $address->id }}">
                                             {{ $address->name }}
                                         </option>
                                         @endforeach
+                                    </select> --}}
+
+                                    <select class="form-control mt-2 ml-2" id="shops-select2" name="shop" required>
+                                        @foreach ($shops as $shop)
+                                        <option value="{{ $shop->id }}">
+                                            {{ $shop->name }}
+                                        </option>
+                                        @endforeach
                                     </select>
+
+
                                 </div>
-                                <a href="{{ route('admin.address.index') }}" 
+                                {{-- <a href="{{ route('admin.address.index') }}" 
                                 style="height: 37px;margin-top: 3.3% !important;" 
                                 class="btn btn-primary ml-xl-3 mr-xl-3 mx-3">
                                 {{ __('New Address') }}
-                                </a>
+                                </a> --}}
    
                             </div>
-                            <hr />
+                            {{-- <hr /> --}}
                         </div>
                         <div class="row">
                             <div class="col-12 my-2 col-md-4">
@@ -181,78 +193,9 @@
 
 
     
-
-    @php 
-        $status_numbers = config('constants.STATUS_NUMBER');
-    @endphp 
  
-    <div class="card p-3">
 
-       <div class="w-25">
-        <select class="form-select w-25 m-1" id="shipment_status_select">
-            <option value="">اختر حالةالشحنة</option>
-            @foreach($status_numbers as $status_number)
-            <option value="{{ $status_number }}">{{ getStatusInfo($status_number) }}</option>
-            @endforeach
-        </select>
-       </div>
-       
-        <button id="assign-shipment-btn" class="btn btn-primary w-25 m-1">إسناد لمندوب</button>
-
-
-        <form action="{{ route('admin.invoice') }}" method="get">
-            @csrf 
-            <input type="hidden" id="selected-shipments-ids-input-invoice" name="selected_shipments" value="">
-            <button type="submit" id="invoice-btn" class="btn btn-primary w-25 m-1">فاتورة</button>
-        </form>
-
-
-
-        <div class="admin-shipments">
-            <div class="card-body datatable-container" id="myTabContent">
-                {{ $dataTable->table() }}
-            </div>
-        </div>
-    </div>
-
-
-    <div class="modal fade" id="assign-delegate-modal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">إسناد شحنة/شحنات لمندوب</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            
-            <div class="modal-body">
-                <p id="selected-ids"></p>
-                <form action="{{ route('admin.assign_delegate') }}" method="post">
-                    @csrf 
-                    <input type="hidden" id="selected-shipments-ids-input" name="selected_shipments" value="">
-
-                    <select id="delegates-select2" name="delegate" required>
-                    <option value="">اختر مندوب</option> 
-                    @if($delegates->isNotEmpty())
-                        @foreach($delegates as $delegate)
-                        <option value="{{ $delegate->id }}">{{ $delegate->name }}</option> 
-                        @endforeach
-                    @endif
-                    </select>
-                
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">حفظ</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">خروج</button>
-            </div>
-            </form>
-            </div>
-        </div>
-    </div>
-
-
-    @push('scripts')
-    {{ $dataTable->scripts() }}      
-    @endpush
+ 
 
     @push('scripts')
 
@@ -263,81 +206,82 @@
         {
             $('#delegates-select2').select2();
 
-            $('#delegates-select2').select2({
-                dropdownParent: $('#assign-delegate-modal')
-            });
+            // $('#delegates-select2').select2({
+            //     dropdownParent: $('#assign-delegate-modal')
+            // });
 
             $('#choose-delegate-select2').select2();
-            $('#addresses-select2').select2();
+            // $('#addresses-select2').select2();
+            $('#shops-select2').select2();
             $('#cities-select2').select2();
 
-            $('#shipment_status_select').select2();
-            var dataTable = $('#express-table').DataTable();
-            var selectedIds = [];
-            var assignButton = $('#assign-shipment-btn');
-            var invoiceButton = $('#invoice-btn');
+            // $('#shipment_status_select').select2();
+            // var dataTable = $('#express-table').DataTable();
+            // var selectedIds = [];
+            // var assignButton = $('#assign-shipment-btn');
+            // var invoiceButton = $('#invoice-btn');
 
             // Function to enable/disable the button based on the selectedIds array
-            function toggleButtonState() {
-                if (selectedIds.length > 0) {
-                    assignButton.prop('disabled', false); // Enable the button
-                    invoiceButton.prop('disabled', false); // Enable the button
-                } else {
-                    assignButton.prop('disabled', true); // Disable the button
-                    invoiceButton.prop('disabled', true);
-                }
-            }
+            // function toggleButtonState() {
+            //     if (selectedIds.length > 0) {
+            //         assignButton.prop('disabled', false); // Enable the button
+            //         invoiceButton.prop('disabled', false); // Enable the button
+            //     } else {
+            //         assignButton.prop('disabled', true); // Disable the button
+            //         invoiceButton.prop('disabled', true);
+            //     }
+            // }
 
             // Event listener for checkbox changes
-            $('#express-table').on('change', 'input[type="checkbox"]', function() {
-                if (this.checked) {
-                    var id = $(this).val();
-                    if (selectedIds.indexOf(id) === -1) {
-                        selectedIds.push(id);
-                    }
-                } else {
-                    var id = $(this).val();
-                    var index = selectedIds.indexOf(id);
-                    if (index !== -1) {
-                        selectedIds.splice(index, 1);
-                    }
-                }
-                toggleButtonState(); // Update button state
-                console.log(selectedIds);
-            });
+            // $('#express-table').on('change', 'input[type="checkbox"]', function() {
+            //     if (this.checked) {
+            //         var id = $(this).val();
+            //         if (selectedIds.indexOf(id) === -1) {
+            //             selectedIds.push(id);
+            //         }
+            //     } else {
+            //         var id = $(this).val();
+            //         var index = selectedIds.indexOf(id);
+            //         if (index !== -1) {
+            //             selectedIds.splice(index, 1);
+            //         }
+            //     }
+            //     toggleButtonState(); // Update button state
+            //     console.log(selectedIds);
+            // });
 
             // Event listener for assign button click
-            assignButton.on('click', function() {
-                // Show Bootstrap modal and display selected ids inside it
-                if (selectedIds.length > 0) {
-                    $('#assign-delegate-modal').modal('show');
-                    $('#selected-shipments-ids-input').val(selectedIds); 
-                    // $('#selected-ids').text(' الشحنات التي ستم إسنادها'+selectedIds.join('#, ')); // Display selected ids inside the modal
-                }
-            });
+            // assignButton.on('click', function() {
+            //     // Show Bootstrap modal and display selected ids inside it
+            //     if (selectedIds.length > 0) {
+            //         $('#assign-delegate-modal').modal('show');
+            //         $('#selected-shipments-ids-input').val(selectedIds); 
+            //         // $('#selected-ids').text(' الشحنات التي ستم إسنادها'+selectedIds.join('#, ')); // Display selected ids inside the modal
+            //     }
+            // });
 
 
              // Event listener for invoice button click
-             invoiceButton.on('click', function() 
-             {
-                // Show Bootstrap modal and display selected ids inside it
-                if (selectedIds.length > 0) 
-                {
-                    $('#selected-shipments-ids-input-invoice').val(selectedIds); 
-                }
-            });
+            //  invoiceButton.on('click', function() 
+            //  {
+            //     // Show Bootstrap modal and display selected ids inside it
+            //     if (selectedIds.length > 0) 
+            //     {
+            //         $('#selected-shipments-ids-input-invoice').val(selectedIds); 
+            //     }
+            // });
 
 
             // Initialize button state
-            toggleButtonState();
+            // toggleButtonState();
 
 
 
-            $('#shipment_status_select').on('change',function(){
-                var columnName = 'status'; // Replace 'columnName' with the actual name of your column
-                var columnIndex = dataTable.column(columnName + ':name').index();
-                dataTable.column(columnIndex).search($(this).val()).draw()
-            })
+            // $('#shipment_status_select').on('change',function(){
+            //     var columnName = 'status'; // Replace 'columnName' with the actual name of your column
+            //     var columnIndex = dataTable.column(columnName + ':name').index();
+            //     dataTable.column(columnIndex).search($(this).val()).draw()
+            // })
             
         });
 

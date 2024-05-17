@@ -6,7 +6,8 @@
         visibility: hidden !important;
     }
 </style>
-<h2 class="mb-4">{{ __('Edit') }} {{ __('Local Shipping') }} #{{ $shipment->id }}</h2>
+{{-- <h2 class="mb-4">{{ __('Edit') }} {{ __('Shipping.') }} #{{ $shipment->id }} </h2> --}}
+    <h2 class="mb-4">تعديل شحنة رقم <span class="text-success">#{{ $shipment->id }}</span> للمتجر <span class="text-success">{{ $shipment->shop->name }}</span></h2>
 
 
 <div class="card">
@@ -16,15 +17,15 @@
     @if (session()->has('success'))
     <div class="alert text-center py-4 my-3 alert-success">{{ session()->get('success') }}</div>
     @endif
-    <div class="card-header">
-        {{-- <h4>#1</h4> --}}
-    </div>
+    {{-- <div class="card-header">
+        <h4>#1</h4>
+    </div> --}}
     <div class="card-body">
         <div class="container">
             <form method="post" action="{{ route('front.express.update',['shipment'=>$shipment->id]) }}" id="shipments_form">
                 @csrf
 
-
+                {{--
                 <div class="row">
                     <div class="d-lg-flex flex-row col-sm-12 mb-3 justify-content-center">
                         <div class="col-sm-12 col-lg-4 px-0 mb-2">
@@ -46,6 +47,7 @@
                     </div>
                     <hr />
                 </div>
+                --}}
                 <div class="row">
                     <div class="col-12 my-2 col-md-4">
                         <label>{{ __('Consignee Name') }}</label>

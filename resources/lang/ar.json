@@ -823,5 +823,7 @@
     "accepted_by_admin_at":"تاريخ الموافقة على الشحنة",
     "order_number":"رقم الطلب",
     "Deleted Successfully":"تم الحذف بنجاح",
-    "Delegate Name":"اسم المندوب"
+    "Delegate Name":"اسم المندوب",
+    "Shipping.":"شحنة",
+    "Order price":"سعر الطلب"
 }

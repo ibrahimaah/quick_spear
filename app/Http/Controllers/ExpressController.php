@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use App\Exports\ShipmentsExport;
 use App\Jobs\ImportShipments;
 use App\Services\ShipmentService;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 use Picqer\Barcode\BarcodeGeneratorPNG;
@@ -68,7 +69,9 @@ class ExpressController extends Controller
     public function index(Request $request)
     {
         // dd($request->all());
-        $dataTable = new ExpressDataTable($request);
+        // $user = Auth::user();
+        // $shop_id = $user->shop->id;
+        $dataTable = new ExpressDataTable($request,null,Auth::user()->shop->id);
         
         // $ships = Shipment::where('user_id', auth()->user()->id)->where(function ($q) use ($request) {
 
@@ -85,12 +88,15 @@ class ExpressController extends Controller
         //         $q->where('consignee_phone', 'LIKE', "%$request->phone%");
         //     }
         // });
-        
-        $ships = Shipment::where('user_id', auth()->user()->id);
-        $ships = $ships->latest()->get();
+        // $user = Auth::user();
+        // $shop_id = $user->shop->id;
+        // // dd($shop_id);
+        // // $ships = Shipment::where('user_id', auth()->user()->id);
+        // $ships = Shipment::where('shop_id', $shop_id);
+        // $ships = $ships->latest()->get();
         
         // return view('pages.user.express.shipping', compact('dataTable','ships'));
-        return $dataTable->render('pages.user.express.shipping', ['ships' => $ships]);
+        return $dataTable->render('pages.user.express.shipping');
     }
 
     public function trackingPickup(Request $request)
@@ -111,7 +117,9 @@ class ExpressController extends Controller
 
     public function create()
     {
-        return view('pages.user.express.create');
+        // $user = Auth::user();
+        // $shop = $user->shop;
+        return view('pages.user.express.create',['shop'=> Auth::user()->shop]);
     }
 
     public function edit(Shipment $shipment)
@@ -188,7 +196,7 @@ class ExpressController extends Controller
 
     public function update(Request $request,Shipment $shipment)
     {
-        $shipment->address_id = $request->shipper;
+        // $shipment->address_id = $request->shipper;
         $shipment->consignee_name = $request->consignee_name;
         $shipment->consignee_phone = $request->consignee_phone;
         $shipment->consignee_phone_2 = $request->consignee_phone_2;
@@ -204,6 +212,7 @@ class ExpressController extends Controller
     }
     public function store(Request $request)
     {
+        // dd($request->all());
         try 
         {
             $shipment = $this->shipmentService->store($request);

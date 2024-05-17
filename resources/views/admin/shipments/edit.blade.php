@@ -9,12 +9,7 @@ $status_numbers = config('constants.STATUS_NUMBER');
 
 <div class="row">
     
-@if(session()->has('error_update'))
-<div class="alert text-center py-4 my-3 alert-danger">{{ session()->get('error_update') }}</div>
-@endif
-@if(session()->has('success_update'))
-<div class="alert text-center py-4 my-3 alert-success">{{ session()->get('success_update') }}</div>
-@endif
+
 
     <div class="col-sm-12">
         <div class="card">
@@ -32,13 +27,22 @@ $status_numbers = config('constants.STATUS_NUMBER');
                             <div class="d-lg-flex flex-row col-sm-12 mb-3 justify-content-center">
                                 <div class="col-xl-8 col-sm-12 col-lg-8 px-0 mx-2 mb-2">
                                     <label>اسم المتجر/المحل</label><span class="text-danger">*</span>
-                                    <select class="form-control mt-2 ml-2 " name="address">
+                                    
+                                    <select class="form-control mt-2 ml-2" id="shops-select2" name="shop" required>
+                                        @foreach ($shops as $shop)
+                                        <option value="{{ $shop->id }}" <?=$shipment?->shop?->id == $shop?->id ? 'selected' : '' ?>>
+                                            {{ $shop->name }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                    {{-- <select class="form-control mt-2 ml-2 " name="address">
                                         @foreach ($shipment->user->addresses->all() as $address)
                                         <option {{ $shipment->address_id == $address->id ? 'selected' : '' }} value="{{ $address->id }}">
                                             {{ "الاسم : " . ($address->name ?? '') . "           | المدينة : " . ($address->City->name ?? "") . "           | الوصف :" . $address->desc }}
                                         </option>
                                         @endforeach
-                                    </select>
+                                    </select> --}}
+
                                 </div>
                             </div>
                             <hr />
@@ -92,6 +96,15 @@ $status_numbers = config('constants.STATUS_NUMBER');
                                        type="number"
                                        name="order_price" 
                                        value="{{ $shipment->order_price }}"
+                                       required/>
+                            </div>
+
+                            <div class="col-12 my-2 col-md-4">
+                                <label>القيمة عند التسليم</label><span class="text-danger">*</span>
+                                <input class="form-control mt-2 ml-2" 
+                                       type="number"
+                                       name="value_on_delivery" 
+                                       value="{{ $shipment->value_on_delivery }}"
                                        required/>
                             </div>
 

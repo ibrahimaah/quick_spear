@@ -12,6 +12,7 @@ use App\Models\City;
 use App\Models\Delegate;
 use App\Models\EditOrder;
 use App\Models\Shipment;
+use App\Models\Shop;
 use App\Services\ShipmentService;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -37,35 +38,37 @@ class ShipmentController extends Controller
     //     $shipments = Shipment::latest()->get();
     //     return view('admin.shipments.index', compact('shipments'));
     // }
-    public function get_shipments_by_status($status){
-        $dataTable = new ShipmentDataTable($status);
-        return $dataTable->render('admin.shipments.index');
-    }
 
-    public function index(ShipmentDataTable $dataTable)
+
+    // public function get_shipments_by_status($status){
+    //     $dataTable = new ShipmentDataTable($status);
+    //     return $dataTable->render('admin.shipments.index');
+    // }
+
+    public function index(ExpressDataTable $dataTable)
     {
         // $dataTable = new ShipmentDataTable('3');
-        // return $dataTable->render('admin.shipments.index');
-        return redirect()->route('admin.shipments.create');
+        $dataTable = new ExpressDataTable(true); 
+        $delegates = Delegate::all();
+        return $dataTable->render('admin.shipments.index',['delegates'=>$delegates]);
     }
 
-    public function export(Request $request)
-    {
-        ini_set('memory_limit', '2048M');
-        ini_set('max_execution_time', 500); 
+    // public function export(Request $request)
+    // {
+    //     ini_set('memory_limit', '2048M');
+    //     ini_set('max_execution_time', 500); 
         
-        $fileName = 'shipments_' . $request->from . '_' . $request->to . '.' . $request->fileType;
-        return Excel::download(new AdminShipmentsExport($request), $fileName);
-    }
+    //     $fileName = 'shipments_' . $request->from . '_' . $request->to . '.' . $request->fileType;
+    //     return Excel::download(new AdminShipmentsExport($request), $fileName);
+    // }
 
     public function create(Request $request)
     {
-        
-        $dataTable = new ExpressDataTable($request,true);
-        $ships = Shipment::latest()->get();
-        $addresses = Address::all();
+        $shops = Shop::all();
         $delegates = Delegate::all();
-        return $dataTable->render('admin.shipments.create',['ships'=>$ships,'addresses'=>$addresses,'delegates'=>$delegates]); 
+        // return $dataTable->render('admin.shipments.create',['ships'=>$ships,'addresses'=>$addresses,'delegates'=>$delegates]); 
+        return view('admin.shipments.create', ['shops'=>$shops,
+                                               'delegates'=>$delegates]); 
     }
 
     public function store(Request $request)
@@ -142,7 +145,8 @@ class ShipmentController extends Controller
     public function edit(Shipment $shipment)
     {
         $delegates = Delegate::all();
-        return view('admin.shipments.edit', compact('shipment','delegates'));
+        $shops = Shop::all();
+        return view('admin.shipments.edit', compact('shipment','delegates','shops'));
     }
 
     public function update(Request $request, Shipment $shipment)
@@ -152,10 +156,10 @@ class ShipmentController extends Controller
         $res_update_shipment = $this->shipmentService->update($request,$shipment,true);
 
         if ($res_update_shipment['code'] == 1) {
-            return redirect()->back()->with("success_update", "تم تعديل البيانات بنجاح");
+            return redirect()->route('admin.shipments.index')->with("success_update", "تم تعديل البيانات بنجاح");
         }
         else {
-            return redirect()->back()->with("success_update",$res_update_shipment['msg'] );
+            return redirect()->route('admin.shipments.index')->with("success_update",$res_update_shipment['msg'] );
         }
         
     }

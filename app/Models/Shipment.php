@@ -24,6 +24,12 @@ class Shipment extends Model
     {
         return $this->belongsTo(City::class, 'consignee_city');
     }
+
+    public function shop()
+    {
+        return $this->belongsTo(Shop::class);
+    }
+
     // public function get_status()
     // {
     //     $status = $this->status;
