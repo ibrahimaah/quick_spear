@@ -85,8 +85,9 @@
                         </ul>
                     </div>
                 @else
-                    <a href="{{ route('front.get_register') }}"
-                        class="btn btn-outline-primary px-3 py-2 mx-3">{{ __('Register') }}</a>
+                    {{-- <a href="{{ route('front.get_register') }}"
+                        class="btn btn-outline-primary px-3 py-2 mx-3">{{ __('Register') }}</a> --}}
+
                     <a href="{{ route('front.get_login') }}"
                         class="btn btn-outline-primary px-3 py-2">{{ __('Log In') }}</a>
                 @endif

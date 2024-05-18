@@ -57,11 +57,15 @@
     {
 
         var dataTable = $('#express-table').DataTable();
+       
         
         $('#shipment_status_select').on('change',function(){
             var columnName = 'status'; // Replace 'columnName' with the actual name of your column
             var columnIndex = dataTable.column(columnName + ':name').index();
-            dataTable.column(columnIndex).search($(this).val()).draw()
+            var search_value = $(this).val();
+            
+            dataTable.column(columnIndex).search(search_value).draw();
+ 
         })
         
     });

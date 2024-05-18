@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\Address;
 use App\Models\Shipment;
+use App\Models\ShipmentStatus;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -44,7 +46,7 @@ class ShipmentService
     {
         try 
         { 
-
+            
             $data = [ 
                 // 'address_id' => $request->address,
                 'shop_id' => $request->shop,
@@ -63,6 +65,12 @@ class ShipmentService
                 'shipping_date_time'    => now(),
                 'due_date'  => now()->addHours(72),
             ];
+
+            
+            if($shipment->status == ShipmentStatus::UNDER_REVIEW && $request->status == ShipmentStatus::UNDER_DELIVERY)
+            {
+                $data['accepted_by_admin_at'] = Carbon::now()->toDateTimeString();
+            }
 
             if ($by_admin) 
             {

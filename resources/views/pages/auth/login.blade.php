@@ -95,9 +95,9 @@
 
                     </div>
                 </div>
-                <div class="text-center my-3">
+                {{-- <div class="text-center my-3">
                     <a href="{{ route('front.get_register') }}">{{ __('Register') }}</a>
-                </div>
+                </div> --}}
 
                 <div class="text-center my-3">
                     <a href="{{ route('front.forgetPassword') }}">{{ __('Forgot Your Password?') }}</a>

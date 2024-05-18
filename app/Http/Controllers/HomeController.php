@@ -11,6 +11,7 @@ class HomeController extends Controller
 {
     public function index()
     {
+        
         // Setting::create([
         //     'website_name'  => 'ShipyBuy',
         //     'website_logo'  => 'assets/images/logo/logo.png',

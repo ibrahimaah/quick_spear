@@ -13,7 +13,7 @@
                     @if (auth()->check())
                     <a href="{{ route('front.user.account') }}" class="btn btn-primary py-3 px-5 btn-lg">{{ __('Profile') }}</a>
                     @else
-                    <a href="{{ route('front.get_register') }}" class="btn btn-primary py-3 px-5 btn-lg">{{ __('Register') }}</a>
+                    {{-- <a href="{{ route('front.get_register') }}" class="btn btn-primary py-3 px-5 btn-lg">{{ __('Register') }}</a> --}}
                     @endif
                     {{-- <a class="btn btn-primary py-3 px-5 btn-lg" href="#">اشحن لمرة واحدة</a> --}}
                 </div>

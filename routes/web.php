@@ -24,8 +24,8 @@ Route::group(
 
             Route::post('/sumExpress', [HomeController::class, 'sumExpress'])->name('sumExpress');
             Route::middleware(['guest'])->group(function () {
-                Route::get('register', [AuthController::class, 'get_register'])->name('get_register');
-                Route::post('register', [AuthController::class, 'register'])->name('register');
+                // Route::get('register', [AuthController::class, 'get_register'])->name('get_register');
+                // Route::post('register', [AuthController::class, 'register'])->name('register');
 
                 Route::view('forgetPassword', 'pages.auth.forgetPassword')->name('forgetPassword');
                 Route::get('login', [AuthController::class, 'get_login'])->name('get_login');

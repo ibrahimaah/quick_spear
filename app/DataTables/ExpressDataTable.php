@@ -141,18 +141,18 @@ class ExpressDataTable extends DataTable
     {
         if($this->is_from_admin)
         {
-            return $model->newQuery();
+            return $model->newQuery()->orderBy('id','DESC');
         }
 
         if ($this->delegate_id) 
         {
-            return $model->newQuery()->where('delegate_id',$this->delegate_id);
+            return $model->newQuery()->where('delegate_id',$this->delegate_id)->orderBy('id','DESC');
         }
 
         // $user_id =  $this->user_id ?? auth()->user()->id;
         
         // return $model->newQuery()->where('user_id',$user_id);
-        return $model->newQuery()->where('shop_id',$this->shop_id);
+        return $model->newQuery()->where('shop_id',$this->shop_id)->orderBy('id','DESC');
 
         // $query = $model::where('user_id', $user_id)->where(function ($q) {
         //     if ($this->filterData->from!=null) {
@@ -220,7 +220,7 @@ class ExpressDataTable extends DataTable
                 $this->column('order_price', __('Order price'),false,false,false,false),
                 $this->column('value_on_delivery', __('Value on delivery'),false,false,false,false),
                 $this->column('delivery_fees',__('delivery_fees'),false,false,false,false),
-                $this->column('status', __('Action Status'),false,false,false,false),
+                $this->column('status', __('Action Status'),false,true,false,false),
                 $this->column('id',__('order_number'),false,true,false,false),
                 $this->column('customer_notes',__('Customer notes'),false,false,false,false),
                 $this->column('delegate_notes', __('Delegate notes')),
@@ -242,7 +242,7 @@ class ExpressDataTable extends DataTable
                 $this->column('order_price', __('Order price'),false,false,false,false),
                 // $this->column('value_on_delivery', __('Value on delivery'),false,false,false,false),
                 // $this->column('delivery_fees',__('delivery_fees'),false,false,false,false),
-                $this->column('status', __('Action Status'),false,false,false,false),
+                $this->column('status', __('Action Status'),false,true,false,false),
                 $this->column('id',__('order_number'),false,true,false,false),
                 // $this->column('customer_notes',__('Customer notes'),false,false,false,false),
                 $this->column('delegate_notes', __('Delegate notes')),
@@ -264,7 +264,7 @@ class ExpressDataTable extends DataTable
                 $this->column('order_price', __('Order price'),false,false,false,false),
                 $this->column('value_on_delivery', __('Value on delivery'),false,false,false,false),
                 $this->column('delivery_fees',__('delivery_fees'),false,false,false,false),
-                $this->column('status', __('Action Status'),false,false,false,false),
+                $this->column('status', __('Action Status'),false,true,false,false),
                 $this->column('id',__('order_number'),false,true,false,false),
                 $this->column('customer_notes',__('Customer notes'),false,false,false,false),
                 $this->column('delegate_notes', __('Delegate notes')),

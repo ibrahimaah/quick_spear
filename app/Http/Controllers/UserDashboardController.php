@@ -28,6 +28,9 @@ class UserDashboardController extends Controller
     }
     public function dashboard(Request $request)
     {
+        $user = Auth::user();
+        $shop_id = $user->shop->id;
+        $shop_id = $user->shop->id;
         $new_users_count= [];
         $days_list = [];
         $counts_list = [];
@@ -39,10 +42,10 @@ class UserDashboardController extends Controller
         $days = $date_from->diffInDays($to);
         for ($i = 0 ; $i < $days && $i < 30  ; $i++) {
             array_push($days_list, $to->format('m-d'));
-            array_push($counts_list, Shipment::where('user_id', auth()->user()->id)->where('status', 0)->whereDate('created_at', $to->format('Y-m-d'))->count());
-            array_push($counts_list1, Shipment::where('user_id', auth()->user()->id)->where('status', 1)->whereDate('created_at', $to->format('Y-m-d'))->count());
-            array_push($counts_list2, Shipment::where('user_id', auth()->user()->id)->where('status', 2)->whereDate('created_at', $to->format('Y-m-d'))->count());
-            array_push($counts_list3, Shipment::where('user_id', auth()->user()->id)->where('status', 3)->whereDate('created_at', $to->format('Y-m-d'))->count());
+            array_push($counts_list, Shipment::where('shop_id', $shop_id)->where('status', 0)->whereDate('created_at', $to->format('Y-m-d'))->count());
+            array_push($counts_list1, Shipment::where('shop_id', $shop_id)->where('status', 1)->whereDate('created_at', $to->format('Y-m-d'))->count());
+            array_push($counts_list2, Shipment::where('shop_id', $shop_id)->where('status', 2)->whereDate('created_at', $to->format('Y-m-d'))->count());
+            array_push($counts_list3, Shipment::where('shop_id', $shop_id)->where('status', 3)->whereDate('created_at', $to->format('Y-m-d'))->count());
             $to = $to->subDays(1);
         }
         $shipment_count=[
@@ -53,7 +56,8 @@ class UserDashboardController extends Controller
             'counts_list3'=>$counts_list3,
         ];
 
-        $shipment = Shipment::where('user_id', auth()->user()->id)->get();
+        // $shipment = Shipment::where('user_id', auth()->user()->id)->get();
+        $shipment = Shipment::where('shop_id', $shop_id)->get();
 
         return view('pages.user.dashboard', compact('shipment', 'shipment_count', 'date_from', 'to'));
     }
