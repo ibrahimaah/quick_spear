@@ -104,7 +104,7 @@ class UserController extends Controller
 
     public function show(user $user)
     {
-        $dataTable = new ExpressDataTable([],true,$user->id);
+        // $dataTable = new ExpressDataTable(true,$user->id);????????
         $payments = PaymentMethod::where('user_id', $user->id)->latest()->get();
         $documents = Document::where('user_id', $user->id)->latest()->get();
         $rates = ShipmentRate::latest()->get();

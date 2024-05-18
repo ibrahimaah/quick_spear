@@ -71,7 +71,7 @@ class ExpressController extends Controller
         // dd($request->all());
         // $user = Auth::user();
         // $shop_id = $user->shop->id;
-        $dataTable = new ExpressDataTable($request,null,Auth::user()->shop->id);
+        $dataTable = new ExpressDataTable(false,Auth::user()->shop->id);
         
         // $ships = Shipment::where('user_id', auth()->user()->id)->where(function ($q) use ($request) {
 
