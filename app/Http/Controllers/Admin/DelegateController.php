@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\ExpressDataTable;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreDelegateRequest;
 use App\Models\City;
 use App\Models\Delegate;
 use App\Services\DelegateService;
@@ -44,47 +45,21 @@ class DelegateController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreDelegateRequest $request)
     {
-        // dd($request->all());
-        try {
+        $validated = $request->validated();
+        
+        $res_store = $this->delegateService->store($validated);
 
-            $rules = [
-                'name'      => 'required',
-                'phone'     => 'required|unique:delegates',
-                'cities' => 'required'
-            ];
-
-            $validator = Validator::make($request->all(), $rules);
-
-            if ($validator->fails()) {
-                return back()->withErrors($validator)
-                    ->withInput($request->all());
-            }
-
-            $delegate_data = [
-                'name'       => $request->name,
-                'phone'      => $request->phone
-            ];
-
-            $cities = $request->cities;
-            
-            $res_store = $this->delegateService->store($delegate_data,$cities);
-
-            if ($res_store['code'] == 1) 
-            {
-                return redirect()->route('admin.delegates.index')->with("success", "تم اضافة البيانات بنجاح");
-            }
-            else
-            {
-                return redirect()->route('admin.delegates.index')->with("error",$res_store['msg']);
-            }
-
-
-            
-        } catch (\Exception $e) {
-            return $e->getMessage();
+        if ($res_store['code'] == 1) 
+        {
+            return redirect()->route('admin.delegates.index')->with("success", "تم اضافة البيانات بنجاح");
         }
+        else
+        {
+            return redirect()->route('admin.delegates.index')->with("error",$res_store['msg']);
+        }
+       
     }
 
     /**

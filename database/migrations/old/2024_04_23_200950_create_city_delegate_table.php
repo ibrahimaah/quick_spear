@@ -18,8 +18,13 @@ return new class extends Migration
             $table->unsignedBigInteger('city_id');
             $table->unsignedBigInteger('delegate_id');
 
-            $table->foreign('delegate_id')->references('id')->on('delegates');
-            $table->foreign('city_id')->references('id')->on('cities');
+            $table->foreign('delegate_id')->references('id')->on('delegates')->onDelete('cascade');
+            $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
+            
+            $table->decimal('price',8,3);
+
+            $table->unique(['delegate_id', 'city_id']);
+
             $table->timestamps();
         });
     }
