@@ -43,30 +43,59 @@ class DelegateService
             return ['code' => 0, 'msg' => $ex->getMessage()];
         }
     }
-    public function update($delegate_id,$data,$cities)
+    // public function update($delegate_id,$data,$cities)
+    // {
+    //     try 
+    //     {
+    //         $delegate = Delegate::findOrFail($delegate_id);
+
+    //         $affectedRows =  $delegate->update($data);
+
+    //         if ($affectedRows > 0) 
+    //         {
+    //             $delegate->cities()->sync($cities);
+    //             return ['code' => 1, 'data' => true];
+    //         } 
+    //         else 
+    //         {
+    //             throw new Exception('Error assign delegate');
+    //         }
+    //     } 
+    //     catch (Exception $ex) 
+    //     {
+    //         return ['code' => 0, 'msg' => $ex->getMessage()];
+    //     }
+    // }
+
+  
+    public function update($data,$delegate)
     {
         try 
         {
-            $delegate = Delegate::findOrFail($delegate_id);
+            $delegate_table_data = [
+                'name' => $data['name'],
+                'phone' => $data['phone'],
+            ];
 
-            $affectedRows =  $delegate->update($data);
+            $delegate->update($delegate_table_data);
 
-            if ($affectedRows > 0) 
-            {
-                $delegate->cities()->sync($cities);
-                return ['code' => 1, 'data' => true];
-            } 
-            else 
-            {
-                throw new Exception('Error assign delegate');
+            
+            $delegate_pivote_data = $data['delegates'];
+            // Attach delegate to each city with price
+            foreach ($delegate_pivote_data as $delegate_pivote_row) {
+                $cityId = $delegate_pivote_row['city'];
+                $price = $delegate_pivote_row['price'];
+                // dd($price);
+                $delegate->cities()->syncWithPivotValues($cityId, ['price' => $price]);
             }
+            
+            return ['code' => 1, 'data' => $delegate];
+          
         } 
         catch (Exception $ex) 
         {
             return ['code' => 0, 'msg' => $ex->getMessage()];
         }
     }
-
-  
 
 }

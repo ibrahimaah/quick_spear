@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\DataTables\ExpressDataTable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDelegateRequest;
+use App\Http\Requests\UpdateDelegateRequest;
 use App\Models\City;
 use App\Models\Delegate;
 use App\Services\DelegateService;
@@ -26,7 +27,7 @@ class DelegateController extends Controller
      */
     public function index()
     {
-        return view('admin.delegates.index', ['delegates' => Delegate::all()]);
+        return view('admin.delegates.index', ['delegates' => Delegate::orderBy('created_at','desc')->get()]);
     }
 
     /**
@@ -93,38 +94,21 @@ class DelegateController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Delegate $delegate)
+    public function update(UpdateDelegateRequest $request,Delegate $delegate)
     {
-     
-        $rules = [
-            'name'      => 'required',
-            'phone'     => 'required|unique:delegates,phone,'.$delegate->id,
-            'cities'     => 'required',
-        ];
-
-        $validator = Validator::make($request->all(), $rules);
-
-        if ($validator->fails()) {
-            return back()->withErrors($validator)
-                        ->withInput($request->all());
-        }
-
-        $new_data = [
-            'name'       => $request->name,
-            'phone'      => $request->phone
-        ];
-        
-        $res_update = $this->delegateService->update($delegate->id,$new_data,$request->cities);
+        $validated = $request->validated();
+        // dd($validated);
+        $res_update = $this->delegateService->update($validated,$delegate);
 
         if ($res_update['code'] == 1) 
         {
-            return redirect()->route('admin.delegates.index')->with("success","تم تعديل البيانات بنجاح");
-        }else{
+            return redirect()->route('admin.delegates.index')->with("success", "تم حفظ البيانات بنجاح");
+        }
+        else
+        {
             return redirect()->route('admin.delegates.index')->with("error",$res_update['msg']);
         }
-
-
-        
+       
     }
 
     /**

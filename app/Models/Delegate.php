@@ -31,6 +31,6 @@ class Delegate extends Model
 
     public function cities(): BelongsToMany
     {
-        return $this->belongsToMany(City::class)->withTimestamps();
+        return $this->belongsToMany(City::class)->withPivot('price')->withTimestamps();
     }
 }

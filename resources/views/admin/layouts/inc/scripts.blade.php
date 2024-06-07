@@ -58,7 +58,7 @@
 
 
 
-    {{-- @if(session()->has('success'))
+    @if(session()->has('success'))
     <script>
         $.notify('{{ session()->get("success") }}',{
             type: 'success',
@@ -87,7 +87,7 @@
             }
         });
     </script>
-    @endif --}}
+    @endif
 
     
     <!-- login js-->
