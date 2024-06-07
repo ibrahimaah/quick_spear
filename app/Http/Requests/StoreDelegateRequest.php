@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\UniqueCities;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
 
 class StoreDelegateRequest extends FormRequest
 {
@@ -26,17 +28,19 @@ class StoreDelegateRequest extends FormRequest
         return [
             'name' => 'required|string|max:255|min:2',
             'phone' => ['required','unique:delegates,phone', 'regex:/^(077|078|079)\d{7}$/'],
-            'delegates' => 'required|array',
+            'delegates' => ['required','array',new UniqueCities],
             'delegates.*.city' => 'required|exists:cities,id',
-            'delegates.*.price' => 'required|numeric|min:0',
+            'delegates.*.price' => 'required|numeric|min:1',
         ];
     }
+
+   
 
     public function messages()
     {
         return [
             'phone.regex' => 'يجب أن يبدأ رقم الهاتف بـ 077 أو 078 أو 079 متبوعًا بـ 7 أرقام.',
-            'delegates.*.price.min' => 'يجب أن يكون السعر رقمًا غير سالب.',
+            'delegates.*.price.min' => 'يجب أن يكون السعر أكبر من الصفر.',
         ];
     }
 }

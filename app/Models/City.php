@@ -12,7 +12,7 @@ class City extends Model
 
     public function delegates(): BelongsToMany
     {
-        return $this->belongsToMany(Delegate::class);
+        return $this->belongsToMany(Delegate::class)->withTimestamps();
     }
 
     public function shop()

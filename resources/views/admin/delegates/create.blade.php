@@ -2,7 +2,13 @@
 @section('title', 'اضافة مندوب')
 @section('content')
 
- 
+<style>
+  [data-x-group]:first-of-type #rmv-btn {
+      display: none;
+  }
+   
+</style>
+
 <div class="row">
   <div class="col-sm-12">
     <div class="card">
@@ -21,8 +27,7 @@
         </div>
         @endif
       </div>
-      <form class="form theme-form" method="POST" action="{{ route('admin.delegates.store') }}"
-        enctype="multipart/form-data" id="add_delegate_form">
+      <form class="form theme-form" method="POST" action="{{ route('admin.delegates.store') }}" id="add_delegate_form">
         @csrf
         <div class="card-body">
           <div class="mb-3 row">
@@ -50,10 +55,10 @@
               <div class="border p-3 mb-2">
 
                 <div class="d-flex justify-content-between">
-                  <button type="button" class="btn btn-success mb-3" data-add-btn>
+                  <button type="button" class="btn btn-outline-success mb-3" data-add-btn>
                     <i class="bi bi-plus-lg"></i>
                   </button>
-                  <button type="button" class="btn btn-danger mb-3" id="rmv-btn" data-remove-btn>
+                  <button type="button" class="btn btn-outline-danger mb-3" id="rmv-btn" data-remove-btn>
                     <i class="bi bi-trash"></i>
                   </button>
                 </div>
@@ -74,9 +79,9 @@
                 </div>
 
                 <div class="mb-3 row">
-                  <label class="col-sm-3 col-form-label">السعر</label>
+                  <label class="col-sm-3 col-form-label">أجرة المندوب</label>
                   <div class="col-sm-9">
-                    <input type="number" name="price" class="form-control" required />
+                    <input type="number" name="price" class="form-control" placeholder="أجرة المندوب لهذه المدينة" required />
 
                   </div>
                 </div>

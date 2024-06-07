@@ -55,7 +55,10 @@
             $('#shipment-table_processing').html('جاري تحميل البيانات');
         })
     </script>
-    @if(session()->has('success'))
+
+
+
+    {{-- @if(session()->has('success'))
     <script>
         $.notify('{{ session()->get("success") }}',{
             type: 'success',
@@ -84,7 +87,7 @@
             }
         });
     </script>
-    @endif
+    @endif --}}
 
     
     <!-- login js-->

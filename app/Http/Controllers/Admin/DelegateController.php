@@ -10,6 +10,7 @@ use App\Models\Delegate;
 use App\Services\DelegateService;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class DelegateController extends Controller
 {
@@ -35,7 +36,8 @@ class DelegateController extends Controller
      */
     public function create()
     {
-        
+        // dd(session()->all());
+        Log::info(session()->all());
         return view('admin.delegates.create',['cities'=>City::all()]);
     }
 

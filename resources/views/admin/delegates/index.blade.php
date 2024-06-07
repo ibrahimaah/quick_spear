@@ -10,11 +10,7 @@
 			<div class="card-header">
 				<h5>المندوبين</h5>
 			</div>
-			@if(session()->has('success'))
-			<div class="alert alert-success">
-				{{ session()->get('success') }}
-			</div>
-			@endif
+			
 
 			<div class="card-body">
 				<div class="table-responsive">
