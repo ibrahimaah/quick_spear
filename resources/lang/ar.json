@@ -817,6 +817,7 @@
     "Delegate notes":"ملاحظات المندوب",
     "Customer notes":"ملاحظات العميل",
     "consignee_region":"منطقة التوصيل",
+    "consignee_city":"المدينة",
     "not_determined_yet":"لم يحدد بعد",
     "delivery_fees":"أجور التوصيل",
     "There is no notes":"لا يوجد ملاحظات",
@@ -825,5 +826,7 @@
     "Deleted Successfully":"تم الحذف بنجاح",
     "Delegate Name":"اسم المندوب",
     "Shipping.":"شحنة",
-    "Order price":"سعر الطلب"
+    "Order price":"سعر الطلب",
+    "shop_name":"اسم المتجر",
+    "Notes" : "ملاحظات"
 }

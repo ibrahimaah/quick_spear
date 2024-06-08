@@ -14,8 +14,11 @@
     "returned": "Returned",
     "unknown_status": "Unknown Status",
     "consignee_region":"Consignee Region",
+    "consignee_city":"Consignee City",
     "not_determined_yet":"not determined yet",
     "delivery_fees":"Delivery Fees",
     "accepted_by_admin_at":"Accepted by admin at",
-    "order_number":"Order Number"
+    "order_number":"Order Number",
+    "shop_name":"Shop Name",
+    
 }

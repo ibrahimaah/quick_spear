@@ -100,12 +100,12 @@ $status_numbers = config('constants.STATUS_NUMBER');
                             </div>
 
                             <div class="col-12 my-2 col-md-4">
-                                <label>القيمة عند التسليم</label><span class="text-danger">*</span>
+                                <label>القيمة عند التسليم</label>
                                 <input class="form-control mt-2 ml-2" 
                                        type="number"
                                        name="value_on_delivery" 
                                        value="{{ $shipment->value_on_delivery }}"
-                                       required/>
+                                       />
                             </div>
 
 
