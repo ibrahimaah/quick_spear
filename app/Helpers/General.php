@@ -86,8 +86,8 @@ function getStatusInfo($status_number, $info='msg')
             return $info === 'msg' ? __('postponed') : 'postponed';
         case $statusConfig['NO_RESPONSE']:
             return $info === 'msg' ? __('no_response') : 'no_response';
-        case $statusConfig['RETURNED']:
-            return $info === 'msg' ? __('returned') : 'returned';
+        // case $statusConfig['RETURNED']:
+        //     return $info === 'msg' ? __('returned') : 'returned';
         default:
             return $info === 'msg' ? __('unknown_status') : 'unknown_status';
     }

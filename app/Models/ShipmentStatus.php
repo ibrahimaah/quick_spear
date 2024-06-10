@@ -16,5 +16,5 @@ class ShipmentStatus extends Model
     const REJECTED_WITH_PAY = 4;
     const POSTPONED = 5;
     const NO_RESPONSE = 6;
-    const RETURNED = 7;
+    // const RETURNED = 7;
 }

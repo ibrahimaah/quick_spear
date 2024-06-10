@@ -8,6 +8,6 @@ return [
         'REJECTED_WITH_PAY' => 4,
         'POSTPONED' => 5,
         'NO_RESPONSE' => 6,
-        'RETURNED' => 7,
+        // 'RETURNED' => 7,
     ],
 ];

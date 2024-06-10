@@ -124,8 +124,8 @@ class DelegateController extends Controller
     }
 
     public function get_shipments(Delegate $delegate){
-        $dataTable = new ExpressDataTable(false,null,$delegate->id);
-        return $dataTable->render('admin.delegates.show_shipments');
+        $dataTable = new ExpressDataTable(false,null,$delegate->id); 
+        return $dataTable->render('admin.delegates.show_shipments',['delegate' => $delegate]);
     }
 
     public function get_delegates_by_city_id(City $city)

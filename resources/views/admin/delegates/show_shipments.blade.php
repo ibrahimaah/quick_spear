@@ -8,7 +8,13 @@
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header">
-                <h5>الشحنات</h5>
+                <h5>
+                    @if($delegate)
+                    <span>الشحنات الخاصة بالمندوب</span><span class="text-success"> {{ $delegate->name }}</span>
+                    @else 
+                    <span>الشحنات</span>
+                    @endif
+                </h5>
                 {{-- @if (session()->has('error'))
                     <div class="alert text-center py-4 my-3 alert-danger">{{ session()->get('error') }}</div>
                 @endif

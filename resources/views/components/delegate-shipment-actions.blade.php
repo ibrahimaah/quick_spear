@@ -1,14 +1,17 @@
 <div class="d-flex justify-content-between gap-1">
     <div>
-        <a onclick="if (confirm('برجاء تأكيد العملية')) { document.getElementById('cancel' + {{ $query->id }}).submit(); }"
+        <a  onclick="confirm('برجاء تأكيد العملية') ? document.getElementById('cancel{{ $query->id }}').submit() : '';"
             class="btn btn-sm btn-secondary">إلغاء</a>
 
-        <form action="{{ route('admin.shipments.cancel_assign_delegate', $query->id) }}" id="cancel{{ $query->id }}"
-            method="post">
-            {{ csrf_field() }}
-            {{ method_field('POST') }}
+        <form action="{{ route('admin.shipments.cancel_assign_delegate', $query->id) }}" 
+              id="cancel{{ $query->id }}"
+              method="POST">
+            @csrf
+            @method('POST')
         </form>
     </div>
+
+    
 
 
     <div>
@@ -26,7 +29,7 @@
 
 
 
-    <div>
+    {{-- <div>
         <a onclick="confirm('برجاء تأكيد العملية') ? document.getElementById('delete_shipment{{ $query->id }}').submit() : '';"
             class="btn btn-sm btn-danger"> <i class="bi bi-trash"></i></a>
 
@@ -35,6 +38,6 @@
             @csrf
             @method('DELETE')
         </form>
-    </div>
+    </div> --}}
 
 </div>

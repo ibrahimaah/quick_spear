@@ -83,8 +83,8 @@ class Shipment extends Model
                 return __('postponed');
             case  $status_numbers['NO_RESPONSE']:
                 return __('no_response');
-            case $status_numbers['RETURNED']:
-                return __('returned');
+            // case $status_numbers['RETURNED']:
+            //     return __('returned');
             default:
                 return __('unknown_status');
         }
