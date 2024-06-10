@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Address;
+use App\Models\City;
 use App\Models\Delegate;
 use App\Models\Shipment;
 use Exception;
@@ -98,4 +99,25 @@ class DelegateService
         }
     }
 
+
+    public function get_delegates_by_city_id($city_id)
+    {
+        try 
+        {
+            $city = City::findOrFail($city_id);
+            $delegates = $city->delegates;
+            if ($delegates->isNotEmpty()) 
+            {
+                return ['code' => 1 , 'data' => $delegates];
+            }
+            else 
+            {
+                throw new Exception("no delegates for selected city");
+            }
+        }
+        catch(Exception $ex)
+        {
+            return ['code' => 0, 'msg' => $ex->getMessage()];
+        }
+    }
 }

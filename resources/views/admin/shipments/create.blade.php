@@ -161,12 +161,17 @@
 
                             <div class="col-12 my-2 col-md-4">
                                 <label class="mb-2 d-block">{{ __('Delegate Name') }}</label>
-                                <select id="choose-delegate-select2" name="delegate" required>
+                                {{-- <select id="choose-delegate-select2" name="delegate" required>
                                     @if($delegates->isNotEmpty())
                                         @foreach($delegates as $delegate)
                                         <option value="{{ $delegate->id }}">{{ $delegate->name }}</option> 
                                         @endforeach
                                     @endif
+                                </select> --}}
+                                <select id="choose-delegate-select2" name="delegate" required>
+                                    
+                                        
+                                    {{-- @endif --}}
                                 </select>
                             </div>
 
@@ -178,14 +183,11 @@
                                 @enderror
                             </div>
                       
-                        
-                            
-
                         </div>
                         <hr>
                     </div>
                 </div>
-                <button class="btn btn-primary btn-lg my-3" type="submit">{{ __('Save') }}</button>
+                <button class="btn btn-primary btn-lg my-3" id="save_shipment_btn" type="submit">{{ __('Save') }}</button>
             </form>
         </div>
     </div>
@@ -202,6 +204,45 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
+
+        function fetchDelegates(cityId) 
+        {
+            var url = "{{ route('admin.delegates.get_delegates_by_city_id', ['city' => 'CITY_ID_PLACEHOLDER']) }}";
+            url = url.replace('CITY_ID_PLACEHOLDER', cityId);
+
+            $.ajax({
+                url: url,
+                method: "GET",
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                beforeSend: function() { 
+                    $('#choose-delegate-select2').prop('disabled', true);
+                    $('#save_shipment_btn').addClass('disabled-button');
+                },
+                complete: function() { 
+                    $('#choose-delegate-select2').prop('disabled', false);
+                    $('#save_shipment_btn').removeClass('disabled-button');
+                },
+                success: function(response) {
+                    if (response.code == 1) {
+                        var delegates = response.data;
+                        var delegateSelect = $('#choose-delegate-select2');
+                        delegateSelect.empty();
+                        delegateSelect.append('<option value=""></option>'); // Add default empty option
+                        $.each(delegates, function(index, delegate) {
+                            delegateSelect.append('<option value="' + delegate.id + '">' + delegate.name + '</option>');
+                        });
+                    } else if (response.code == 0) {
+                        alert('Error fetching delegates');
+                    }
+                },
+                error: function() {
+                    alert('An error occurred');
+                }
+            });
+        }
+        
         $(document).ready(function() 
         {
             $('#delegates-select2').select2();
@@ -215,73 +256,20 @@
             $('#shops-select2').select2();
             $('#cities-select2').select2();
 
-            // $('#shipment_status_select').select2();
-            // var dataTable = $('#express-table').DataTable();
-            // var selectedIds = [];
-            // var assignButton = $('#assign-shipment-btn');
-            // var invoiceButton = $('#invoice-btn');
+            var initialCityId = $('#cities-select2').val();
+            if (initialCityId) {
+                fetchDelegates(initialCityId);
+            }
 
-            // Function to enable/disable the button based on the selectedIds array
-            // function toggleButtonState() {
-            //     if (selectedIds.length > 0) {
-            //         assignButton.prop('disabled', false); // Enable the button
-            //         invoiceButton.prop('disabled', false); // Enable the button
-            //     } else {
-            //         assignButton.prop('disabled', true); // Disable the button
-            //         invoiceButton.prop('disabled', true);
-            //     }
-            // }
-
-            // Event listener for checkbox changes
-            // $('#express-table').on('change', 'input[type="checkbox"]', function() {
-            //     if (this.checked) {
-            //         var id = $(this).val();
-            //         if (selectedIds.indexOf(id) === -1) {
-            //             selectedIds.push(id);
-            //         }
-            //     } else {
-            //         var id = $(this).val();
-            //         var index = selectedIds.indexOf(id);
-            //         if (index !== -1) {
-            //             selectedIds.splice(index, 1);
-            //         }
-            //     }
-            //     toggleButtonState(); // Update button state
-            //     console.log(selectedIds);
-            // });
-
-            // Event listener for assign button click
-            // assignButton.on('click', function() {
-            //     // Show Bootstrap modal and display selected ids inside it
-            //     if (selectedIds.length > 0) {
-            //         $('#assign-delegate-modal').modal('show');
-            //         $('#selected-shipments-ids-input').val(selectedIds); 
-            //         // $('#selected-ids').text(' الشحنات التي ستم إسنادها'+selectedIds.join('#, ')); // Display selected ids inside the modal
-            //     }
-            // });
-
-
-             // Event listener for invoice button click
-            //  invoiceButton.on('click', function() 
-            //  {
-            //     // Show Bootstrap modal and display selected ids inside it
-            //     if (selectedIds.length > 0) 
-            //     {
-            //         $('#selected-shipments-ids-input-invoice').val(selectedIds); 
-            //     }
-            // });
-
-
-            // Initialize button state
-            // toggleButtonState();
-
-
-
-            // $('#shipment_status_select').on('change',function(){
-            //     var columnName = 'status'; // Replace 'columnName' with the actual name of your column
-            //     var columnIndex = dataTable.column(columnName + ':name').index();
-            //     dataTable.column(columnIndex).search($(this).val()).draw()
-            // })
+            // Fetch delegates on change event
+            $('#cities-select2').on('change', function (e) {
+                var cityId = $("option:selected", this).val();
+                if (cityId) {
+                    fetchDelegates(cityId);
+                }
+            });
+           
+            
             
         });
 
