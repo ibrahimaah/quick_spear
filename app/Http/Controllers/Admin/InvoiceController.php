@@ -20,7 +20,8 @@ class InvoiceController extends Controller
         $selectedShipmentsIdsArray = explode(',', $selectedShipmentsIds);
         $res_get_selected_shipments = $this->shipmentService->get_selected_shipments($selectedShipmentsIdsArray);
         
-        if ($res_get_selected_shipments['code'] == 1) {
+        if ($res_get_selected_shipments['code'] == 1) 
+        {
             $selected_shipments = $res_get_selected_shipments['data'];
             set_time_limit(300);
             $pdf = PDF::loadView('admin.invoices.index',['selected_shipments'=>$selected_shipments]);

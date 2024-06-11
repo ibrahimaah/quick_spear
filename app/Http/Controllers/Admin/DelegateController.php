@@ -9,9 +9,11 @@ use App\Http\Requests\UpdateDelegateRequest;
 use App\Models\City;
 use App\Models\Delegate;
 use App\Services\DelegateService;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use PDF;
 
 class DelegateController extends Controller
 {
@@ -136,5 +138,42 @@ class DelegateController extends Controller
             $delegates = $res_get_delegates_by_city_id['data'];
             return response()->json(['code' => 1 , 'data' => $delegates]);
         }
+        else 
+        {
+            dd($res_get_delegates_by_city_id['msg']);
+        }
+    }
+
+
+    // Convert Arabic numerals if needed
+    function convertToArabicNumerals($number) {
+        $westernArabic = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+        $easternArabic = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+        return str_replace($westernArabic, $easternArabic, $number);
+    }
+
+    public function delegate_daily_delivery_statement(Delegate $delegate)
+    {
+        $now_date = Carbon::now();
+        // Set the locale to Arabic
+        Carbon::setLocale('ar');
+        // Get the current date
+        $now = Carbon::now();
+
+        // Get the current day in Arabic
+        $currentDayInArabic = $now->translatedFormat('l');
+        $currentDate = $now->format('Y/m/d');
+        $currentDateInArabic = $this->convertToArabicNumerals($currentDate);
+        Carbon::setLocale('en');
+        
+        $statement_data = [];
+        $statement_data['current_day'] = $currentDayInArabic;
+        $statement_data['current_date'] = $currentDateInArabic; 
+        
+
+        // dd($statement_data['current_day']);
+        $pdf = PDF::loadView('admin.delegates.delegate_daily_delivery_statement',['statement' => $statement_data,'delegate' => $delegate]);
+        return $pdf->stream('invoice.pdf');
+        // return view('admin.delegates.delegate_daily_delivery_statement');
     }
 }

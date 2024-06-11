@@ -9,6 +9,27 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Shipment extends Model
 {
     public $guarded = [];
+    protected $appends = ['notes'];
+
+    public function getNotesAttribute()
+    {
+        if ($this->customer_notes && $this->delegate_notes) 
+            {
+                return $this->customer_notes .' - '.$this->delegate_notes;
+            }
+            elseif ($this->customer_notes && !$this->delegate_notes) 
+            {
+                return $this->customer_notes;
+            }
+            elseif (!$this->customer_notes && $this->delegate_notes) 
+            {
+                return $this->delegate_notes;
+            }
+            else 
+            {
+                return 'لا يوجد';
+            }
+    }
 
     public function user()
     {
