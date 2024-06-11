@@ -8,6 +8,7 @@ use App\Http\Requests\StoreDelegateRequest;
 use App\Http\Requests\UpdateDelegateRequest;
 use App\Models\City;
 use App\Models\Delegate;
+use App\Models\ShipmentStatus;
 use App\Services\DelegateService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
@@ -125,9 +126,24 @@ class DelegateController extends Controller
         return redirect()->route('admin.delegates.index')->with("success","تم حذف البيانات بنجاح");
     }
 
-    public function get_shipments(Delegate $delegate){
+    public function get_shipments(Delegate $delegate)
+    {
         $dataTable = new ExpressDataTable(false,null,$delegate->id); 
-        return $dataTable->render('admin.delegates.show_shipments',['delegate' => $delegate]);
+        $is_disable_1st_btn = true;
+        
+        foreach($delegate->shipments as $shipment)
+        {
+            if($shipment->status != ShipmentStatus::UNDER_DELIVERY)
+            {
+                $is_disable_1st_btn = true;
+                break;
+            }
+            else 
+            {
+                $is_disable_1st_btn = false;
+            }
+        }
+        return $dataTable->render('admin.delegates.show_shipments',['delegate' => $delegate,'is_disable_1st_btn'=>$is_disable_1st_btn]);
     }
 
     public function get_delegates_by_city_id(City $city)
@@ -169,10 +185,14 @@ class DelegateController extends Controller
         $statement_data = [];
         $statement_data['current_day'] = $currentDayInArabic;
         $statement_data['current_date'] = $currentDateInArabic; 
-        
 
+   
+        
+        // return view('admin.delegates.delegate_daily_delivery_statement',['statement' => $statement_data,
+        // 'delegate' => $delegate]);
         // dd($statement_data['current_day']);
-        $pdf = PDF::loadView('admin.delegates.delegate_daily_delivery_statement',['statement' => $statement_data,'delegate' => $delegate]);
+        $pdf = PDF::loadView('admin.delegates.delegate_daily_delivery_statement',['statement' => $statement_data,
+                                                                                  'delegate' => $delegate]);
         return $pdf->stream('invoice.pdf');
         // return view('admin.delegates.delegate_daily_delivery_statement');
     }

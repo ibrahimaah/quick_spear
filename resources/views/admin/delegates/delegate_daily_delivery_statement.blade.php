@@ -21,6 +21,7 @@
             }
             .title{
                 text-align: center !important;
+                /* display: inline-block; */
             }
             td, th {
                 border: 1px solid #dddddd;
@@ -34,18 +35,62 @@
             .text-center{
                 text-align: center !important;  
             }
+            .text-right{
+                text-align: right !important;  
+            }
+            .text-left{
+                text-align: left !important;  
+            }
        
-
-        
-
+            td
+            {
+                text-align: center !important
+            }
+            
+            .header-table{
+                width:100%;
+                border: none !important;
+                margin-bottom: 30px !important;
+            }
+            .header-table td {
+                border: none !important
+            }
+            .footer-table{
+                margin-top:30px !important;
+                width:100%;
+                border: none !important; 
+            }
+            .footer-table td {
+                border: none !important
+            }
+            .mr-50{
+                margin-right:  50px !important
+            }
         </style> 
 	</head>
 
-	<body>
-		<h3 class="title">كشف تسليم</h3>
-		<h3 class="title">يومي</h3>
-		
-		
+	<body> 
+		<table class="header-table">
+            <tr>
+                <td class="text-center">
+                    <div>
+                        <h3 class="title">(الرمح السريع)</h3>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <h3 class="title">كشف تسليم</h3>
+                        <h3 class="title">يومي</h3>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <div>
+                        <h3 class="title">Quick spear for</h3>
+                        <h3 class="title">delivery services</h3>
+                    </div>
+                </td>
+            </tr>
+        </table>
 		<div class="invoice-box">
 			<table id="invoice-table">
                 <tr> 
@@ -54,7 +99,7 @@
                   <th colspan="3" class="text-center">{{ $statement['current_date'] }}</th> 
                 </tr>
              
-                <tr class="text-center">
+                <tr>
                     <th>الرقم</th>
                     <th>المدينة</th>
                     <th>المنطقة</th>
@@ -71,9 +116,10 @@
                         <td>{{ $shipment->consignee_region }}</td>
                         <td>{{ $shipment->shop->name }}</td> 
                         <td>{{ $shipment->order_price }}</td> 
-                        <td>{{ getStatusInfo($shipment->status) }}</td>
+                        {{-- <td>{{ getStatusInfo($shipment->status) }}</td> --}}
+                        <td></td>
                         <td>{{ $shipment->consignee_phone }}</td>
-                        <td>{{ $shipment->notes }}</td>
+                        <td class="text-right">{{ $shipment->notes }}</td>
                         
                     </tr>
                 @endforeach
@@ -89,6 +135,11 @@
                     <th colspan="3">اسم المستلم وتوقيعه :</th>
                 </tr> --}}
               </table>
+
+              <h4 class="mr-50">المجموع الكلي :</h4>
+              <h4 class="mr-50"> العمولة :</h4>
+              <h4 class="mr-50">المجموع النهائي :</h4>
+          
               
 		</div>
 	</body>
