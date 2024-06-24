@@ -9,8 +9,8 @@
     <script src="{{ asset('assets/admin')}}/js/scrollbar/simplebar.js"></script>
     <script src="{{ asset('assets/admin')}}/js/scrollbar/custom.js"></script>
     <!-- Sidebar jquery-->
-    <script src="{{ asset('assets/admin')}}/js/select2/select2.full.min.js"></script>
-    <script src="{{ asset('assets/admin')}}/js/select2/select2-custom.js"></script>
+    {{-- <script src="{{ asset('assets/admin')}}/js/select2/select2.full.min.js"></script>
+    <script src="{{ asset('assets/admin')}}/js/select2/select2-custom.js"></script> --}}
 
     <script src="{{ asset('assets/admin')}}/js/config.js"></script>
     <!-- Plugins JS start-->
@@ -19,7 +19,7 @@
     <script src="{{ asset('assets/admin') }}/js/datatable/datatables/jquery.dataTables.min.js"></script>
     <script src="{{ asset('assets/admin') }}/js/datatable/datatables/datatable.custom.js"></script>
     <script src="{{ asset('assets/admin') }}/js/tooltip-init.js"></script>
-    <script src="{{ asset('assets/admin') }}/js/general-widget.js"></script>
+    {{-- <script src="{{ asset('assets/admin') }}/js/general-widget.js"></script> --}}
     <script src="{{ asset('assets/admin')}}/js/chart/chartist/chartist.js"></script>
     <script src="{{ asset('assets/admin')}}/js/chart/chartist/chartist-plugin-tooltip.js"></script>
     <script src="{{ asset('assets/admin')}}/js/chart/knob/knob.min.js"></script>
@@ -27,8 +27,8 @@
     <script src="{{ asset('assets/admin')}}/js/chart/apex-chart/apex-chart.js"></script>
     <script src="{{ asset('assets/admin')}}/js/chart/apex-chart/stock-prices.js"></script>
     <script src="{{ asset('assets/admin')}}/js/notify/bootstrap-notify.min.js"></script>
-    <script src="{{ asset('assets/admin')}}/js/dashboard/default.js"></script>
-    <!-- <script src="{{ asset('assets/admin')}}/js/notify/index.js"></script> -->
+    {{-- <script src="{{ asset('assets/admin')}}/js/dashboard/default.js"></script> --}}
+     {{-- <script src="{{ asset('assets/admin')}}/js/notify/index.js"></script>  --}}
     <script src="{{ asset('assets/admin')}}/js/datepicker/date-picker/datepicker.js"></script>
     <script src="{{ asset('assets/admin')}}/js/datepicker/date-picker/datepicker.en.js"></script>
     <script src="{{ asset('assets/admin')}}/js/datepicker/date-picker/datepicker.custom.js"></script>
@@ -37,6 +37,9 @@
     <script src="{{ asset('assets/admin')}}/js/typeahead/typeahead.custom.js"></script>
     <script src="{{ asset('assets/admin')}}/js/typeahead-search/handlebars.js"></script>
     <script src="{{ asset('assets/admin')}}/js/typeahead-search/typeahead-custom.js"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!-- Plugins JS Ends-->
     <!-- Theme js-->
     <script src="{{ asset('assets/admin')}}/js/script.js"></script>

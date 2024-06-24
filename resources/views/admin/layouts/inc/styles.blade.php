@@ -23,7 +23,9 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/admin') }}/css/vendors/owlcarousel.css">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/admin') }}/css/vendors/prism.css">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/admin') }}/css/vendors/whether-icon.css">
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/admin') }}/css/vendors/select2.css">
+{{-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> --}}
+{{-- <link rel="stylesheet" type="text/css" href="{{ asset('assets/admin') }}/css/vendors/select2.css"> --}}
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/admin') }}/css/vendors/select2.min.css">
 <!-- Plugins css Ends-->
 <!-- Bootstrap css-->
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/admin') }}/css/vendors/bootstrap.css">

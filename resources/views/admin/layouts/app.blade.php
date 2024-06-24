@@ -66,5 +66,14 @@
     </div>
     @include('admin.layouts.inc.scripts')
     @livewireScripts
+
+    @stack('js')
+
+
+
+
+    
+
+    
   </body>
 </html>

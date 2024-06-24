@@ -75,7 +75,12 @@ $status_numbers = config('constants.STATUS_NUMBER');
 
                             <div class="col-12 my-2 col-md-4">
                                 <label>المدينة</label><span class="text-danger">*</span>
-                                <select class="form-control mt-2 ml-2" type="text" name="consignee_city">
+                                <select 
+                                    class="form-control mt-2 ml-2"
+                                    type="text" id="cities-select2"
+                                    name="consignee_city" 
+                                    required
+                                >
                                     @foreach (App\Models\City::get() as $city)
                                         <option {{ $shipment->consignee_city == $city->id ? 'selected' : '' }} value="{{ $city->id }}">{{ $city->name }}</option>
                                     @endforeach
@@ -142,6 +147,16 @@ $status_numbers = config('constants.STATUS_NUMBER');
                                     @endforeach
                                 </select>
                             </div>
+
+                            <div class="col-12 my-2 col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" name="is_returned" value="1" type="checkbox" id="flexCheckDefault" @checked($shipment->is_returned)>
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        هل يوجد مرتجع؟
+                                    </label>
+                                </div>
+                            </div>
+
                         {{--   
                             <div class="col-12 my-2 col-md-4">
                                 <label>وصف العنوان</label><span class="text-danger">*</span>
@@ -176,12 +191,83 @@ $status_numbers = config('constants.STATUS_NUMBER');
 @endsection
 
 
-@push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+@push('js') 
+
     <script>
+        function fetchDelegates(cityId) 
+        {
+            var url = "{{ route('admin.delegates.get_delegates_by_city_id', ['city' => 'CITY_ID_PLACEHOLDER']) }}";
+            url = url.replace('CITY_ID_PLACEHOLDER', cityId);
+
+            $.ajax({
+                url: url,
+                method: "GET",
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                beforeSend: function() { 
+                    $('#choose-delegate-select2').prop('disabled', true);
+                    $('#save_shipment_btn').addClass('disabled-button');
+                },
+                complete: function() { 
+                    $('#choose-delegate-select2').prop('disabled', false);
+                    $('#save_shipment_btn').removeClass('disabled-button');
+                },
+                success: function(response) {
+                    if (response.code == 1) {
+                        var delegates = response.data;
+                        var delegateSelect = $('#choose-delegate-select2');
+                        delegateSelect.empty();
+                        delegateSelect.append('<option value=""></option>'); // Add default empty option
+                        $.each(delegates, function(index, delegate) {
+                            delegateSelect.append('<option value="' + delegate.id + '">' + delegate.name + '</option>');
+                        });
+                    } else if (response.code == 0) {
+                        alert('Error fetching delegates');
+                    }
+                },
+                error: function() {
+                    alert('An error occurred');
+                }
+            });
+        }
+
         $(document).ready(function() 
         {
             $('#choose-delegate-select2').select2();
             $('#shipment_status_select').select2();
-        })
+       
+            // $('#delegates-select2').select2();
+
+            // $('#delegates-select2').select2({
+            //     dropdownParent: $('#assign-delegate-modal')
+            // });
+
+            $('#choose-delegate-select2').select2();
+            // $('#addresses-select2').select2();
+            $('#shops-select2').select2();
+            $('#cities-select2').select2();
+
+            var initialCityId = $('#cities-select2').val();
+            if (initialCityId) {
+                fetchDelegates(initialCityId);
+            }
+
+            // Fetch delegates on change event
+            $('#cities-select2').on('change', function (e) {
+                var cityId = $("option:selected", this).val();
+                if (cityId) {
+                    fetchDelegates(cityId);
+                }
+            });
+        
+            
+            
+        });
+
+</script>
+
 @endpush
+
+  
+

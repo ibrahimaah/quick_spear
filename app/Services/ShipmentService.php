@@ -74,7 +74,8 @@ class ShipmentService
 
             if ($by_admin) 
             {
-                $data['value_on_delivery'] = $request->value_on_delivery;
+                $data['value_on_delivery'] = $request->value_on_delivery ?? $request->order_price;
+                $data['is_returned'] = $request->has('is_returned') ? $request->is_returned : false;
             }
 
             if ($shipment->update($data)) 

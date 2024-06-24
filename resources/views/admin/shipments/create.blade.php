@@ -18,7 +18,7 @@
 </style> 
 
 
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 
  
 
@@ -124,7 +124,13 @@
 
                             <div class="col-12 my-2 col-md-4">
                                 <label>{{ __('City') }}</label><span class="text-danger">*</span>
-                                <select class="form-control mt-2 ml-2" id="cities-select2" type="text" name="consignee_city" required>
+                                <select 
+                                        class="form-control mt-2 ml-2" 
+                                        id="cities-select2" 
+                                        type="text" 
+                                        name="consignee_city" 
+                                        required
+                                >
                                     @foreach (App\Models\City::get() as $city)
                                         <option value="{{ $city->id }}">{{ $city->name }}</option>
                                     @endforeach
@@ -199,9 +205,7 @@
 
  
 
-    @push('scripts')
-
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    @push('js')
 
     <script>
 
@@ -245,7 +249,7 @@
         
         $(document).ready(function() 
         {
-            $('#delegates-select2').select2();
+            // $('#delegates-select2').select2();
 
             // $('#delegates-select2').select2({
             //     dropdownParent: $('#assign-delegate-modal')
@@ -274,6 +278,7 @@
         });
 
     </script>
+
     @endpush 
    
 

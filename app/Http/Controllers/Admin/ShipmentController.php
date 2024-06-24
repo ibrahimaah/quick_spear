@@ -152,14 +152,15 @@ class ShipmentController extends Controller
     public function update(Request $request, Shipment $shipment)
     {
        
-
+        // dd($request->all());
         $res_update_shipment = $this->shipmentService->update($request,$shipment,true);
 
         if ($res_update_shipment['code'] == 1) {
             return redirect()->back()->with("success_update", "تم تعديل البيانات بنجاح");
         }
         else {
-            return redirect()->back()->with("success_update",$res_update_shipment['msg'] );
+            // dd($res_update_shipment['msg']);
+            return redirect()->back()->with("faild_update",$res_update_shipment['msg'] );
         }
         
     }
