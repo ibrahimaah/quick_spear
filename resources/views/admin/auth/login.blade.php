@@ -49,7 +49,7 @@
                   <p>ادخل رقم الهاتف وكلمة المرور لتسجل دخولك</p>
                   <div class="form-group">
                     <label class="col-form-label">رقم الهاتف</label>
-                    <input class="form-control" type="text" name="phone" required placeholder="055555555">
+                    <input class="form-control" type="text" name="phone" value="0798711008" required placeholder="055555555">
                     @error('phone')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -60,7 +60,7 @@
                     <label class="col-form-label">كلمة المرور</label>
                     <div class="form-input position-relative">
                         {{-- <div class="show-hide"><span class="show"></span></div> --}}
-                      <input class="form-control" type="password" name="password" required placeholder="*********">
+                      <input class="form-control" type="password" value="12345678" name="password" required placeholder="*********">
                       @error('password')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>

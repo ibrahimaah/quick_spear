@@ -5,6 +5,7 @@ namespace App\DataTables;
 use App\Models\City;
 use App\Models\Shipment;
 use App\Models\ShipmentRate;
+use App\Models\ShipmentStatus;
 use App\Traits\DatatableTrait; 
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
@@ -31,6 +32,7 @@ class ExpressDataTable extends DataTable
     // public function __construct($filterData,$is_from_admin=false,$user_id=null,$delegate_id=null)
     public function __construct($is_from_admin=false,$shop_id=null,$delegate_id=null)
     {
+        
         // $this->filterData = $filterData;
         $this->is_from_admin = $is_from_admin;
         $this->shop_id = $shop_id;
@@ -110,7 +112,8 @@ class ExpressDataTable extends DataTable
         ->addColumn('checkbox', function($query) { 
             return '<input type="checkbox" class="sub_chk" data-id="'. $query->id .'">';
         }) 
-        ->editColumn('shipment_status_id', function ($query) {
+        ->editColumn('shipment_status_id', function ($query) 
+        {
             return __($query->status->name);
         })
         ->editColumn('notes', function ($query) 
@@ -132,7 +135,8 @@ class ExpressDataTable extends DataTable
                 return 'لا يوجد';
             }
         })
-        ->addColumn('user_actions', function ($query) {
+        ->addColumn('user_actions', function ($query) 
+        {
             return view('components.user-actions',['query'=>$query]);
         })
         // ->addColumn('delegate_actions', function ($query) 
@@ -150,8 +154,8 @@ class ExpressDataTable extends DataTable
             return view('components.shipments-admin-actions',['query'=>$query]);;
         })
         ->addColumn('delegate_shipment_actions', function ($query) 
-        {
-            return view('components.delegate-shipment-actions',['query'=>$query]);;
+        { 
+            return view('components.delegate-shipment-actions',['query'=>$query,'shipment_statuses' => ShipmentStatus::all()]);;
         })
         ->rawColumns(['actions','admin_actions','shipment_status_id','checkbox','notes','delegate_shipment_actions'])
             ->setRowId('id');

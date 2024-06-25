@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('title', 'المستخدمين')
+@section('title', 'شحنات مندوب')
 @section('content')
 
  
@@ -46,4 +46,53 @@
 
 @push('scripts')
 {{ $dataTable->scripts() }}
+
+<script>
+    $(document).ready(function(){
+        $('#express-table').on('change', '.shipment-status-select', function() { 
+                var dataTable = $('#express-table').DataTable();
+                var columnName = 'id'; // Replace 'columnName' with the actual name of your column
+                var columnIndex = dataTable.column(columnName + ':name').index();
+                var shipmentId = $(this).closest('tr').find('td:eq('+columnIndex+')').text().trim();
+
+                var shipment_status_id = $("option:selected", this).val();
+                var shipment_id = shipmentId
+
+                if (shipment_status_id) {
+                    var url = "{{ route('admin.update_shipment_status', ['status' => 'STATUS_PLACEHOLDER','shipment'=> 'SHIPMENT_PLACEHOLDER']) }}";
+                    url = url.replace('STATUS_PLACEHOLDER', shipment_status_id);
+                    url = url.replace('SHIPMENT_PLACEHOLDER', shipment_id);
+                    console.log(url);
+                    
+                    $.ajax({
+                        url: url,
+                        method: "POST",
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        beforeSend: function() { 
+                             
+                            // $('#choose-delegate-select2').prop('disabled', true);
+                        },
+                        complete: function() {  
+                            alert('completed')
+                        },
+                        success: function(response) {
+                            if (response.code == 1) {   
+                                // var datatable_ = $('#express-table').DataTable();
+                                dataTable.ajax.reload(null, false);
+                                // console.log($('#express-table'))
+                                // dataTable.ajax.reload();
+                            } else if (response.code == 0) {
+                                alert('Error fetching delegates');
+                            }
+                        },
+                        error: function() {
+                            alert('An error occurred');
+                        }
+                    });
+                }
+            });
+    });
+</script>
 @endpush

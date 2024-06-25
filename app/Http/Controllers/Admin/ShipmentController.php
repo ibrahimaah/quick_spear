@@ -227,4 +227,17 @@ class ShipmentController extends Controller
             return redirect()->back()->with('error', $res_cancel['msg']);
         }
     }
+
+    public function update_status(Shipment $shipment , $shipment_status_id)
+    {
+        $res_update_status = $this->shipmentService->update_status($shipment,$shipment_status_id);
+        if ($res_update_status['code'] == 1) 
+        {
+            return response()->json(['code' => 1 , 'data' => true]);
+        }
+        else 
+        {
+            return response()->json(['code' => 0 , 'msg' => $res_update_status['msg']]);
+        }
+    }
 }

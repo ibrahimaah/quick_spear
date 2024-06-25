@@ -182,6 +182,26 @@ class ShipmentService
         }
     }
 
+    public function update_status(Shipment $shipment,$shipment_status_id)
+    {
+        try 
+        { 
+            $shipment->shipment_status_id = $shipment_status_id;
+            if ($shipment->save()) 
+            {
+                return ['code' => 1 , 'data' => true];
+            }
+            else 
+            {
+                throw new Exception('Can not update shipment status');
+            }
+        } 
+        catch (Exception $ex) 
+        {
+            return ['code' => 0, 'msg' => $ex->getMessage()];
+        }
+    }
+
 
   
 }

@@ -133,7 +133,7 @@ class DelegateController extends Controller
         
         foreach($delegate->shipments as $shipment)
         {
-            if($shipment->status != ShipmentStatus::UNDER_DELIVERY)
+            if($shipment->shipment_status_id != ShipmentStatus::UNDER_DELIVERY)
             {
                 $is_disable_1st_btn = true;
                 break;

@@ -66,6 +66,8 @@ Route::prefix('superAdmin/admin/dashboard')->middleware('auth:admin')->name('adm
     Route::resource('cities', CityController::class);
 
     Route::get('get-shipments-by-status/{status}', [ShipmentController::class, 'get_shipments_by_status'])->name('get_shipments_by_status');
+    Route::post('update-shipment-status/{shipment}/{status}', [ShipmentController::class, 'update_status'])->name('update_shipment_status');
+
     Route::post('assign-delegate', [ShipmentController::class, 'assign_delegate'])->name('assign_delegate');
     Route::post('cancel-assign-delegate/{shipment_id}', [ShipmentController::class, 'cancel_assign_delegate'])->name('shipments.cancel_assign_delegate');
     Route::get('import', [ShipmentController::class, 'import_create'])->name('import.create');

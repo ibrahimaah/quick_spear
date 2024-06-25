@@ -1,3 +1,5 @@
+
+
 <div class="d-flex justify-content-between gap-1">
     <div>
         <a  onclick="confirm('برجاء تأكيد العملية') ? document.getElementById('cancel{{ $query->id }}').submit() : '';"
@@ -27,6 +29,15 @@
         </a>
     </div>
 
+    <div>
+        <select class="form-select shipment-status-select">
+            <option>اختر حالة الشحنة</option>
+            @foreach ($shipment_statuses as $shipment_status)
+            <option value="{{ $shipment_status->id }}">{{ __($shipment_status->name) }}</option> 
+            @endforeach
+          </select>
+    </div>
+
 
 
     {{-- <div>
@@ -41,3 +52,6 @@
     </div> --}}
 
 </div>
+
+ 
+
