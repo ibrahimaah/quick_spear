@@ -2,6 +2,9 @@
 
 @section('expressContent')
 
+{{-- @php
+    $shipment_status_id = App\Models\ShipmentStatus::UNDER_REVIEW;
+@endphp --}}
 <style>
    #shipments_form > div > div:nth-child(1) > div > #rmv-btn {
         visibility: hidden !important;
@@ -28,6 +31,7 @@
                 @csrf
                 
                 <input type="hidden" name="shop" value="{{ $shop->id }}" required />
+                {{-- <input type="hidden" name="shipment_status_id" value="{{ $shipment_status_id }}" required /> --}}
 
                 <div data-x-wrapper="shipments">
                     <div data-x-group>
@@ -79,6 +83,7 @@
                                        onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
                                        title="Please Enter Ten Digits"
                                        name="consignee_phone" required/>
+                                       
                                 @error('consignee_phone')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -95,7 +100,7 @@
 
                             <div class="col-12 my-2 col-md-4">
                                 <label>{{ __('City') }}</label><span class="text-danger">*</span>
-                                <select class="form-control mt-2 ml-2" type="text" name="consignee_city" required>
+                                <select class="form-control mt-2 ml-2" type="text" id="consignee_city" name="consignee_city" required>
                                     @foreach (App\Models\City::get() as $city)
                                         <option value="{{ $city->id }}">{{ $city->name }}</option>
                                     @endforeach

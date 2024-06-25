@@ -28,8 +28,8 @@
 
         <select class="form-select w-25 m-1" id="shipment_status_select">
             <option value="">اختر حالةالشحنة</option>
-            @foreach($status_numbers as $status_number)
-            <option value="{{ $status_number }}">{{ getStatusInfo($status_number) }}</option>
+            @foreach($shipment_statuses as $shipment_status)
+            <option value="{{ $shipment_status->id }}">{{ __($shipment_status->name) }}</option>
             @endforeach
         </select>
 
@@ -60,7 +60,7 @@
        
         
         $('#shipment_status_select').on('change',function(){
-            var columnName = 'status'; // Replace 'columnName' with the actual name of your column
+            var columnName = 'shipment_status_id'; // Replace 'columnName' with the actual name of your column
             var columnIndex = dataTable.column(columnName + ':name').index();
             var search_value = $(this).val();
             

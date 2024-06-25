@@ -110,8 +110,8 @@ class ExpressDataTable extends DataTable
         ->addColumn('checkbox', function($query) { 
             return '<input type="checkbox" class="sub_chk" data-id="'. $query->id .'">';
         }) 
-        ->editColumn('status', function ($query) {
-            return $query->get_status();
+        ->editColumn('shipment_status_id', function ($query) {
+            return __($query->status->name);
         })
         ->editColumn('notes', function ($query) 
         {
@@ -153,7 +153,7 @@ class ExpressDataTable extends DataTable
         {
             return view('components.delegate-shipment-actions',['query'=>$query]);;
         })
-        ->rawColumns(['actions','admin_actions','status','checkbox','notes','delegate_shipment_actions'])
+        ->rawColumns(['actions','admin_actions','shipment_status_id','checkbox','notes','delegate_shipment_actions'])
             ->setRowId('id');
     }
 
@@ -246,7 +246,7 @@ class ExpressDataTable extends DataTable
                 $this->column('order_price', __('Order price'),false,false,false,false),
                 $this->column('value_on_delivery', __('Value on delivery'),false,false,false,false),
                 $this->column('delivery_fees',__('delivery_fees'),false,false,false,false),
-                $this->column('status', __('Action Status'),false,true,false,false),
+                $this->column('shipment_status_id', __('Action Status'),false,true,false,false),
                 
                 $this->column('customer_notes',__('Customer notes'),false,false,false,false),
                 $this->column('delegate_notes', __('Delegate notes')),
@@ -265,7 +265,7 @@ class ExpressDataTable extends DataTable
                 $this->column('consignee_phone', __('Phone'),false,true,false,false),
                 $this->column('order_price', __('Order price'),false,false,false,false),
                 $this->column('value_on_delivery', __('Value on delivery'),false,false,false,false),
-                $this->column('status', __('Action Status'),false,true,false,false),
+                $this->column('shipment_status_id', __('Action Status'),false,true,false,false),
                 
                 // $this->column('customer_notes',__('Customer notes'),false,false,false,false),
                 $this->column('notes', __('Notes'),false,false,false,false),
@@ -288,7 +288,7 @@ class ExpressDataTable extends DataTable
                 $this->column('order_price', __('Order price'),false,false,false,false),
                 $this->column('value_on_delivery', __('Value on delivery'),false,false,false,false),
                 $this->column('delivery_fees',__('delivery_fees'),false,false,false,false),
-                $this->column('status', __('Action Status'),false,true,false,false),
+                $this->column('shipment_status_id', __('Action Status'),false,true,false,false),
                 
                 $this->column('customer_notes',__('Customer notes'),false,false,false,false),
                 $this->column('delegate_notes', __('Delegate notes')),

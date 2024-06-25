@@ -15,6 +15,7 @@ use App\Models\ShipmentRate;
 use Illuminate\Http\Request;
 use App\Exports\ShipmentsExport;
 use App\Jobs\ImportShipments;
+use App\Models\ShipmentStatus;
 use App\Services\ShipmentService;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
@@ -96,7 +97,7 @@ class ExpressController extends Controller
         // $ships = $ships->latest()->get();
         
         // return view('pages.user.express.shipping', compact('dataTable','ships'));
-        return $dataTable->render('pages.user.express.shipping');
+        return $dataTable->render('pages.user.express.shipping',['shipment_statuses' => ShipmentStatus::all()]);
     }
 
     public function trackingPickup(Request $request)
@@ -212,9 +213,10 @@ class ExpressController extends Controller
     }
     public function store(Request $request)
     {
-        // dd($request->all());
+       
         try 
         {
+            // dd($request->all());
             $shipment = $this->shipmentService->store($request);
 
             if($shipment)

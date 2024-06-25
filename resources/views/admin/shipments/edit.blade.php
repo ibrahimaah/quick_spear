@@ -142,8 +142,8 @@ $status_numbers = config('constants.STATUS_NUMBER');
                                 <label for="message-text" class="col-form-label">حالة الشحنة</label>
                                 <select class="form-select w-25 m-1" name="status" id="shipment_status_select">
                                     <option value="">اختر حالةالشحنة</option>
-                                    @foreach($status_numbers as $status_number)
-                                    <option value="{{ $status_number }}" <?=($shipment->status == $status_number) ? 'selected' : ''?>>{{ getStatusInfo($status_number) }}</option>
+                                    @foreach($shipment_statuses as $shipment_status)
+                                    <option value="{{ $shipment_status->id }}" <?=($shipment->shipment_status_id == $shipment_status->id) ? 'selected' : ''?>>{{ __($shipment_status->name) }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -194,6 +194,8 @@ $status_numbers = config('constants.STATUS_NUMBER');
 @push('js') 
 
     <script>
+        var current_delegate_id = {{ $shipment->delegate->id }}
+        
         function fetchDelegates(cityId) 
         {
             var url = "{{ route('admin.delegates.get_delegates_by_city_id', ['city' => 'CITY_ID_PLACEHOLDER']) }}";
@@ -220,6 +222,8 @@ $status_numbers = config('constants.STATUS_NUMBER');
                         delegateSelect.empty();
                         delegateSelect.append('<option value=""></option>'); // Add default empty option
                         $.each(delegates, function(index, delegate) {
+                            // var selected = (current_delegate_id === delegate.id) ? ' selected' : '';
+                            // delegateSelect.append('<option value="' + delegate.id + '"' + selected + '>' + delegate.name + '</option>');
                             delegateSelect.append('<option value="' + delegate.id + '">' + delegate.name + '</option>');
                         });
                     } else if (response.code == 0) {
@@ -235,6 +239,8 @@ $status_numbers = config('constants.STATUS_NUMBER');
         $(document).ready(function() 
         {
             $('#choose-delegate-select2').select2();
+            
+            
             $('#shipment_status_select').select2();
        
             // $('#delegates-select2').select2();
@@ -243,7 +249,7 @@ $status_numbers = config('constants.STATUS_NUMBER');
             //     dropdownParent: $('#assign-delegate-modal')
             // });
 
-            $('#choose-delegate-select2').select2();
+            // $('#choose-delegate-select2').select2();
             // $('#addresses-select2').select2();
             $('#shops-select2').select2();
             $('#cities-select2').select2();

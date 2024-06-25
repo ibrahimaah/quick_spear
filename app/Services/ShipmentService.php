@@ -17,21 +17,24 @@ class ShipmentService
     { 
         foreach ($request->shipments as $shipment) : 
             $shop_id = $by_admin ? $shipment['shop'] : $request->shop;
+            // $shipment_status_id = $by_admin ? $shipment['shipment_status_id'] : ShipmentStatus::UNDER_REVIEW;
+            $shipment_status_id =  ShipmentStatus::UNDER_REVIEW;
             $data = [ 
                 'shop_id' => $shop_id,
                 'consignee_name' => $shipment['consignee_name'],
                 'consignee_phone' => $shipment['consignee_phone'],
                 'consignee_phone_2' => $shipment['consignee_phone_2'],
-                'consignee_country_code' => 'JO',
+                // 'consignee_country_code' => 'JO',
                 'consignee_city' => $shipment['consignee_city'],
                 'consignee_region' => $shipment['consignee_region'],
-                'consignee_zip_code' => '',
+                // 'consignee_zip_code' => '',
                 'shipping_date_time'    => now(),
                 'due_date'  => now()->addHours(72),
                 'order_price' => $shipment['order_price'],
                 'customer_notes' => $shipment['customer_notes'],
                 'delegate_id' => $shipment['delegate'] ?? null,
                 'delegate_notes' => $shipment['delegate_notes'] ?? null,
+                'shipment_status_id' => $shipment_status_id
             ];
 
             
@@ -59,15 +62,16 @@ class ShipmentService
                 'customer_notes' => $request->customer_notes,
                 'delegate_id' => $request->delegate ?? null,
                 'delegate_notes' => $request->delegate_notes ?? null,
-                'status' => $request->status,
-                'consignee_country_code' => 'JO',
-                'consignee_zip_code' => '',
+                // 'status' => $request->status,
+                'shipment_status_id' => $request->shipment_status_id,
+                // 'consignee_country_code' => 'JO',
+                // 'consignee_zip_code' => '',
                 'shipping_date_time'    => now(),
                 'due_date'  => now()->addHours(72),
             ];
 
             
-            if($shipment->status == ShipmentStatus::UNDER_REVIEW && $request->status == ShipmentStatus::UNDER_DELIVERY)
+            if($shipment->shipment_status_id == ShipmentStatus::UNDER_REVIEW && $request->shipment_status_id == ShipmentStatus::UNDER_DELIVERY)
             {
                 $data['accepted_by_admin_at'] = Carbon::now()->toDateTimeString();
             }

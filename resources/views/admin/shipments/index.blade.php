@@ -49,8 +49,8 @@
        <div class="w-25">
         <select class="form-select w-25 m-1" id="shipment_status_select">
             <option value="">اختر حالةالشحنة</option>
-            @foreach($status_numbers as $status_number)
-            <option value="{{ $status_number }}">{{ getStatusInfo($status_number) }}</option>
+            @foreach($shipment_statuses as $shipment_status)
+            <option value="{{ $shipment_status->id }}">{{ __($shipment_status->name) }}</option>
             @endforeach
         </select>
        </div>
@@ -147,20 +147,46 @@
                 }
             }
 
-            // Event listener for checkbox changes
+            var selectedIds = [];
+            var selectedCityId = null;
+
             $('#express-table').on('change', 'input[type="checkbox"]', function() {
-                if (this.checked) {
-                    var id = $(this).val();
-                    if (selectedIds.indexOf(id) === -1) {
+                var id = $(this).val(); 
+
+                var columnName = 'consignee_city'; // Replace 'columnName' with the actual name of your column
+                var columnIndex = dataTable.column(columnName + ':name').index();
+                var cityId = $(this).closest('tr').find('td:eq('+columnIndex+')').text().trim();
+                console.log(cityId)
+                if (this.checked) 
+                {
+                    if (selectedCityId === null) 
+                    {
+                        selectedCityId = cityId; // Set the initial city_id
                         selectedIds.push(id);
+                    } 
+                    else if (selectedCityId === cityId) 
+                    {
+                        selectedIds.push(id); // Add the id if the city_id matches
+                    } 
+                    else 
+                    {
+                        alert('يجب أن تحتوي كافة الأسطر المحددة على نفس المدينة');
+                        $(this).prop('checked', false); // Uncheck the checkbox
                     }
-                } else {
-                    var id = $(this).val();
+                } 
+                else 
+                {
                     var index = selectedIds.indexOf(id);
-                    if (index !== -1) {
-                        selectedIds.splice(index, 1);
+                    if (index !== -1) 
+                    {
+                        selectedIds.splice(index, 1); // Remove the id
+                        if (selectedIds.length === 0) 
+                        {
+                            selectedCityId = null; // Reset city_id if no rows are selected
+                        }
                     }
                 }
+
                 toggleButtonState(); // Update button state
                 console.log(selectedIds);
             });
@@ -193,7 +219,7 @@
 
 
             $('#shipment_status_select').on('change',function(){
-                var columnName = 'status'; // Replace 'columnName' with the actual name of your column
+                var columnName = 'shipment_status_id'; // Replace 'columnName' with the actual name of your column
                 var columnIndex = dataTable.column(columnName + ':name').index();
                 dataTable.column(columnIndex).search($(this).val()).draw()
             })

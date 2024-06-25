@@ -828,5 +828,12 @@
     "Shipping.":"شحنة",
     "Order price":"سعر الطلب",
     "shop_name":"اسم المتجر",
-    "Notes" : "ملاحظات"
+    "Notes" : "ملاحظات",
+    "Under Review" : "قيد المراجعة",
+    "Under Delivery":"قيد التوصيل",
+    "Rejected Without Pay":"رفض الاستلام بدون دفع أجور",
+    "Rejected With Pay":"رفض الاستلام مع دقع أجور",
+    "Postponed":"مؤجلة",
+    "No Response":"لا رد بعد الوصول لزبون",
+    "Canceled":"ملغية"
 }

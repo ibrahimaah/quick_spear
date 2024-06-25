@@ -9,12 +9,14 @@ class ShipmentStatus extends Model
 {
     use HasFactory; 
 
-    const UNDER_REVIEW = 0;
-    const UNDER_DELIVERY = 1;
-    const DELIVERED = 2;
-    const REJECTED_WITHOUT_PAY = 3;
-    const REJECTED_WITH_PAY = 4;
-    const POSTPONED = 5;
-    const NO_RESPONSE = 6;
-    // const RETURNED = 7;
+    protected $table = 'shipment_statuses';
+
+    const UNDER_REVIEW = 1;
+    const UNDER_DELIVERY = 2;
+    const DELIVERED = 3;
+    const REJECTED_WITHOUT_PAY = 4;
+    const REJECTED_WITH_PAY = 5;
+    const POSTPONED = 6;
+    const NO_RESPONSE = 7; 
+    const CANCELED = 8; 
 }

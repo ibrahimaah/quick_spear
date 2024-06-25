@@ -1,5 +1,5 @@
 <div>
-    @if($query->status == config('constants.STATUS_NUMBER.UNDER_REVIEW'))
+    @if($query->status->id == 1)
     <a href="express/edit/{{$query->id}}" 
        class="btn btn-sm btn-warning">
        <i class="bi bi-pencil"></i>

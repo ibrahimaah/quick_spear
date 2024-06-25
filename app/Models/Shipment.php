@@ -115,4 +115,9 @@ class Shipment extends Model
     {
         return $this->belongsTo(Delegate::class);
     }
+
+    public function status(): BelongsTo
+    {
+        return $this->belongsTo(ShipmentStatus::class, 'shipment_status_id', 'id');
+    }
 }

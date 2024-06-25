@@ -12,6 +12,7 @@ use App\Models\City;
 use App\Models\Delegate;
 use App\Models\EditOrder;
 use App\Models\Shipment;
+use App\Models\ShipmentStatus;
 use App\Models\Shop;
 use App\Services\ShipmentService;
 use Illuminate\Http\Request;
@@ -50,7 +51,8 @@ class ShipmentController extends Controller
         // $dataTable = new ShipmentDataTable('3');
         $dataTable = new ExpressDataTable(true); 
         $delegates = Delegate::all();
-        return $dataTable->render('admin.shipments.index',['delegates'=>$delegates]);
+        $shipment_statuses = ShipmentStatus::all();
+        return $dataTable->render('admin.shipments.index',['delegates'=>$delegates,'shipment_statuses'=>$shipment_statuses]);
     }
 
     // public function export(Request $request)
@@ -73,8 +75,6 @@ class ShipmentController extends Controller
 
     public function store(Request $request)
     {
-        
-        
         try 
         {
             $shipment = $this->shipmentService->store($request,true);
@@ -146,7 +146,8 @@ class ShipmentController extends Controller
     {
         $delegates = Delegate::all();
         $shops = Shop::all();
-        return view('admin.shipments.edit', compact('shipment','delegates','shops'));
+        $shipment_statuses = ShipmentStatus::all(); 
+        return view('admin.shipments.edit', compact('shipment','delegates','shops','shipment_statuses'));
     }
 
     public function update(Request $request, Shipment $shipment)
