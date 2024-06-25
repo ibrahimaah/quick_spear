@@ -17,7 +17,7 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\ShipmentImportController;
 use App\Http\Controllers\Admin\TransactionController;
-
+use App\Models\Shipment;
 // Route::get('/ccccccccccccccccccccccccccccccccccaaaaaaaaa', function(){
 //     App\Models\Admin::create([
 //         'name'      => 'shipybuy',
@@ -36,12 +36,17 @@ use Illuminate\Support\Facades\App;
 App::setLocale('ar');
 
 Route::prefix('superAdmin/admin/dashboard')->middleware('auth:admin')->name('admin.')->group(function () {
+    // Route::get('/tmp', function(){
+    //     $sh = Shipment::findOrFail(3);
+    //     dd($sh->city);
+    // });
     Route::get('/', [HomeController::class, 'index'])->name('dashboard');
     Route::get('/invoice', [InvoiceController::class, 'invoice'])->name('invoice');
     Route::resource('users', UserController::class);
     Route::resource('delegates', DelegateController::class);
     Route::get('get-shipments/{delegate}', [DelegateController::class,'get_shipments'])->name('delegates.get_shipments');
     Route::get('get-delegates-by-city-id/{city}', [DelegateController::class,'get_delegates_by_city_id'])->name('delegates.get_delegates_by_city_id');
+    Route::get('get-delegates-by-city-name/{name}', [DelegateController::class,'get_delegates_by_city_name'])->name('delegates.get_delegates_by_city_name');
 
     Route::post('get-delegate-daily-delivery-statement/{delegate}', [DelegateController::class,'delegate_daily_delivery_statement'])->name('delegates.delegate_daily_delivery_statement');
 

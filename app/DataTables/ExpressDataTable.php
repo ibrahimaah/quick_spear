@@ -55,7 +55,7 @@ class ExpressDataTable extends DataTable
             return $query->created_at->format('Y-m-d h:i A');
         })
         ->editColumn('consignee_city', function ($query) {
-            return City::findOrFail($query->consignee_city)->name;
+            return $query->city->name;
         })
         ->editColumn('shop_name', function ($query) {
             return $query->shop->name;

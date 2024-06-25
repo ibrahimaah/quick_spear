@@ -116,6 +116,11 @@ class Shipment extends Model
         return $this->belongsTo(Delegate::class);
     }
 
+    public function city(): BelongsTo
+    {
+        return $this->belongsTo(City::class,'consignee_city','id');
+    }
+
     public function status(): BelongsTo
     {
         return $this->belongsTo(ShipmentStatus::class, 'shipment_status_id', 'id');

@@ -120,4 +120,25 @@ class DelegateService
             return ['code' => 0, 'msg' => $ex->getMessage()];
         }
     }
+
+    public function get_delegates_by_city_name($city_name)
+    {
+        try 
+        {
+            $city = City::where('name',$city_name)->first();
+            $delegates = $city->delegates;
+            if ($delegates->isNotEmpty()) 
+            {
+                return ['code' => 1 , 'data' => $delegates];
+            }
+            else 
+            {
+                throw new Exception("no delegates for selected city");
+            }
+        }
+        catch(Exception $ex)
+        {
+            return ['code' => 0, 'msg' => $ex->getMessage()];
+        }
+    }
 }

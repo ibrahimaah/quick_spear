@@ -19,4 +19,9 @@ class City extends Model
     {
         return $this->hasOne(Shop::class);
     }
+
+    // public function shipments()
+    // {
+    //     return $this->hasMany(Shipment::class,'consignee_city','id');
+    // }
 }

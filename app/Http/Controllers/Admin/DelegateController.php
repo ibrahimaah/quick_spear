@@ -160,6 +160,20 @@ class DelegateController extends Controller
         }
     }
 
+    public function get_delegates_by_city_name($name)
+    {
+        $res_get_delegates_by_city_name = (new DelegateService())->get_delegates_by_city_name($name);
+        if ($res_get_delegates_by_city_name['code'] == 1) 
+        {
+            $delegates = $res_get_delegates_by_city_name['data'];
+            return response()->json(['code' => 1 , 'data' => $delegates]);
+        }
+        else 
+        {
+            dd($res_get_delegates_by_city_name['msg']);
+        }
+    }
+
 
     // Convert Arabic numerals if needed
     function convertToArabicNumerals($number) {
