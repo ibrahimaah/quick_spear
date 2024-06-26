@@ -73,6 +73,36 @@
 
 
     
+    <script>
+       function showOverlayWithMessage(message) {
+            $("<div id='overlay'></div>")
+                .css({
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
+                    background: "rgba(0, 0, 0, 0.5)",
+                    zIndex: 9999,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center"
+                })
+                .html(`
+                        <div id='overlay-message' class='d-flex alert alert-success'>
+                        <div>${message} &nbsp;</div>
+                        <div class="spinner-border text-success" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        </div>
+                    `)
+                .appendTo("body");
+        }
+        // Hide overlay
+        function hideOverlay() {
+            $("#overlay").remove();
+        }
+    </script>
 
     
   </body>

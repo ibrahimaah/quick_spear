@@ -48,7 +48,13 @@
 {{ $dataTable->scripts() }}
 
 <script>
+   
+
     $(document).ready(function(){
+
+        const waiting_msg = 'جاري المعالجة'
+        const err_msg = 'حدث خطأ في المعالجة'
+
         $('#express-table').on('change', '.shipment-status-select', function() { 
                 var dataTable = $('#express-table').DataTable();
                 var columnName = 'id'; // Replace 'columnName' with the actual name of your column
@@ -71,20 +77,19 @@
                             'X-CSRF-TOKEN': '{{ csrf_token() }}'
                         },
                         beforeSend: function() { 
-                             
-                            // $('#choose-delegate-select2').prop('disabled', true);
+                            showOverlayWithMessage(waiting_msg);
+                            // $('#express-table').prop('disabled', true);
                         },
                         complete: function() {  
-                            alert('completed')
+                            hideOverlay();
+                            // $('#express-table').prop('disabled', false);
                         },
                         success: function(response) {
-                            if (response.code == 1) {   
-                                // var datatable_ = $('#express-table').DataTable();
-                                dataTable.ajax.reload(null, false);
-                                // console.log($('#express-table'))
-                                // dataTable.ajax.reload();
+                            if (response.code == 1) {    
+                                dataTable.ajax.reload(null, false); 
+                                
                             } else if (response.code == 0) {
-                                alert('Error fetching delegates');
+                                alert(response.msg);
                             }
                         },
                         error: function() {
