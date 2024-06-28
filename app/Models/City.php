@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class City extends Model
 {
     public $guarded = [];
-
+    public $timestamps = false;
     public function delegates(): BelongsToMany
     {
         return $this->belongsToMany(Delegate::class)->withPivot('price')->withTimestamps();
@@ -20,6 +20,15 @@ class City extends Model
         return $this->hasOne(Shop::class);
     }
 
+    public function territory()
+    {
+        return $this->belongsTo(Territory::class);
+    }
+
+    public function regions()
+    {
+        return $this->hasMany(Region::class);
+    }
     // public function shipments()
     // {
     //     return $this->hasMany(Shipment::class,'consignee_city','id');

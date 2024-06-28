@@ -30,7 +30,7 @@
     </div>
 
     <div>
-        <select class="form-select shipment-status-select">
+        <select class="form-select form-select-lg shipment-status-select">
             <option>اختر حالة الشحنة</option>
             @foreach ($shipment_statuses as $shipment_status)
             <option value="{{ $shipment_status->id }}">{{ __($shipment_status->name) }}</option> 

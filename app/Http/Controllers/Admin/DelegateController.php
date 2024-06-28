@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use PDF;
+use Illuminate\Support\Str;
 
 class DelegateController extends Controller
 {
@@ -143,7 +144,10 @@ class DelegateController extends Controller
                 $is_disable_1st_btn = false;
             }
         }
-        return $dataTable->render('admin.delegates.show_shipments',['delegate' => $delegate,'is_disable_1st_btn'=>$is_disable_1st_btn]);
+
+        // $is_disable_1st_btn = false;
+        $is_disable_2st_btn = false;
+        return $dataTable->render('admin.delegates.show_shipments',['delegate' => $delegate,'is_disable_1st_btn'=>$is_disable_1st_btn,'is_disable_2st_btn'=>$is_disable_2st_btn]);
     }
 
     public function get_delegates_by_city_id(City $city)
@@ -184,7 +188,7 @@ class DelegateController extends Controller
 
     public function delegate_daily_delivery_statement(Delegate $delegate)
     {
-        $now_date = Carbon::now();
+        
         // Set the locale to Arabic
         Carbon::setLocale('ar');
         // Get the current date
@@ -201,13 +205,50 @@ class DelegateController extends Controller
         $statement_data['current_date'] = $currentDateInArabic; 
 
    
-        
-        // return view('admin.delegates.delegate_daily_delivery_statement',['statement' => $statement_data,
-        // 'delegate' => $delegate]);
-        // dd($statement_data['current_day']);
         $pdf = PDF::loadView('admin.delegates.delegate_daily_delivery_statement',['statement' => $statement_data,
                                                                                   'delegate' => $delegate]);
-        return $pdf->stream('invoice.pdf');
+
+        $pdf_file_name = 'delegate_daily_statement_'.$now->format('Y-m-d').'_'.floor(time()-999999999);
+        // return $pdf->stream('invoice.pdf');
+        return response()->streamDownload(function() use ($pdf) {
+            echo $pdf->output();
+        }, $pdf_file_name.'.pdf', [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="'.$pdf_file_name.'.pdf"'
+        ]);
+        // return view('admin.delegates.delegate_daily_delivery_statement');
+    }
+
+    public function delegate_final_delivery_statement(Delegate $delegate)
+    {
+        
+        // Set the locale to Arabic
+        Carbon::setLocale('ar');
+        // Get the current date
+        $now = Carbon::now();
+
+        // Get the current day in Arabic
+        $currentDayInArabic = $now->translatedFormat('l');
+        $currentDate = $now->format('Y/m/d');
+        $currentDateInArabic = $this->convertToArabicNumerals($currentDate);
+        Carbon::setLocale('en');
+        
+        $statement_data = [];
+        $statement_data['current_day'] = $currentDayInArabic;
+        $statement_data['current_date'] = $currentDateInArabic; 
+
+   
+        $pdf = PDF::loadView('admin.delegates.delegate_final_delivery_statement',['statement' => $statement_data,
+                                                                                  'delegate' => $delegate]);
+
+        $pdf_file_name = 'delegate_final_statement_'.$now->format('Y-m-d').'_'.floor(time()-999999999);
+        // return $pdf->stream('invoice.pdf');
+        return response()->streamDownload(function() use ($pdf) {
+            echo $pdf->output();
+        }, $pdf_file_name.'.pdf', [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="'.$pdf_file_name.'.pdf"'
+        ]);
         // return view('admin.delegates.delegate_daily_delivery_statement');
     }
 }

@@ -160,7 +160,7 @@ class ShipmentController extends Controller
             return redirect()->back()->with("success_update", "تم تعديل البيانات بنجاح");
         }
         else {
-            // dd($res_update_shipment['msg']);
+            dd($res_update_shipment['msg']);
             return redirect()->back()->with("faild_update",$res_update_shipment['msg'] );
         }
         

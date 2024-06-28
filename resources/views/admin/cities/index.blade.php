@@ -14,7 +14,8 @@
 	            <thead>
 	              <tr>
 	                <th>#</th>
-	                <th>الاسم</th>
+	                <th>المدينة</th>
+	                <th>الإقليم</th>
 	                <th>العمليات</th>
 	              </tr>
 	            </thead>
@@ -23,9 +24,10 @@
 		            <tr>
 		                <td>{{ $loop->iteration }}</td>
 		                <td>{{ $city->name }}</td>
+		                <td>{{ $city->territory->name }}</td>
 		                <td>
 		                	<a class="btn btn-primary" href="{{ route('admin.cities.edit', $city->id) }}"><i class="fa fa-edit"></i></a>
-                            <a class="btn btn-info" href="{{ route('admin.cities.rates', $city->id) }}">اسعار الشحن</a>
+                            {{-- <a class="btn btn-info" href="{{ route('admin.cities.rates', $city->id) }}">اسعار الشحن</a> --}}
 		                	
                                 <a class="btn btn-info" href="javascript:void(0)"  onclick="return confirm('Are you sure of deleting this city ?') ? document.getElementById('delete-city-{{ $city->id }}').submit() : '';"><i class="fa fa-trash"></i></a>
                             <form action="{{ route('admin.cities.destroy', $city->id) }}" method="post" class="d-none"

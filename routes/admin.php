@@ -49,6 +49,7 @@ Route::prefix('superAdmin/admin/dashboard')->middleware('auth:admin')->name('adm
     Route::get('get-delegates-by-city-name/{name}', [DelegateController::class,'get_delegates_by_city_name'])->name('delegates.get_delegates_by_city_name');
 
     Route::post('get-delegate-daily-delivery-statement/{delegate}', [DelegateController::class,'delegate_daily_delivery_statement'])->name('delegates.delegate_daily_delivery_statement');
+    Route::post('get-delegate-final-delivery-statement/{delegate}', [DelegateController::class,'delegate_final_delivery_statement'])->name('delegates.delegate_final_delivery_statement');
 
     Route::post('users/documents/delete/{id}', [UserController::class, 'documents_delete'])->name('users.documents_delete');
     Route::post('users/documents/update/{id}', [UserController::class, 'documents_update'])->name('users.documents_update');

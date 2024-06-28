@@ -13,7 +13,7 @@
                     <div class="col-12 divider" style="min-height: 2px;"></div>
                 </div>
                 <div class="col-12 p-3 row d-flex">
-                    <div class="col-4  d-flex justify-content-center align-items-center mb-3 py-2">
+                    {{-- <div class="col-4  d-flex justify-content-center align-items-center mb-3 py-2">
                         <a href="{{ route('admin.import.create') }}" style="color:inherit;">
                             <div class="col-12 p-0 text-center">
                                 <span class="fa fa-arrow-up fa-3x"></span>
@@ -22,7 +22,7 @@
                                 </div>
                             </div>
                         </a>
-                    </div>
+                    </div> --}}
                     <div class="col-4 d-flex justify-content-center align-items-center mb-3 py-2">
                         <a href="{{ route('admin.shipments.index') }}" style="color:inherit;">
                             <div class="col-12 p-0 text-center">

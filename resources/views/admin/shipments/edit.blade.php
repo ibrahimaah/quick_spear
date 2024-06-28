@@ -140,7 +140,7 @@ $status_numbers = config('constants.STATUS_NUMBER');
 
                             <div class="col-12 my-2 col-md-4">
                                 <label for="message-text" class="col-form-label">حالة الشحنة</label>
-                                <select class="form-select w-25 m-1" name="status" id="shipment_status_select">
+                                <select class="form-select w-25 m-1" name="shipment_status_id" id="shipment_status_select">
                                     <option value="">اختر حالةالشحنة</option>
                                     @foreach($shipment_statuses as $shipment_status)
                                     <option value="{{ $shipment_status->id }}" <?=($shipment->shipment_status_id == $shipment_status->id) ? 'selected' : ''?>>{{ __($shipment_status->name) }}</option>
@@ -254,10 +254,10 @@ $status_numbers = config('constants.STATUS_NUMBER');
             $('#shops-select2').select2();
             $('#cities-select2').select2();
 
-            var initialCityId = $('#cities-select2').val();
-            if (initialCityId) {
-                fetchDelegates(initialCityId);
-            }
+            // var initialCityId = $('#cities-select2').val();
+            // if (initialCityId) {
+            //     fetchDelegates(initialCityId);
+            // }
 
             // Fetch delegates on change event
             $('#cities-select2').on('change', function (e) {

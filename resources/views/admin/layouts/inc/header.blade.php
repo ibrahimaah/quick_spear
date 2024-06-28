@@ -10,13 +10,13 @@
         <div class="nav-right col-12 pull-right right-header p-0">
             <ul class="nav-menus">
                 <li class="onhover-dropdown">
-                    <div class="notification-box"><i data-feather="bell"> </i><livewire:notifications-count /></div>
+                    {{-- <div class="notification-box"><i data-feather="bell"> </i><livewire:notifications-count /></div> --}}
                     {{-- <ul class="notification-dropdown onhover-show-div"> --}}
                         {{-- <li>
                             <i data-feather="bell"></i>
                             <h6 class="f-18 mb-0">التنبيهات</h6>
                         </li> --}}
-                        <livewire:notifications />
+                        {{-- <livewire:notifications /> --}}
                     {{-- </ul> --}}
                 </li>
                 <li>

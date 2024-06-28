@@ -7,25 +7,39 @@
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header">
-                <h5>
-                    @if($delegate)
-                    <span>الشحنات الخاصة بالمندوب</span><span class="text-success"> {{ $delegate->name }}</span>
-                    @else 
-                    <span>الشحنات</span>
-                    @endif
-                </h5>
+                <div class="d-flex justify-content-between">
+                    <h5>
+                        @if($delegate)
+                        <span>الشحنات الخاصة بالمندوب</span><span class="text-success"> {{ $delegate->name }}</span>
+                        @else 
+                        <span>الشحنات</span>
+                        @endif
+                    </h5>
+                    <h5>
+                        <a href="{{ route('admin.delegates.index') }}" class="btn btn-danger btn-sm"><i class="fa fa-arrow-left"></i></a>
+                    </h5>
+                </div>
                 @if($delegate)
-                   
+                    <div class="d-flex gap-2">
                         <div class="mt-4">
                             <form action="{{ route('admin.delegates.delegate_daily_delivery_statement',['delegate' => $delegate->id]) }}" method="POST">
                                 @csrf 
                                 @method('POST')
                                 <button type="submit" class="btn btn-primary" @if ($is_disable_1st_btn) disabled @endif> 
-                                    كشف تسليم يومي
+                                    كشف تسليم مندوب
                                 </button>
                             </form>     
                         </div>
-                    
+                        <div class="mt-4">
+                            <form action="{{ route('admin.delegates.delegate_final_delivery_statement',['delegate' => $delegate->id]) }}" method="POST">
+                                @csrf 
+                                @method('POST')
+                                <button type="submit" class="btn btn-primary" @if ($is_disable_2st_btn) disabled @endif> 
+                                    كشف تسليم نهائي
+                                </button>
+                            </form>     
+                        </div>  
+                    </div> 
                 @endif
                 {{-- @if (session()->has('error'))
                     <div class="alert text-center py-4 my-3 alert-danger">{{ session()->get('error') }}</div>

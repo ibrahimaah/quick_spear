@@ -50,7 +50,7 @@
                             <li><a href="{{ route('admin.delegates.index') }}">عرض المندوبين</a></li>
                             <li><a href="{{ route('admin.delegates.create') }}">اضافة مندوب</a></li>
                         </ul>
-                        <span class="badge rounded-pill badge-success">{{ App\Models\Admin::count() }}</span>
+                        <span class="badge rounded-pill badge-success">{{ App\Models\Delegate::count() }}</span>
                     </li>
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#"><i
                                 data-feather="flag"></i><span class="">المدن</span></a>
@@ -60,20 +60,20 @@
                         </ul>
                         <span class="badge rounded-pill badge-success">{{ App\Models\City::count() }}</span>
                     </li>
-                    <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#"><i
+                    {{-- <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#"><i
                                 data-feather="flag"></i><span class="">العناوين</span></a>
                         <ul class="sidebar-submenu">
                             <li><a href="{{ route('admin.address.index') }}">عرض العناوين</a></li>
                         </ul>
                         <span class="badge rounded-pill badge-success">{{ App\Models\City::count() }}</span>
-                    </li>
-                    <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#"><i
+                    </li> --}}
+                    {{-- <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#"><i
                                 data-feather="flag"></i><span class="">طلبات التعديل</span></a>
                         <ul class="sidebar-submenu">
                             <li><a href="{{ route('admin.orders.index') }}">عرض كل الطلبات</a></li>
                         </ul>
                         <span class="badge rounded-pill badge-success">{{ App\Models\EditOrder::count() }}</span>
-                    </li>
+                    </li> --}}
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#"><i
                                 data-feather="flag"></i><span class="">الشحنات</span></a>
                         <ul class="sidebar-submenu">
@@ -97,7 +97,7 @@
                             <li><a href="{{ route('admin.requests.index') }}">عرض كل طلبات الدفع </a> </li>
                         </ul>
                     </li>
-                    <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#"><i
+                    {{-- <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#"><i
                                 data-feather="flag"></i><span class="">رسائل الدعم</span></a>
                         <ul class="sidebar-submenu">
                             <li><a href="{{ route('admin.contacts.index') }}">رسائل الدعم</a></li>
@@ -108,7 +108,7 @@
                         <ul class="sidebar-submenu">
                             <li><a href="{{ route('admin.setting.index') }}">الإعدادات</a></li>
                         </ul>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
             <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
