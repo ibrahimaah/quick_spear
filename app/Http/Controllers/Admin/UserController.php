@@ -9,7 +9,7 @@ use App\Models\Category;
 use App\Models\Document;
 use App\Models\PaymentMethod;
 use App\Models\ShipmentRate;
-use App\Models\User as user;
+use App\Models\User;
 use App\Services\ShopService;
 use App\Services\UserService;
 use App\Traits\GeneralTrait;
@@ -104,11 +104,13 @@ class UserController extends Controller
 
     public function show(user $user)
     {
+        
         // $dataTable = new ExpressDataTable(true,$user->id);????????
-        $payments = PaymentMethod::where('user_id', $user->id)->latest()->get();
-        $documents = Document::where('user_id', $user->id)->latest()->get();
-        $rates = ShipmentRate::latest()->get();
-        return $dataTable->render('admin.users.show',['user'=>$user,'rates'=>$rates,'documents'=>$documents,'payments'=>$payments]);
+        // $payments = PaymentMethod::where('user_id', $user->id)->latest()->get();
+        // $documents = Document::where('user_id', $user->id)->latest()->get();
+        // $rates = ShipmentRate::latest()->get();
+        // return view('admin.users.show',['user'=>$user,'rates'=>$rates,'documents'=>$documents,'payments'=>$payments]);
+        return view('admin.users.show',['user'=>$user]);
         // return $dataTable->render('admin.users.show');
     }
 
@@ -223,4 +225,16 @@ class UserController extends Controller
         ]);
         return back()->with("success", "تم تعديل البيانات بنجاح");
     }
+
+    public function update_password(Request $request,User $user)
+    {
+        dd($request->all());
+        $validator = Validator::make($request->all(), [
+            'current_password' => ['required','current_password'],
+            'new_password' => ['required','confirmed','min:6'],
+            'new_password_confirmation' => ['required']
+        ]);
+        dd($validator);
+    }
+
 }

@@ -49,8 +49,8 @@
                                         <select class="form-control @error('city_to') is-invalid @enderror" name="city_from"
                                             id="exampleFormControlInput1">
                                             <option value="" selected>{{ __('City') }}</option>
-                                            @foreach (App\Models\City::where('status', 1)->get() as $s_city)
-                                            <option value="{{ $s_city->id }}">{{ $s_city->name }}</option>
+                                            @foreach (App\Models\City::all() as $city)
+                                            <option value="{{ $city->id }}">{{ $city->name }}</option>
                                             @endforeach
                                         </select>
                                         @error('city_to')
@@ -64,8 +64,8 @@
                                         <select class="form-control @error('city_to') is-invalid @enderror" name="city_to"
                                             id="exampleFormControlInput1">
                                             <option value="" selected>{{ __('City') }}</option>
-                                            @foreach (App\Models\City::where('status', 1)->get() as $s_city)
-                                            <option value="{{ $s_city->id }}">{{ $s_city->name }}</option>
+                                            @foreach (App\Models\City::all() as $city)
+                                            <option value="{{ $city->id }}">{{ $city->name }}</option>
                                             @endforeach
                                         </select>
                                         @error('city_to')

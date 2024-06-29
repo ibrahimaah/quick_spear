@@ -52,9 +52,10 @@ Route::prefix('superAdmin/admin/dashboard')->middleware('auth:admin')->name('adm
     Route::post('get-delegate-daily-delivery-statement/{delegate}', [DelegateController::class,'delegate_daily_delivery_statement'])->name('delegates.delegate_daily_delivery_statement');
     Route::post('get-delegate-final-delivery-statement/{delegate}', [DelegateController::class,'delegate_final_delivery_statement'])->name('delegates.delegate_final_delivery_statement');
 
-    Route::post('users/documents/delete/{id}', [UserController::class, 'documents_delete'])->name('users.documents_delete');
-    Route::post('users/documents/update/{id}', [UserController::class, 'documents_update'])->name('users.documents_update');
-    Route::post('users/payment_methods/delete/{id}', [UserController::class, 'payments_delete'])->name('users.payments_delete');
+    Route::post('users/update-password/{user}', [UserController::class, 'update_password'])->name('users.update_password');
+    // Route::post('users/documents/delete/{id}', [UserController::class, 'documents_delete'])->name('users.documents_delete');
+    // Route::post('users/documents/update/{id}', [UserController::class, 'documents_update'])->name('users.documents_update');
+    // Route::post('users/payment_methods/delete/{id}', [UserController::class, 'payments_delete'])->name('users.payments_delete');
     // Route::post('users/payment_methods/update/{id}', [UserController::class, 'payments_update'])->name('users.payments_update');
     Route::resource('shipments', ShipmentController::class);
     Route::resource('contacts', ContactController::class);
