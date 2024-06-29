@@ -53,12 +53,20 @@
                         <span class="badge rounded-pill badge-success">{{ App\Models\Delegate::count() }}</span>
                     </li>
                     <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#"><i
-                                data-feather="flag"></i><span class="">المدن</span></a>
+                                data-feather="map-pin"></i><span class="">المدن</span></a>
                         <ul class="sidebar-submenu">
                             <li><a href="{{ route('admin.cities.index') }}">عرض المدن</a></li>
                             <li><a href="{{ route('admin.cities.create') }}"> اضافة مدينة</a></li>
                         </ul>
                         <span class="badge rounded-pill badge-success">{{ App\Models\City::count() }}</span>
+                    </li>
+                    <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#"><i
+                        data-feather="map-pin"></i><span class="">المناطق</span></a>
+                        <ul class="sidebar-submenu">
+                            <li><a href="{{ route('admin.regions.index') }}">عرض المناطق</a></li>
+                            <li><a href="{{ route('admin.regions.create') }}"> اضافة منطقة</a></li>
+                        </ul>
+                        <span class="badge rounded-pill badge-success">{{ App\Models\Region::count() }}</span>
                     </li>
                     {{-- <li class="sidebar-list"><a class="sidebar-link sidebar-title" href="#"><i
                                 data-feather="flag"></i><span class="">العناوين</span></a>

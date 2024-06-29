@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\DelegateController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\InvoiceController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\RegionController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\ShipmentImportController;
 use App\Http\Controllers\Admin\TransactionController;
@@ -65,6 +66,7 @@ Route::prefix('superAdmin/admin/dashboard')->middleware('auth:admin')->name('adm
     Route::get('/indexRequest', [TransactionController::class, 'indexRequest'])->name('requests.index');
     Route::post('/updateRequest/{id}', [TransactionController::class, 'updateRequest'])->name('requests.update');
     Route::resource('cities', CityController::class);
+    Route::resource('regions', RegionController::class);
 
     Route::get('get-shipments-by-status/{status}', [ShipmentController::class, 'get_shipments_by_status'])->name('get_shipments_by_status');
     Route::post('update-shipment-status/{shipment}/{status}', [ShipmentController::class, 'update_status'])->name('update_shipment_status');
