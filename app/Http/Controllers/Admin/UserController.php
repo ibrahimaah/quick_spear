@@ -228,13 +228,27 @@ class UserController extends Controller
 
     public function update_password(Request $request,User $user)
     {
-        dd($request->all());
+        
         $validator = Validator::make($request->all(), [
-            'current_password' => ['required','current_password'],
+            // 'current_password' => ['required','current_password'],
             'new_password' => ['required','confirmed','min:6'],
             'new_password_confirmation' => ['required']
         ]);
-        dd($validator);
+
+
+        if ($validator->fails()) { return back()->withErrors($validator)->withInput($request->all()); }
+
+        $res_update_pwd = $this->userService->update_pwd($request->new_password,$user);
+
+        if ($res_update_pwd['code'] == 1)
+        {
+            return redirect()->route('admin.users.index')->with("success", "تم تعديل كلمة المرور بنجاح");
+        }
+        else 
+        {
+            dd($res_update_pwd['msg']);
+        }
+
     }
 
 }

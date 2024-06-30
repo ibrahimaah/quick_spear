@@ -1,6 +1,9 @@
 @extends('admin.layouts.app')
 @section('title', 'تعديل مستخدم')
 @section('content')
+
+
+
 <ul class="nav nav-pills mb-3 p-4" id="users-tab" role="tablist">
 
   <li class="nav-item mx-3" role="presentation">
@@ -18,6 +21,7 @@
          data-bs-toggle="pill"
          data-bs-target="#edit-user-pwd" role="tab">
          تعديل كلمة المرور
+      </a>
   </li>
 
 </ul>
@@ -66,19 +70,7 @@
                 </div>
               </div>
 
-              {{--
-              <div class="mb-3 row">
-                <label class="col-sm-3 col-form-label">المنطقة</label>
-                <div class="col-sm-9">
-                  <input class="form-control @error('region') is-invalid @enderror" name="region"
-                    value="{{ old('region') }}" type="text" placeholder="المنطقة">
-                  @error('region')
-                  <div class="invalid-feedback">{{ $message }}</div>
-                  @enderror
-                </div>
-              </div>
-              --}}
-
+         
               <div class="mb-3 row">
                 <label class="col-sm-3 col-form-label">البريد الالكتروني</label>
                 <div class="col-sm-9">
@@ -144,12 +136,6 @@
                 </div>
               </div>
 
-
-
-          
-
-
-
             </div>
             <div class="card-footer text-end">
               <button class="btn btn-primary" type="submit">حفظ</button>
@@ -159,7 +145,7 @@
       </div>
     </div>
   </div>
-  <div class="tab-pane fade show active" id="edit-user-pwd" role="tabpanel">
+  <div class="tab-pane fade show" id="edit-user-pwd" role="tabpanel">
       <div class="row">
         @if ($errors->any())
         <div class="alert alert-danger">
@@ -175,11 +161,13 @@
             <div class="card-header">
               <h5>تعديل كلمة المرور</h5>
             </div>
-            <form class="form theme-form" method="POST" action="{{ route('admin.users.update_password',['user'=>$user->id]) }}">
-              @method('PUT')
+            <form class="form theme-form" 
+                  method="POST" 
+                  action="{{ route('admin.users.update_password',['user'=>$user->id]) }}">
+              
               @csrf
               <div class="card-body">
-                <div class="mb-3 row">
+                {{-- <div class="mb-3 row">
                   <label class="col-sm-3 col-form-label">كلمة المرور الحالية</label>
                   <div class="col-sm-9">
                     <input class="form-control @error('current_password') is-invalid @enderror" 
@@ -191,7 +179,7 @@
                     <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                   </div>
-                </div>
+                </div> --}}
                 
                 <div class="mb-3 row">
                   <label class="col-sm-3 col-form-label">كلمة المرور الجديدة</label>
@@ -233,3 +221,9 @@
   </div>
 </div>
 @endsection
+
+@push('script')
+<script>
+  
+</script>
+@endpush
