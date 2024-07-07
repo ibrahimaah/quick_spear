@@ -144,30 +144,39 @@
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-header">
-                            <h5>اسعار الشحن لهذا المستخدم</h5>
+                            <h5>اسعار التوصيل لهذا المستخدم</h5>
                         </div>
+                         
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table border table-sm scroll-horizontal basic-1">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>المدينة (من)</th>
-                                            <th>المدينة (إلى)</th>
-                                            <th>التكلفة</th>
+                                            <th>#</th> 
+                                            <th>إلى</th>
+                                            <th>مدينة/منطقة</th>
+                                            <th>السعر</th>
                                             <th>العمليات</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        
+                                        @foreach ($shop->deliveryPrices as $deliveryPrice) 
                                             <tr>
-                                                <td>1</td>
-                                                <td>دمشق</td>
-                                                <td>حلب</td>
-                                                <td>100</td>
+                                                <td>{{ $loop->iteration }}</td> 
+                                                <td>{{ $deliveryPrice->location->name }}</td>
                                                 <td>
-                                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                        data-bs-target="#edit-rate2-1">
+                                                    @if(get_class($deliveryPrice->location) == "App\Models\City")
+                                                        مدينة
+                                                    @else 
+                                                        منطقة
+                                                    @endif 
+                                                </td>
+                                                <td>{{ $deliveryPrice->price }}</td>
+                                                <td>
+                                                    <button type="button" 
+                                                            class="btn btn-primary" 
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#edit-rate2-1">
                                                         تعديل
                                                     </button>
 
@@ -224,7 +233,8 @@
 
                                                     <a class="btn btn-danger" href="#"
                                                         onclick="event.preventDefault();document.getElementById('delete-rate-1').submit();"><i
-                                                            class="fa fa-trash"></i></a>
+                                                            class="fa fa-trash"></i>
+                                                    </a>
                                                     <form action=""
                                                         method="post" class="d-none"
                                                         id="delete-rate-1">
@@ -233,7 +243,7 @@
                                                     </form>
                                                 </td>
                                             </tr>
-                                       
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>

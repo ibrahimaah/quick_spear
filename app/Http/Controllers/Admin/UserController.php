@@ -104,14 +104,8 @@ class UserController extends Controller
 
     public function show(user $user)
     {
-        
-        // $dataTable = new ExpressDataTable(true,$user->id);????????
-        // $payments = PaymentMethod::where('user_id', $user->id)->latest()->get();
-        // $documents = Document::where('user_id', $user->id)->latest()->get();
-        // $rates = ShipmentRate::latest()->get();
-        // return view('admin.users.show',['user'=>$user,'rates'=>$rates,'documents'=>$documents,'payments'=>$payments]);
-        return view('admin.users.show',['user'=>$user]);
-        // return $dataTable->render('admin.users.show');
+        $shop = $user->shop;
+        return view('admin.users.show',['user'=>$user,'shop'=>$shop]); 
     }
 
     public function edit(user $user)

@@ -18,7 +18,10 @@ use App\Http\Controllers\Admin\RegionController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\ShipmentImportController;
 use App\Http\Controllers\Admin\TransactionController;
+use App\Models\City;
+use App\Models\Region;
 use App\Models\Shipment;
+use App\Models\Shop;
 // Route::get('/ccccccccccccccccccccccccccccccccccaaaaaaaaa', function(){
 //     App\Models\Admin::create([
 //         'name'      => 'shipybuy',
@@ -37,10 +40,21 @@ use Illuminate\Support\Facades\App;
 App::setLocale('ar');
 
 Route::prefix('superAdmin/admin/dashboard')->middleware('auth:admin')->name('admin.')->group(function () {
-    // Route::get('/tmp', function(){
-    //     $sh = Shipment::findOrFail(3);
-    //     dd($sh->city);
-    // });
+    Route::get('/tmp', function(){
+        $shop = Shop::with('deliveryPrices')->find(1);
+
+        foreach ($shop->deliveryPrices as $deliveryPrice) 
+        {
+            // $location = $deliveryPrice->location->name;
+            if(get_class($deliveryPrice->location) != "App\Models\City")
+            {
+                dd($deliveryPrice->location->name);
+            }
+                
+            // echo "Delivery Price: {$deliveryPrice->price} for " . get_class($location) . " ID: {$location->id} </br>";
+        }
+
+    });
     Route::get('/', [HomeController::class, 'index'])->name('dashboard');
     Route::get('/invoice', [InvoiceController::class, 'invoice'])->name('invoice');
     Route::resource('users', UserController::class);
